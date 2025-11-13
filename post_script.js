@@ -37,7 +37,8 @@ postForm.addEventListener('submit', async function(event) {
         messageDiv.innerHTML = `❌ 投稿に失敗しました: ${error.message} <br> (原因: RLS設定またはキーの貼り間違いの可能性)`;
 // post_script.js の修正後の成功処理ブロック (elseの中)
 
-    // ... (前略) ...
+    // ... (中略) ...
+
     } else {
         // ★ 投稿成功時の画面切り替えロジック
         
@@ -51,14 +52,16 @@ postForm.addEventListener('submit', async function(event) {
         
         // [みんなの投稿を見る] ボタン
         document.getElementById('viewPosts').onclick = function() {
-            // view.html へ移動
-            window.location.href = 'view.html'; 
+            window.location.href = 'view.html'; // 閲覧ページへ移動
         };
         
         // [さらに投稿する] ボタンの修正
         document.getElementById('newPost').onclick = function() {
-            // ページ全体をルートパス (index.html) にリダイレクトし、確実にページをリフレッシュする
-            window.location.href = '/'; 
+            // 成功画面を非表示にする必要はありません（リロードされるため）。
+            
+            // ★★ 【重要】ページ全体を強制的に再読み込みする
+            // 引数に true を渡すことで、キャッシュを無視して強制リロードします。
+            window.location.reload(true); 
         };
     }
 });
