@@ -3,7 +3,7 @@
 --------------------------------- */
 body {
     font-family: 'Arial', 'Helvetica Neue', Helvetica, sans-serif;
-    background-color: #f4f7f6; /* 薄い背景色 */
+    background-color: #f4f7f6;
     margin: 0;
     padding: 0;
     color: #333;
@@ -14,7 +14,7 @@ body {
   2. ヘッダーとフッター
 --------------------------------- */
 header {
-    background-color: #4CAF50; /* 緑色 */
+    background-color: #4CAF50;
     color: white;
     padding: 20px 0;
     text-align: center;
@@ -44,7 +44,8 @@ footer {
   3. メインコンテンツとフォームのコンテナ
 --------------------------------- */
 main {
-    max-width: 800px; /* 閲覧ページに合わせて幅を広く */
+    /* 投稿ページと閲覧ページで幅を調整 */
+    max-width: 800px;
     margin: 30px auto;
     padding: 30px;
     background-color: white;
@@ -64,7 +65,7 @@ label {
     display: block;
     font-weight: bold;
     margin-bottom: 8px;
-    color: #38761d; /* ラベルの色 */
+    color: #38761d;
     font-size: 1.1em;
 }
 
@@ -74,14 +75,14 @@ input[type="datetime-local"] {
     padding: 12px;
     border: 1px solid #ccc;
     border-radius: 6px;
-    box-sizing: border-box; /* paddingを含めた幅で計算 */
+    box-sizing: border-box;
     font-size: 1em;
     transition: border-color 0.3s;
 }
 
 input[type="text"]:focus,
 input[type="datetime-local"]:focus {
-    border-color: #4CAF50; /* フォーカス時に色を変更 */
+    border-color: #4CAF50;
     outline: none;
     box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
 }
@@ -120,13 +121,13 @@ button[type="submit"]:hover {
     font-weight: bold;
 }
 
-#message[style*="green"] { /* 成功メッセージ (緑色) */
+#message[style*="green"] {
     background-color: #e6ffed;
     border-color: #4CAF50;
     color: #38761d;
 }
 
-#message[style*="red"] { /* エラーメッセージ (赤色) */
+#message[style*="red"] {
     background-color: #ffeaea;
     border-color: #f44336;
     color: #f44336;
