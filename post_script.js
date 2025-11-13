@@ -55,14 +55,16 @@ postForm.addEventListener('submit', async function(event) {
             window.location.href = 'view.html'; 
         };
         
-        // [さらに投稿する] ボタン (URLを完全にクリーンにする処理を追加)
+        // [さらに投稿する] ボタン (URLを強制的にクリーンにする)
         document.getElementById('newPost').addEventListener('click', function(event) {
             event.preventDefault(); 
             
-            // ★★ 【最終解決策】アドレスバーのURLを強制的に書き換える ★★
-            // ページ履歴に新しいエントリを追加せず、現在のURLをクリーンなものに置き換える
-            history.replaceState(null, '', '/'); 
-            
+            // ★★ 【最終解決策】URLに # があれば、それを削除してクリーンなURLに書き換える ★★
+            // ページをリロードせずに、アドレスバーの # を削除
+            if (window.location.hash) {
+                history.replaceState(null, '', window.location.pathname + window.location.search);
+            }
+
             // 成功画面を非表示にする
             successScreen.style.display = 'none';
             
