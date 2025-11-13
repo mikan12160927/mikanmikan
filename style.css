@@ -1,0 +1,134 @@
+/* ---------------------------------
+  1. 基本設定 (リセットとフォント)
+--------------------------------- */
+body {
+    font-family: 'Arial', 'Helvetica Neue', Helvetica, sans-serif;
+    background-color: #f4f7f6; /* 薄い背景色 */
+    margin: 0;
+    padding: 0;
+    color: #333;
+    line-height: 1.6;
+}
+
+/* ---------------------------------
+  2. ヘッダーとフッター
+--------------------------------- */
+header {
+    background-color: #4CAF50; /* 緑色 */
+    color: white;
+    padding: 20px 0;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+header h1 {
+    margin: 0 0 5px 0;
+    font-size: 2.2em;
+}
+
+header p {
+    font-size: 1em;
+    opacity: 0.9;
+}
+
+footer {
+    text-align: center;
+    padding: 15px 0;
+    margin-top: 40px;
+    background-color: #eee;
+    color: #666;
+    font-size: 0.9em;
+}
+
+/* ---------------------------------
+  3. メインコンテンツとフォームのコンテナ
+--------------------------------- */
+main {
+    max-width: 600px; /* フォームの幅を調整 */
+    margin: 30px auto;
+    padding: 30px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+/* フォーム内の各入力グループ */
+.form-group {
+    margin-bottom: 25px;
+}
+
+/* ---------------------------------
+  4. ラベルと入力フィールド
+--------------------------------- */
+label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 8px;
+    color: #38761d; /* ラベルの色 */
+    font-size: 1.1em;
+}
+
+input[type="text"],
+input[type="datetime-local"] {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    box-sizing: border-box; /* paddingを含めた幅で計算 */
+    font-size: 1em;
+    transition: border-color 0.3s;
+}
+
+input[type="text"]:focus,
+input[type="datetime-local"]:focus {
+    border-color: #4CAF50; /* フォーカス時に色を変更 */
+    outline: none;
+    box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
+}
+
+.map-hint {
+    font-size: 0.85em;
+    color: #777;
+    margin-top: 5px;
+}
+
+
+/* ---------------------------------
+  5. 投稿ボタンとメッセージ
+--------------------------------- */
+button[type="submit"] {
+    background-color: #4CAF50;
+    color: white;
+    padding: 15px 25px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1.1em;
+    transition: background-color 0.3s;
+    width: 100%;
+    font-weight: bold;
+}
+
+button[type="submit"]:hover {
+    background-color: #45a049;
+}
+
+#message {
+    padding: 15px;
+    border-radius: 6px;
+    border: 1px solid transparent;
+    margin-top: 20px;
+    font-weight: bold;
+}
+
+#message[style*="green"] { /* 成功メッセージ (緑色) */
+    background-color: #e6ffed;
+    border-color: #4CAF50;
+    color: #38761d;
+}
+
+#message[style*="red"] { /* エラーメッセージ (赤色) */
+    background-color: #ffeaea;
+    border-color: #f44336;
+    color: #f44336;
+}
