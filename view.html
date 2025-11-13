@@ -6,7 +6,26 @@
     <title>商品情報 閲覧・検索 | 探究サイト</title>
     <link rel="stylesheet" href="style.css"> 
     <style>
-        /* viewページ固有のスタイルをここに追記 */
+        /* ナビゲーションボタン用のスタイル (index.htmlと共通) */
+        .nav-link {
+            display: block;
+            text-align: center;
+            margin-top: 15px;
+        }
+        .nav-button {
+            display: inline-block;
+            background-color: #38761d;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        .nav-button:hover {
+            background-color: #274e13;
+        }
+        /* viewページ固有のスタイル */
         .search-controls {
             display: flex;
             gap: 15px;
@@ -16,11 +35,12 @@
             border-radius: 8px;
             box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
         }
-        .search-controls input, .search-controls select {
+        .search-controls input, .search-controls select, .search-controls button {
             padding: 10px;
             border: 1px solid #ddd;
             border-radius: 4px;
             flex-grow: 1;
+            box-sizing: border-box;
         }
         .item-list {
             display: grid;
@@ -59,6 +79,10 @@
         <h1>🔍 商品情報 閲覧・検索</h1>
         <p>皆さんが投稿した入手困難な商品の在庫情報はこちらから確認できます。</p>
     </header>
+    
+    <div class="nav-link">
+        <a href="index.html" class="nav-button">✍️ 新しく投稿する</a> 
+    </div>
 
     <main>
         <div class="search-controls">
