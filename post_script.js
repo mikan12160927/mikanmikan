@@ -57,15 +57,12 @@ postForm.addEventListener('submit', async function(event) {
         
         // [さらに投稿する] ボタンの修正
         document.getElementById('newPost').onclick = function() {
-            // ★★ 【最終解決策】現在のURLからハッシュタグを削除し、強制的に移動・リロードする
+            // ★★ 【最終手段】履歴やハッシュタグを完全に無視し、サイトのルートへ強制的に移動
+            // Vercelの場合、'/' が index.html のルートになります。
+            window.location.href = '/'; 
             
-            // 1. 現在のURLを取得し、末尾のハッシュタグを削除
-            const cleanUrl = window.location.href.split('#')[0];
-            
-            // 2. URLをクリーンなものに置き換え、強制的にリロード（最も確実な方法）
-            window.location.replace(cleanUrl);
-            
-            // **補足**: window.location.replace() は履歴を残さずに移動するため、安全性が高いです。
+            // **補足**: この単純な window.location.href への代入が、
+            // 複雑な replace や reload よりも問題を解決することが稀にあります。
         };
     }
 });
