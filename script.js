@@ -1,7 +1,10 @@
-// 環境変数として外部から渡される値を参照するように変更
-const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL; 
-const SUPABASE_ANON_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+// 【重要】ここに Supabase の情報を設定してください！
+// Supabaseダッシュボードから取得した Project URL と Anon Public Key を ' 'で囲んで貼り付けてください。
+// 例: const SUPABASE_URL = 'https://abcdefghijklmn.supabase.co';
+const SUPABASE_URL = https://xoefqmgwjpauuebjhfgp.supabase.co; 
+const SUPABASE_ANON_KEY = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhvZWZxbWd3anBhdXVlYmpoZmdwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjMwMTA5MDIsImV4cCI6MjA3ODU4NjkwMn0.G1ZFLY4HgHe1FD7k-qeUh6KHlKT5CSsmxshq7jMts-U; 
 
+// Supabaseクライアントの初期化
 const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 const postForm = document.getElementById('postForm');
 const messageDiv = document.getElementById('message');
@@ -13,6 +16,7 @@ postForm.addEventListener('submit', async function(event) {
     // フォームからデータを取得
     const formData = new FormData(postForm);
     const dataToInsert = {
+        // HTMLの name 属性と Supabase のカラム名が一致している必要があります
         product_name: formData.get('product_name'),
         store_name: formData.get('store_name'),
         address: formData.get('address'), // 住所を直接保存
@@ -21,13 +25,15 @@ postForm.addEventListener('submit', async function(event) {
 
     // Supabaseにデータを挿入
     const { data, error } = await supabase
-        .from('posts') // ステップ1-2で作成したテーブル名
-        .insert([dataToInsert]);
+        .from('posts') // テーブル名: posts
+        .insert([dataToInsert])
+        .select(); // 挿入成功時にデータを返す
     
     if (error) {
         console.error('投稿エラー:', error);
         messageDiv.style.color = 'red';
-        messageDiv.innerHTML = `❌ 投稿に失敗しました: ${error.message}`;
+        // エラーメッセージをユーザーに分かりやすく表示
+        messageDiv.innerHTML = `❌ 投稿に失敗しました: ${error.message} <br> (原因: **RLS設定**または**キーの貼り間違い**の可能性)`;
     } else {
         messageDiv.style.color = 'green';
         messageDiv.innerHTML = '✅ 情報を投稿しました！データベースに保存されました。';
@@ -35,5 +41,3 @@ postForm.addEventListener('submit', async function(event) {
         console.log('投稿成功:', data);
     }
 });
-
-
