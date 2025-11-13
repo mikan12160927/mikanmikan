@@ -25,6 +25,19 @@
         .nav-button:hover {
             background-color: #274e13;
         }
+        /* 投稿成功画面用のボタン共通スタイル */
+        .success-button {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 6px;
+            color: white;
+            font-size: 1.05em;
+            cursor: pointer;
+            transition: opacity 0.3s;
+        }
+        .success-button:hover {
+            opacity: 0.85;
+        }
     </style>
 </head>
 <body>
@@ -35,26 +48,26 @@
     </header>
     
     <div class="nav-link">
-        <a href="view.html" class="nav-button">みんなの投稿を見る</a>
+        <a href="view.html" class="nav-button">🔍 みんなの投稿を見る</a>
     </div>
 
     <main>
         <form id="postForm" action="#" method="POST" class="supabase-form">
             
             <div class="form-group">
-                <label for="product-name">商品名:</label>
+                <label for="product-name">✨ 商品名:</label>
                 <input type="text" id="product-name" name="product_name" required>
             </div>
 
             <div class="form-group">
-                <label for="store-name">店舗名:</label>
+                <label for="store-name">📍 店舗名:</label>
                 <input type="text" id="store-name" name="store_name" required>
             </div>
             
             <div class="form-group">
-                <label for="address">店舗の正確な住所 (番地まで):</label>
+                <label for="address">🏠 店舗の正確な住所 (番地まで):</label>
                 <input type="text" id="address" name="address" placeholder="例: 東京都千代田区丸の内1-9-1" required>
-                <p class="hint-text">⚠️地図連携ができないため、検索の利便性向上のためにも正確な住所の入力をお願いします。</p>
+                <p class="hint-text">⚠️ 地図連携ができないため、検索の利便性向上のためにも正確な住所の入力をお願いします。</p>
             </div>
 
             <div class="form-group">
@@ -66,6 +79,16 @@
 
             <div id="message" style="margin-top: 15px;"></div>
         </form>
+
+        <div id="successScreen" style="display:none; text-align:center;">
+            <h2>🎉 投稿が完了しました！</h2>
+            <p style="font-size: 1.1em; margin-bottom: 30px;">貴重な情報のご提供ありがとうございます。</p>
+            
+            <div style="display:flex; justify-content:center; gap: 20px;">
+                <button id="viewPosts" class="success-button" style="background-color: #38761d;">🔍 みんなの投稿を見る</button>
+                <button id="newPost" class="success-button" style="background-color: #007bff;">✍️ さらに投稿する</button>
+            </div>
+        </div>
     </main>
 
     <footer>
