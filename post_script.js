@@ -35,10 +35,6 @@ postForm.addEventListener('submit', async function(event) {
         console.error('投稿エラー:', error);
         messageDiv.style.color = 'red';
         messageDiv.innerHTML = `❌ 投稿に失敗しました: ${error.message} <br> (原因: RLS設定やキーが原因の可能性)`;
-// post_script.js の投稿成功時 (else) の処理
-
-    // ... (中略) ...
-
     } else {
         // ★ 投稿成功時の画面切り替えロジック
         
@@ -55,12 +51,30 @@ postForm.addEventListener('submit', async function(event) {
             window.location.href = 'view.html'; 
         };
         
-        // [さらに投稿する] ボタン (最終回避策: reset.html 経由でリセット)
+        // [さらに投稿する] ボタン (最終修正版: UIリセットとURLクリーンアップ)
         document.getElementById('newPost').addEventListener('click', function(event) {
             event.preventDefault(); 
             
-            // ★★ 【重要】reset.html に移動し、強制的にURL履歴をクリアさせる
-            window.location.href = 'reset.html';
+            // 1. UIの表示を元に戻す
+            successScreen.style.display = 'none';
+            postForm.style.display = 'block';
+            postForm.reset(); 
+            messageDiv.innerHTML = '';
+            window.scrollTo(0, 0); 
+
+            // 2. ★★ 【重要】URLに # があれば強制的に削除する ★★
+            if (window.location.hash) {
+                // history.replaceStateはページ遷移を伴わずURLを書き換える
+                history.replaceState(null, '', window.location.pathname);
+            }
+            
+            // 3. 念のため、DOMの処理が完了した後に再度URLをクリーンに
+            setTimeout(() => {
+                if (window.location.hash) {
+                    history.replaceState(null, '', window.location.pathname);
+                }
+            }, 100); 
+            
         });
     }
 });
