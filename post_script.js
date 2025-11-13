@@ -55,30 +55,30 @@ postForm.addEventListener('submit', async function(event) {
             window.location.href = 'view.html'; 
         };
         
-        // [さらに投稿する] ボタン (URLを強制的にクリーンにする)
+        // [さらに投稿する] ボタン (最終修正版)
         document.getElementById('newPost').addEventListener('click', function(event) {
             event.preventDefault(); 
             
-            // ★★ 【最終解決策】URLに # があれば、それを削除してクリーンなURLに書き換える ★★
-            // ページをリロードせずに、アドレスバーの # を削除
-            if (window.location.hash) {
-                history.replaceState(null, '', window.location.pathname + window.location.search);
-            }
-
-            // 成功画面を非表示にする
+            // 1. UIの表示を元に戻す（リロード回避）
             successScreen.style.display = 'none';
-            
-            // フォームを再表示する
             postForm.style.display = 'block';
-            
-            // フォームの内容をクリアする
             postForm.reset(); 
-            
-            // エラーメッセージをクリア
             messageDiv.innerHTML = '';
-            
-            // 画面の最上部へスクロール
             window.scrollTo(0, 0); 
+
+            // 2. ★★ 【重要】UIリセット後に、URLの # を強制的に削除 ★★
+            if (window.location.hash) {
+                // history.replaceState() はページ遷移を伴わずURLを書き換える
+                history.replaceState(null, '', window.location.pathname);
+            }
+            
+            // 3. 念のため、DOMの処理が完了した後にURLをクリーンに（ディレイ処理）
+            setTimeout(() => {
+                if (window.location.hash) {
+                    history.replaceState(null, '', window.location.pathname);
+                }
+            }, 100); 
+            
         });
     }
 });
