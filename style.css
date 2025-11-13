@@ -44,7 +44,7 @@ footer {
   3. メインコンテンツとフォームのコンテナ
 --------------------------------- */
 main {
-    max-width: 600px; /* フォームの幅を調整 */
+    max-width: 800px; /* 閲覧ページに合わせて幅を広く */
     margin: 30px auto;
     padding: 30px;
     background-color: white;
@@ -86,7 +86,7 @@ input[type="datetime-local"]:focus {
     box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
 }
 
-.hint-text { /* map-hint から hint-text に変更 */
+.hint-text {
     font-size: 0.85em;
     color: #777;
     margin-top: 5px;
