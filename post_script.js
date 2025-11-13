@@ -57,11 +57,15 @@ postForm.addEventListener('submit', async function(event) {
         
         // [さらに投稿する] ボタンの修正
         document.getElementById('newPost').onclick = function() {
-            // 成功画面を非表示にする必要はありません（リロードされるため）。
+            // ★★ 【最終解決策】現在のURLからハッシュタグを削除し、強制的に移動・リロードする
             
-            // ★★ 【重要】ページ全体を強制的に再読み込みする
-            // 引数に true を渡すことで、キャッシュを無視して強制リロードします。
-            window.location.reload(true); 
+            // 1. 現在のURLを取得し、末尾のハッシュタグを削除
+            const cleanUrl = window.location.href.split('#')[0];
+            
+            // 2. URLをクリーンなものに置き換え、強制的にリロード（最も確実な方法）
+            window.location.replace(cleanUrl);
+            
+            // **補足**: window.location.replace() は履歴を残さずに移動するため、安全性が高いです。
         };
     }
 });
