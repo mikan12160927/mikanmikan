@@ -1,12 +1,12 @@
 // 【重要】ここに Supabase の情報を設定してください！
-const SUPABASE_URL = https://xoefqmgwjpauuebjhfgp.supabase.co; 
-const SUPABASE_ANON_KEY = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhvZWZxbWd3anBhdXVlYmpoZmdwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjMwMTA5MDIsImV4cCI6MjA3ODU4NjkwMn0.G1ZFLY4HgHe1FD7k-qeUh6KHlKT5CSsmxshq7jMts-U; 
+const SUPABASE_URL = 'https://xoefqmgwjpauuebjhfgp.supabase.co'; 
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhvZWZxbWd3anBhdXVlYmpoZmdwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjMwMTA5MDIsImV4cCI6MjA3ODU4NjkwMn0.G1ZFLY4HgHe1FD7k-qeUh6KHlKT5CSsmh-E4s-U'; 
 
 // Supabaseクライアントの初期化
 const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 const postForm = document.getElementById('postForm');
 const messageDiv = document.getElementById('message');
-const successScreen = document.getElementById('successScreen'); // 成功画面の要素
+const successScreen = document.getElementById('successScreen'); 
 
 // フォームが送信されたときの処理
 postForm.addEventListener('submit', async function(event) {
@@ -34,30 +34,41 @@ postForm.addEventListener('submit', async function(event) {
         // エラー処理
         console.error('投稿エラー:', error);
         messageDiv.style.color = 'red';
-        messageDiv.innerHTML = `❌ 投稿に失敗しました: ${error.message} <br> (原因: RLS設定またはキーの貼り間違いの可能性)`;
-// post_script.js の投稿成功時 (else) の処理
-// post_script.js の投稿成功時 (else) の処理
-} else {
-    // 1. フォームを非表示にする
-    postForm.style.display = 'none';
-    
-    // 2. 成功画面を表示する
-    successScreen.style.display = 'block';
-    
-    // [さらに投稿する] ボタンの処理
-    document.getElementById('newPost').onclick = function() {
-        // 成功画面を非表示にする
-        successScreen.style.display = 'none';
+        messageDiv.innerHTML = `❌ 投稿に失敗しました: ${error.message} <br> (原因: RLS設定やキーが原因の可能性)`;
+    } else {
+        // ★ 投稿成功時の画面切り替えロジック
         
-        // フォームを再表示する
-        postForm.style.display = 'block';
+        // 1. フォームを非表示にする
+        postForm.style.display = 'none';
         
-        // フォームの内容をクリアする
-        postForm.reset(); 
-    };
-    
-    // [みんなの投稿を見る] ボタンはページ遷移が必要
-    document.getElementById('viewPosts').onclick = function() {
-        window.location.href = 'view.html'; 
-    };
-}
+        // 2. 成功画面を表示する
+        successScreen.style.display = 'block';
+        
+        // 3. ボタンにイベントリスナーを設定する
+        
+        // [みんなの投稿を見る] ボタン
+        document.getElementById('viewPosts').onclick = function() {
+            window.location.href = 'view.html'; 
+        };
+        
+        // [さらに投稿する] ボタン (UI切り替えのみで # エラーを回避)
+        document.getElementById('newPost').addEventListener('click', function(event) {
+            event.preventDefault(); 
+            
+            // 成功画面を非表示にする
+            successScreen.style.display = 'none';
+            
+            // フォームを再表示する
+            postForm.style.display = 'block';
+            
+            // フォームの内容をクリアする
+            postForm.reset(); 
+            
+            // エラーメッセージをクリア
+            messageDiv.innerHTML = '';
+            
+            // 画面の最上部へスクロール
+            window.scrollTo(0, 0); 
+        });
+    }
+});
