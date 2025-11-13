@@ -52,10 +52,10 @@
     </div>
 
     <main>
-        <form id="postForm" method="POST" class="supabase-form">
-            
-            <div class="form-group">
-                <label for="product-name">✨ 商品名:</label>
+        <form id="postForm" method="POST" class="supabase-form" onsubmit="return false;">
+    
+    <div class="form-group">
+        <label for="product-name">✨ 商品名:</label>
                 <input type="text" id="product-name" name="product_name" required>
             </div>
 
@@ -100,3 +100,4 @@
     <script src="post_script.js"></script>
 </body>
 </html>
+
