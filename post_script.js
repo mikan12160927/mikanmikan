@@ -1,6 +1,6 @@
 // 【重要】ここに Supabase の情報を設定してください！
 // Supabaseダッシュボードから取得した Project URL と Anon Public Key を ' 'で囲んで貼り付けてください。
-const SUPABASE_URL = 'YOUR_PROJECT_URL_HERE'; 
+const SUPABASE_URL = https://xoefqmgwjpauuebjhfgp.supabase.co　; 
 const SUPABASE_ANON_KEY = 'YOUR_ANON_PUBLIC_KEY_HERE'; 
 
 // Supabaseクライアントの初期化
@@ -39,3 +39,4 @@ postForm.addEventListener('submit', async function(event) {
         console.log('投稿成功:', data);
     }
 });
+
