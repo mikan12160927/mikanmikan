@@ -1,7 +1,6 @@
 // 【重要】ここに Supabase の情報を設定してください！
-// post_script.js で使用したものと全く同じ URL と Key を使用します。
-const SUPABASE_URL = https://xoefqmgwjpauuebjhfgp.supabase.co; 
-const SUPABASE_ANON_KEY = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhvZWZxbWd3anBhdXVlYmpoZmdwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjMwMTA5MDIsImV4cCI6MjA3ODU4NjkwMn0.G1ZFLY4HgHe1FD7k-qeUh6KHlKT5CSsmxshq7jMts-U; 
+const SUPABASE_URL = 'https://xoefqmgwjpauuebjhfgp.supabase.co'; 
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhvZWZxbWd3anBhdXVlYmpoZmdwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjMwMTA5MDIsImV4cCI6MjA3ODU4NjkwMn0.G1ZFLY4HgHe1FD7k-qeUh6KHlKT5CSsmh-E4s-U'; 
 
 // Supabaseクライアントの初期化
 const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
@@ -14,26 +13,20 @@ const searchButton = document.getElementById('searchButton');
 // データを取得して表示するメイン関数
 // ----------------------------------------------------
 async function fetchAndDisplayItems() {
-    // 検索語とソート順を取得
     const searchTerm = searchProductInput.value.trim();
     const sortOrder = sortDateSelect.value === 'newest' ? 'desc' : 'asc';
 
-    // 読み込み中メッセージを表示
     itemListContainer.innerHTML = '<p class="loading-message">情報を読み込み中です...</p>';
 
-    // Supabaseからのデータ取得クエリを構築
     let query = supabase
-        .from('posts') // テーブル名
-        .select('product_name, store_name, address, date_time') // 取得したいカラム
-        .order('date_time', { ascending: sortOrder === 'asc' }); // 日時でソート
+        .from('posts')
+        .select('product_name, store_name, address, date_time')
+        .order('date_time', { ascending: sortOrder === 'asc' });
 
-    // 検索語がある場合、フィルタを追加
     if (searchTerm) {
-        // 商品名が検索語を含むものにフィルタリング (大文字小文字を区別しない)
         query = query.ilike('product_name', `%${searchTerm}%`);
     }
 
-    // クエリを実行
     const { data, error } = await query;
     
     if (error) {
@@ -47,14 +40,12 @@ async function fetchAndDisplayItems() {
         return;
     }
 
-    // 取得したデータをHTMLとして表示
-    itemListContainer.innerHTML = ''; // コンテナをクリア
+    itemListContainer.innerHTML = '';
     
     data.forEach(item => {
         const card = document.createElement('div');
         card.className = 'item-card';
 
-        // 日時フォーマットの調整
         const date = new Date(item.date_time);
         const formattedDate = date.toLocaleString('ja-JP', {
             year: 'numeric',
@@ -78,8 +69,5 @@ async function fetchAndDisplayItems() {
 // イベントリスナーの設定
 // ----------------------------------------------------
 
-// 検索ボタンがクリックされたらデータを再取得
 searchButton.addEventListener('click', fetchAndDisplayItems);
-
-// ページロード時に一度データを取得・表示
 document.addEventListener('DOMContentLoaded', fetchAndDisplayItems);
