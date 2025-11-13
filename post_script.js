@@ -35,34 +35,29 @@ postForm.addEventListener('submit', async function(event) {
         console.error('投稿エラー:', error);
         messageDiv.style.color = 'red';
         messageDiv.innerHTML = `❌ 投稿に失敗しました: ${error.message} <br> (原因: RLS設定またはキーの貼り間違いの可能性)`;
-// post_script.js の修正後の成功処理ブロック (elseの中)
-
-    // ... (中略) ...
-
-    } else {
-        // ★ 投稿成功時の画面切り替えロジック
+// post_script.js の投稿成功時 (else) の処理
+// post_script.js の投稿成功時 (else) の処理
+} else {
+    // 1. フォームを非表示にする
+    postForm.style.display = 'none';
+    
+    // 2. 成功画面を表示する
+    successScreen.style.display = 'block';
+    
+    // [さらに投稿する] ボタンの処理
+    document.getElementById('newPost').onclick = function() {
+        // 成功画面を非表示にする
+        successScreen.style.display = 'none';
         
-        // 1. フォームを非表示にする
-        postForm.style.display = 'none';
+        // フォームを再表示する
+        postForm.style.display = 'block';
         
-        // 2. 成功画面を表示する
-        successScreen.style.display = 'block';
-        
-        // 3. ボタンにイベントリスナーを設定する
-        
-        // [みんなの投稿を見る] ボタン
-        document.getElementById('viewPosts').onclick = function() {
-            window.location.href = 'view.html'; // 閲覧ページへ移動
-        };
-        
-        // [さらに投稿する] ボタンの修正
-        document.getElementById('newPost').onclick = function() {
-            // ★★ 【最終手段】履歴やハッシュタグを完全に無視し、サイトのルートへ強制的に移動
-            // Vercelの場合、'/' が index.html のルートになります。
-            window.location.href = '/'; 
-            
-            // **補足**: この単純な window.location.href への代入が、
-            // 複雑な replace や reload よりも問題を解決することが稀にあります。
-        };
-    }
-});
+        // フォームの内容をクリアする
+        postForm.reset(); 
+    };
+    
+    // [みんなの投稿を見る] ボタンはページ遷移が必要
+    document.getElementById('viewPosts').onclick = function() {
+        window.location.href = 'view.html'; 
+    };
+}
