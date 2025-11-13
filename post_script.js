@@ -35,6 +35,10 @@ postForm.addEventListener('submit', async function(event) {
         console.error('投稿エラー:', error);
         messageDiv.style.color = 'red';
         messageDiv.innerHTML = `❌ 投稿に失敗しました: ${error.message} <br> (原因: RLS設定やキーが原因の可能性)`;
+// post_script.js の投稿成功時 (else) の処理
+
+    // ... (中略) ...
+
     } else {
         // ★ 投稿成功時の画面切り替えロジック
         
@@ -51,9 +55,13 @@ postForm.addEventListener('submit', async function(event) {
             window.location.href = 'view.html'; 
         };
         
-        // [さらに投稿する] ボタン (UI切り替えのみで # エラーを回避)
+        // [さらに投稿する] ボタン (URLを完全にクリーンにする処理を追加)
         document.getElementById('newPost').addEventListener('click', function(event) {
             event.preventDefault(); 
+            
+            // ★★ 【最終解決策】アドレスバーのURLを強制的に書き換える ★★
+            // ページ履歴に新しいエントリを追加せず、現在のURLをクリーンなものに置き換える
+            history.replaceState(null, '', '/'); 
             
             // 成功画面を非表示にする
             successScreen.style.display = 'none';
