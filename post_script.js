@@ -26,7 +26,6 @@ postForm.addEventListener('submit', async function(event) {
     const { data, error } = await supabase
         .from('posts') // テーブル名: posts
         .insert([dataToInsert])
-        .select(); 
     
     if (error) {
         console.error('投稿エラー:', error);
@@ -39,5 +38,6 @@ postForm.addEventListener('submit', async function(event) {
         console.log('投稿成功:', data);
     }
 });
+
 
 
