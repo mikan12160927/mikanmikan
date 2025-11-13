@@ -55,30 +55,12 @@ postForm.addEventListener('submit', async function(event) {
             window.location.href = 'view.html'; 
         };
         
-        // [さらに投稿する] ボタン (最終修正版)
+        // [さらに投稿する] ボタン (最終回避策: reset.html 経由でリセット)
         document.getElementById('newPost').addEventListener('click', function(event) {
             event.preventDefault(); 
             
-            // 1. UIの表示を元に戻す（リロード回避）
-            successScreen.style.display = 'none';
-            postForm.style.display = 'block';
-            postForm.reset(); 
-            messageDiv.innerHTML = '';
-            window.scrollTo(0, 0); 
-
-            // 2. ★★ 【重要】UIリセット後に、URLの # を強制的に削除 ★★
-            if (window.location.hash) {
-                // history.replaceState() はページ遷移を伴わずURLを書き換える
-                history.replaceState(null, '', window.location.pathname);
-            }
-            
-            // 3. 念のため、DOMの処理が完了した後にURLをクリーンに（ディレイ処理）
-            setTimeout(() => {
-                if (window.location.hash) {
-                    history.replaceState(null, '', window.location.pathname);
-                }
-            }, 100); 
-            
+            // ★★ 【重要】reset.html に移動し、強制的にURL履歴をクリアさせる
+            window.location.href = 'reset.html';
         });
     }
 });
