@@ -1,7 +1,6 @@
-// 【重要】ここに Supabase の情報を設定してください！
-// ステップ1-3で控えた情報をここに貼り付けます。
-const SUPABASE_URL = https://xoefqmgwjpauuebjhfgp.supabase.co; 
-const SUPABASE_ANON_KEY = https://xoefqmgwjpauuebjhfgp.supabase.co; 
+// 環境変数として外部から渡される値を参照するように変更
+const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL; 
+const SUPABASE_ANON_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
 const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 const postForm = document.getElementById('postForm');
@@ -36,4 +35,5 @@ postForm.addEventListener('submit', async function(event) {
         console.log('投稿成功:', data);
     }
 });
+
 
