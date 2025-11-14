@@ -96,7 +96,7 @@ input[type="datetime-local"]:focus {
 /* ---------------------------------
   5. 投稿ボタンとメッセージ
 --------------------------------- */
-button[type="submit"] {
+button[type="button"] {
     background-color: #4CAF50;
     color: white;
     padding: 15px 25px;
@@ -109,7 +109,7 @@ button[type="submit"] {
     font-weight: bold;
 }
 
-button[type="submit"]:hover {
+button[type="button"]:hover {
     background-color: #45a049;
 }
 
