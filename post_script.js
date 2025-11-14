@@ -5,21 +5,28 @@ const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBh
 // Supabaseクライアントの初期化
 const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-// 必要なHTML要素の取得 (postFormは<div>になっています)
-const postForm = document.getElementById('postForm'); 
-const messageDiv = document.getElementById('message');
-const successScreen = document.getElementById('successScreen'); 
-const submitButton = document.getElementById('submitButton'); 
+// HTMLが完全に読み込まれた後に、すべての処理を開始する
+document.addEventListener('DOMContentLoaded', function() {
+    
+    // 必要なHTML要素の取得 (全てこのブロック内で実行することで取得失敗を防ぎます)
+    const postForm = document.getElementById('postForm'); 
+    const messageDiv = document.getElementById('message');
+    const successScreen = document.getElementById('successScreen'); 
+    const submitButton = document.getElementById('submitButton'); 
 
-// 各入力フィールドの取得
-const productNameInput = document.getElementById('product-name');
-const storeNameInput = document.getElementById('store-name');
-const addressInput = document.getElementById('address');
-const dateTimeInput = document.getElementById('date-time');
+    // 各入力フィールドの取得
+    const productNameInput = document.getElementById('product-name');
+    const storeNameInput = document.getElementById('store-name');
+    const addressInput = document.getElementById('address');
+    const dateTimeInput = document.getElementById('date-time');
 
-// ボタンが存在する場合のみイベントリスナーを設定
-if (submitButton) {
-    // フォーム送信機能に依存せず、ボタンのクリックイベントで処理を実行
+    // ボタンが存在しない場合はエラーをコンソールに出力し、処理を終了
+    if (!submitButton || !postForm) {
+        console.error("致命的なエラー: HTML要素のIDが見つかりません。index.htmlのIDを確認してください。");
+        return; // 処理停止
+    }
+
+    // ボタンのクリックイベントで処理を実行
     submitButton.addEventListener('click', async function(event) {
         event.preventDefault(); 
         
@@ -93,4 +100,4 @@ if (submitButton) {
             });
         }
     });
-}
+}); // <--- DOMContentLoadedの終わり
