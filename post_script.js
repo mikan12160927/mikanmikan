@@ -5,31 +5,33 @@ const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBh
 // Supabaseクライアントの初期化
 const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-// 必要なHTML要素の取得 (全てgetElementByIdで取得されているか確認！)
-const postForm = document.getElementById('postForm');
+// 必要なHTML要素の取得 (postFormは<div>になっています)
+const postForm = document.getElementById('postForm'); 
 const messageDiv = document.getElementById('message');
 const successScreen = document.getElementById('successScreen'); 
-const submitButton = document.getElementById('submitButton'); // ★★ 必須 ★★
+const submitButton = document.getElementById('submitButton'); 
 
-// ★★ submitButtonが存在しない場合は、ここで処理を停止します ★★
-if (!submitButton) {
-    console.error("エラー: submitButtonが見つかりません。index.htmlのIDを確認してください。");
-} else {
-    // フォーム送信ではなく、ボタンのクリックで処理を実行する
+// 各入力フィールドの取得
+const productNameInput = document.getElementById('product-name');
+const storeNameInput = document.getElementById('store-name');
+const addressInput = document.getElementById('address');
+const dateTimeInput = document.getElementById('date-time');
+
+// ボタンが存在する場合のみイベントリスナーを設定
+if (submitButton) {
+    // フォーム送信機能に依存せず、ボタンのクリックイベントで処理を実行
     submitButton.addEventListener('click', async function(event) {
         event.preventDefault(); 
         
-        // エラーメッセージがあればリセット
         messageDiv.innerHTML = '';
         messageDiv.style.color = '';
 
-        // フォームからデータを取得
-        const formData = new FormData(postForm);
+        // インプット要素から直接データを取得
         const dataToInsert = {
-            product_name: formData.get('product_name'),
-            store_name: formData.get('store_name'),
-            address: formData.get('address'),
-            date_time: formData.get('date_time')
+            product_name: productNameInput.value.trim(),
+            store_name: storeNameInput.value.trim(),
+            address: addressInput.value.trim(),
+            date_time: dateTimeInput.value
         };
         
         // 必須項目のチェック
@@ -52,13 +54,8 @@ if (!submitButton) {
         } else {
             // ★ 投稿成功時の画面切り替えロジック
             
-            // 1. フォームを非表示にする
             postForm.style.display = 'none';
-            
-            // 2. 成功画面を表示する
             successScreen.style.display = 'block';
-            
-            // 3. ボタンにイベントリスナーを設定する
             
             // [みんなの投稿を見る] ボタン
             document.getElementById('viewPosts').onclick = function() {
@@ -72,16 +69,22 @@ if (!submitButton) {
                 // 1. UIの表示を元に戻す
                 successScreen.style.display = 'none';
                 postForm.style.display = 'block';
-                postForm.reset(); 
+                
+                // 2. 入力値をクリア
+                productNameInput.value = '';
+                storeNameInput.value = '';
+                addressInput.value = '';
+                dateTimeInput.value = '';
+                
                 messageDiv.innerHTML = '';
                 window.scrollTo(0, 0); 
 
-                // 2. URLに # があれば強制的に削除する
+                // 3. URLに # があれば強制的に削除する
                 if (window.location.hash) {
                     history.replaceState(null, '', window.location.pathname);
                 }
                 
-                // 3. 念のため、DOMの処理が完了した後に再度URLをクリーンに
+                // 4. 念のため、DOMの処理が完了した後に再度URLをクリーンに
                 setTimeout(() => {
                     if (window.location.hash) {
                         history.replaceState(null, '', window.location.pathname);
