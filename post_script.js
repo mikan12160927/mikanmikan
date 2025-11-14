@@ -8,9 +8,11 @@ const postForm = document.getElementById('postForm');
 const messageDiv = document.getElementById('message');
 const successScreen = document.getElementById('successScreen'); 
 
-// フォームが送信されたときの処理
-postForm.addEventListener('submit', async function(event) {
-    event.preventDefault(); 
+const submitButton = document.getElementById('submitButton');
+
+// フォーム全体ではなく、ボタンのクリックで処理を開始
+submitButton.addEventListener('click', async function(event) { 
+    event.preventDefault();
     
     // エラーメッセージがあればリセット
     messageDiv.innerHTML = '';
@@ -78,3 +80,4 @@ postForm.addEventListener('submit', async function(event) {
         });
     }
 });
+
