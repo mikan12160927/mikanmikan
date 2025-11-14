@@ -4,15 +4,17 @@ const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBh
 
 // Supabaseクライアントの初期化
 const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+// 必要なHTML要素の取得
 const postForm = document.getElementById('postForm');
 const messageDiv = document.getElementById('message');
 const successScreen = document.getElementById('successScreen'); 
+const submitButton = document.getElementById('submitButton'); // ★★ 新しく追加 ★★
 
-const submitButton = document.getElementById('submitButton');
-
-// フォーム全体ではなく、ボタンのクリックで処理を開始
-submitButton.addEventListener('click', async function(event) { 
-    event.preventDefault();
+// フォーム送信ではなく、ボタンのクリックで処理を実行する
+// ★★ イベントリスナーを postForm.submit から submitButton.click に変更 ★★
+submitButton.addEventListener('click', async function(event) {
+    event.preventDefault(); 
     
     // エラーメッセージがあればリセット
     messageDiv.innerHTML = '';
@@ -26,6 +28,14 @@ submitButton.addEventListener('click', async function(event) {
         address: formData.get('address'),
         date_time: formData.get('date_time')
     };
+    
+    // ★★ 必須項目のチェックを追加 ★★
+    // フォームに必須項目があるにもかかわらず、ボタンがsubmitではないため、ここでチェック
+    if (!dataToInsert.product_name || !dataToInsert.store_name || !dataToInsert.address || !dataToInsert.date_time) {
+        messageDiv.style.color = 'red';
+        messageDiv.innerHTML = '❌ 全ての必須項目を入力してください。';
+        return; 
+    }
 
     // Supabaseにデータを挿入
     const { error } = await supabase
@@ -36,7 +46,7 @@ submitButton.addEventListener('click', async function(event) {
         // エラー処理
         console.error('投稿エラー:', error);
         messageDiv.style.color = 'red';
-        messageDiv.innerHTML = `❌ 投稿に失敗しました: ${error.message} <br> (原因: RLS設定やキーが原因の可能性)`;
+        messageDiv.innerHTML = `❌ 投稿に失敗しました: ${error.message} <br> (原因: RLS設定を確認してください)`;
     } else {
         // ★ 投稿成功時の画面切り替えロジック
         
@@ -53,7 +63,7 @@ submitButton.addEventListener('click', async function(event) {
             window.location.href = 'view.html'; 
         };
         
-        // [さらに投稿する] ボタン (最終修正版: UIリセットとURLクリーンアップ)
+        // [さらに投稿する] ボタン (UIリセットとURLクリーンアップ)
         document.getElementById('newPost').addEventListener('click', function(event) {
             event.preventDefault(); 
             
@@ -64,9 +74,8 @@ submitButton.addEventListener('click', async function(event) {
             messageDiv.innerHTML = '';
             window.scrollTo(0, 0); 
 
-            // 2. ★★ 【重要】URLに # があれば強制的に削除する ★★
+            // 2. URLに # があれば強制的に削除する
             if (window.location.hash) {
-                // history.replaceStateはページ遷移を伴わずURLを書き換える
                 history.replaceState(null, '', window.location.pathname);
             }
             
@@ -76,8 +85,6 @@ submitButton.addEventListener('click', async function(event) {
                     history.replaceState(null, '', window.location.pathname);
                 }
             }, 100); 
-            
         });
     }
 });
-
