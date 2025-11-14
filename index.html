@@ -52,10 +52,10 @@
     </div>
 
     <main>
-       <form id="postForm" action="index.html" method="POST" class="supabase-form">
-    
-    <div class="form-group">
-        <label for="product-name">✨ 商品名:</label>
+        <div id="postForm" class="supabase-form">
+            
+            <div class="form-group">
+                <label for="product-name">✨ 商品名:</label>
                 <input type="text" id="product-name" name="product_name" required>
             </div>
 
@@ -78,7 +78,7 @@
             <button type="button" id="submitButton">情報を投稿する</button>
 
             <div id="message" style="margin-top: 15px;"></div>
-        </form>
+        </div>
 
         <div id="successScreen" style="display:none; text-align:center;">
             <h2>🎉 投稿が完了しました！</h2>
@@ -100,8 +100,3 @@
     <script src="post_script.js"></script>
 </body>
 </html>
-
-
-
-
-
