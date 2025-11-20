@@ -3,17 +3,21 @@ const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBh
 
 const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
+// DOMContentLoadedイベント内で全てを実行し、要素が確実に存在するようにします
 document.addEventListener('DOMContentLoaded', function() {
     
+    // 必要なHTML要素をDOMContentLoaded内で取得
     const itemListContainer = document.getElementById('itemListContainer');
     const searchProductInput = document.getElementById('searchProduct');
     const sortDateSelect = document.getElementById('sortDate');
     const searchButton = document.getElementById('searchButton');
 
+    // データ取得と表示を行うメイン関数
     async function fetchAndDisplayItems() {
         const searchTerm = searchProductInput.value.trim();
         const sortOrder = sortDateSelect.value === 'newest' ? 'desc' : 'asc';
 
+        // 読み込みメッセージの表示
         itemListContainer.innerHTML = '<p class="loading-message">情報を読み込み中です...</p>';
 
         let query = supabase
@@ -21,6 +25,7 @@ document.addEventListener('DOMContentLoaded', function() {
             .select('product_name, store_name, address, date_time')
             .order('date_time', { ascending: sortOrder === 'asc' });
 
+        // 検索機能の適用
         if (searchTerm) {
             query = query.ilike('product_name', `%${searchTerm}%`);
         }
@@ -29,7 +34,8 @@ document.addEventListener('DOMContentLoaded', function() {
         
         if (error) {
             console.error('データ取得エラー:', error);
-            itemListContainer.innerHTML = `<p class="loading-message" style="color:#DC3545;">🚨 データ取得エラーが発生しました。<br>【原因】: Supabaseの**SELECT RLSポリシー**が設定されていません。<br>エラーメッセージ: ${error.message}</p>`;
+            // エラーの詳細を表示
+            itemListContainer.innerHTML = `<p class="loading-message" style="color:#DC3545;">🚨 データ取得エラーが発生しました。<br>【原因】: RLSポリシー（SELECT権限）を確認してください。<br>エラーメッセージ: ${error.message}</p>`;
             return;
         }
 
@@ -38,8 +44,8 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
 
+        // 取得したデータを表示
         itemListContainer.innerHTML = '';
-        
         data.forEach(item => {
             const card = document.createElement('div');
             card.className = 'item-card';
@@ -63,14 +69,17 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
+    // ★ 検索・更新ボタンにイベントリスナーを設定 ★
     if (searchButton) {
         searchButton.addEventListener('click', function(event) {
-            event.preventDefault(); 
-            fetchAndDisplayItems();
+            event.preventDefault(); // ボタンのデフォルト動作を防止
+            fetchAndDisplayItems(); // データを再取得・表示
         });
     } else {
+         // コンソールにエラーを出力し、ボタンが見つからないことを報告
          console.error("致命的なエラー: 検索ボタンのID 'searchButton' が見つかりません。");
     }
 
+    // ページロード時にデータを取得
     fetchAndDisplayItems();
 });
