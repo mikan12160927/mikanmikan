@@ -1,29 +1,32 @@
 /* ---------------------------------
-  1. 基本設定とカラーパレット（ダークモード）
+  1. 基本設定とカラーパレット（ライトモード/クリーン）
 --------------------------------- */
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;700&family=Montserrat:wght@400;700&display=swap');
 
 :root {
     /* メインカラー */
-    --color-dark-primary: #1A1A2E; /* 深いネイビー/パープル */
-    --color-dark-secondary: #2C2A3E; /* やや明るい背景 */
-    --color-dark-bg: #0F0F1A; /* 最も暗い背景 */
+    --color-light-bg: #F8F9FA;      /* 最も明るい背景 (ほぼ白) */
+    --color-light-surface: #FFFFFF; /* 要素の背景 */
     
-    /* アクセントカラー (落ち着いたゴールド/シルバーのイメージ) */
-    --color-accent-main: #3B7DD8; /* 落ち着いたロイヤルブルー */
-    --color-accent-sub: #E2E2E2; /* 明るいテキスト/枠線 */
+    /* アクセントカラー (信頼感のあるディープブルー) */
+    --color-accent-main: #1C3F75; /* 深い紺色 */
+    --color-accent-light: #3B7DD8; /* ロイヤルブルー */
+    
+    /* テキストとボーダー */
+    --color-text-dark: #343A40;
+    --color-border: #E0E0E0;
     
     /* シャドウと質感 */
-    --shadow-subtle: 0 4px 10px rgba(0, 0, 0, 0.5);
-    --shadow-deep: 0 8px 20px rgba(0, 0, 0, 0.7);
+    --shadow-soft: 0 4px 12px rgba(0, 0, 0, 0.08);
+    --shadow-deep: 0 8px 25px rgba(0, 0, 0, 0.1);
 }
 
 body {
     font-family: 'Noto Sans JP', 'Montserrat', sans-serif;
-    background-color: var(--color-dark-bg);
+    background-color: var(--color-light-bg);
     margin: 0;
     padding: 0;
-    color: var(--color-accent-sub);
+    color: var(--color-text-dark);
     line-height: 1.6;
     display: flex;
     flex-direction: column;
@@ -34,12 +37,11 @@ body {
   2. ヘッダーとフッター
 --------------------------------- */
 header {
-    background-color: var(--color-dark-primary);
+    background-color: var(--color-accent-main);
     color: white;
     padding: 35px 20px;
     text-align: center;
     box-shadow: var(--shadow-deep);
-    border-bottom: 2px solid var(--color-accent-main);
 }
 
 header h1 {
@@ -50,17 +52,17 @@ header h1 {
 
 header p {
     font-size: 1.1em;
-    opacity: 0.8;
+    opacity: 0.9;
 }
 
 footer {
     text-align: center;
     padding: 15px;
     margin-top: auto;
-    background-color: var(--color-dark-secondary);
-    color: #999;
+    background-color: var(--color-border);
+    color: var(--color-text-dark);
     font-size: 0.85em;
-    border-top: 1px solid #333;
+    border-top: 1px solid #D0D0D0;
 }
 
 /* ---------------------------------
@@ -71,10 +73,10 @@ main {
     max-width: 800px;
     margin: 40px auto;
     padding: 40px;
-    background-color: var(--color-dark-secondary);
+    background-color: var(--color-light-surface);
     border-radius: 12px;
     box-shadow: var(--shadow-deep);
-    border: 1px solid #333;
+    border: 1px solid var(--color-border);
 }
 
 label {
@@ -92,12 +94,12 @@ input[type="datetime-local"],
 .search-controls select {
     width: 100%;
     padding: 14px;
-    border: 1px solid #444;
+    border: 1px solid var(--color-border);
     border-radius: 8px;
     box-sizing: border-box;
     font-size: 1em;
-    background-color: #1A1A2E; /* 暗い入力背景 */
-    color: var(--color-accent-sub);
+    background-color: var(--color-light-surface);
+    color: var(--color-text-dark);
     transition: all 0.3s;
 }
 
@@ -105,14 +107,14 @@ input[type="text"]:focus,
 input[type="datetime-local"]:focus,
 .search-controls input:focus, 
 .search-controls select:focus {
-    border-color: var(--color-accent-main);
+    border-color: var(--color-accent-light);
     outline: none;
-    box-shadow: 0 0 0 3px rgba(59, 125, 216, 0.3);
+    box-shadow: 0 0 0 3px rgba(60, 125, 216, 0.2);
 }
 
 .hint-text {
     font-size: 0.8em;
-    color: #777;
+    color: #6C757D;
     margin-top: 5px;
 }
 
@@ -124,11 +126,11 @@ input[type="datetime-local"]:focus,
     margin: 30px 0;
 }
 
-/* 落ち着いたグラデーションボタン */
+/* メインボタン (グラデーションを控えめに使用) */
 .nav-button,
 button[type="submit"],
 .control-button {
-    background: linear-gradient(135deg, var(--color-accent-main) 0%, #2059a4 100%);
+    background: linear-gradient(135deg, var(--color-accent-light) 0%, #1A54A8 100%);
     color: white;
     padding: 12px 25px;
     border: none;
@@ -137,7 +139,7 @@ button[type="submit"],
     font-weight: 700;
     text-decoration: none;
     transition: all 0.2s ease-in-out;
-    box-shadow: var(--shadow-subtle);
+    box-shadow: var(--shadow-soft);
 }
 
 .nav-button {
@@ -155,9 +157,9 @@ button[type="submit"] {
 .nav-button:hover,
 button[type="submit"]:hover,
 .control-button:hover {
-    background: linear-gradient(135deg, #2059a4 0%, var(--color-accent-main) 100%);
+    background: linear-gradient(135deg, #1A54A8 0%, var(--color-accent-light) 100%);
     transform: translateY(-1px);
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
 }
 
 /* 成功画面のボタン */
@@ -167,7 +169,7 @@ button[type="submit"]:hover,
     font-weight: 700;
     border: none;
     color: white;
-    box-shadow: var(--shadow-subtle);
+    box-shadow: var(--shadow-soft);
     transition: all 0.3s;
     margin: 0 10px;
 }
@@ -176,7 +178,7 @@ button[type="submit"]:hover,
     background-color: var(--color-accent-main);
 }
 #newPost {
-    background-color: #5cb85c; /* グリーン系 */
+    background-color: #5cb85c; 
 }
 
 /* ---------------------------------
@@ -190,9 +192,10 @@ button[type="submit"]:hover,
     align-items: center;
     margin-bottom: 30px;
     padding: 15px;
-    background-color: var(--color-dark-primary);
+    background-color: var(--color-light-surface);
     border-radius: 10px;
-    box-shadow: var(--shadow-subtle);
+    box-shadow: var(--shadow-soft);
+    border: 1px solid var(--color-border);
 }
 
 .control-button {
@@ -202,16 +205,16 @@ button[type="submit"]:hover,
 
 /* プライマリーボタン (検索) */
 .primary-control {
-    background: linear-gradient(135deg, var(--color-accent-main) 0%, #2059a4 100%);
+    background: linear-gradient(135deg, var(--color-accent-light) 0%, #2059a4 100%);
 }
 
 /* セカンダリーボタン (更新) */
 .secondary-control {
-    background: #555; /* 単色の落ち着いた背景 */
-    color: var(--color-accent-sub);
+    background: var(--color-text-dark); /* 濃いグレー */
+    color: white;
 }
 .secondary-control:hover {
-    background: #666;
+    background: #505050;
     transform: translateY(-1px);
 }
 
@@ -223,37 +226,37 @@ button[type="submit"]:hover,
 }
 
 .item-card {
-    background-color: var(--color-dark-secondary);
+    background-color: var(--color-light-surface);
     border-left: 5px solid var(--color-accent-main); 
     border-radius: 8px;
     padding: 20px;
-    box-shadow: var(--shadow-subtle);
+    box-shadow: var(--shadow-soft);
     transition: transform 0.2s, box-shadow 0.2s;
-    border: 1px solid #333;
+    border: 1px solid var(--color-border);
 }
 .item-card:hover {
     transform: translateY(-3px); 
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.6);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
 }
 
 .item-card h3 {
-    color: var(--color-accent-sub);
+    color: var(--color-accent-main);
     margin-top: 0;
     margin-bottom: 10px;
     padding-bottom: 8px;
     font-size: 1.2em;
     font-weight: 700;
-    border-bottom: 1px solid #333;
+    border-bottom: 1px solid var(--color-border);
 }
 
 .item-card p {
     margin: 8px 0;
     font-size: 0.95em;
-    color: #bbb;
+    color: var(--color-text-dark);
 }
 
 .item-card p strong {
-    color: var(--color-accent-main);
+    color: var(--color-accent-light);
 }
 
 .loading-message {
