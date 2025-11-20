@@ -1,14 +1,11 @@
-/* ---------------------------------
-  1. 基本設定とフォント
---------------------------------- */
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap');
 
 :root {
-    --color-background-light: #F8F9FA; /* 非常に明るい背景 */
-    --color-background-dark: #E9ECEF;  /* 少し濃い背景 */
-    --color-primary: #007BFF; /* 青 */
-    --color-secondary: #6C757D; /* グレイ */
-    --color-accent: #28A745; /* 緑 */
+    --color-background-light: #F8F9FA;
+    --color-background-dark: #E9ECEF;
+    --color-primary: #007BFF;
+    --color-secondary: #6C757D;
+    --color-accent: #28A745;
     --color-text-dark: #343A40;
     --color-text-light: #6C757D;
     --color-border: #DEE2E6;
@@ -28,9 +25,6 @@ body {
     min-height: 100vh;
 }
 
-/* ---------------------------------
-  2. ヘッダーとフッター
---------------------------------- */
 header {
     background-color: var(--color-primary);
     color: white;
@@ -53,18 +47,15 @@ header p {
 footer {
     text-align: center;
     padding: 20px;
-    margin-top: auto; /* フッターを常に下部に固定 */
+    margin-top: auto;
     background-color: var(--color-background-dark);
     color: var(--color-text-light);
     font-size: 0.9em;
     box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.05);
 }
 
-/* ---------------------------------
-  3. メインコンテンツとカード
---------------------------------- */
 main {
-    flex-grow: 1; /* メインコンテンツが余白を埋める */
+    flex-grow: 1;
     max-width: 800px;
     margin: 40px auto;
     padding: 30px;
@@ -77,9 +68,6 @@ main {
     margin-bottom: 25px;
 }
 
-/* ---------------------------------
-  4. ラベルと入力フィールド
---------------------------------- */
 label {
     display: block;
     font-weight: 700;
@@ -107,19 +95,16 @@ input[type="datetime-local"]:focus,
 .search-controls select:focus {
     border-color: var(--color-primary);
     outline: none;
-    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25); /* Focusリング */
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
 }
 
 .hint-text {
     font-size: 0.8em;
     color: var(--color-text-light);
     margin-top: 5px;
-    padding-left: 5px; /* インデント */
+    padding-left: 5px;
 }
 
-/* ---------------------------------
-  5. ボタンとナビゲーション
---------------------------------- */
 .nav-link {
     display: block;
     text-align: center;
@@ -143,7 +128,7 @@ input[type="datetime-local"]:focus,
     transform: translateY(-1px);
 }
 
-button[type="button"],
+button[type="submit"],
 #searchButton {
     background-color: var(--color-primary);
     color: white;
@@ -158,30 +143,30 @@ button[type="button"],
     box-shadow: var(--shadow-light);
 }
 
-button[type="button"]:hover,
+button[type="submit"]:hover,
 #searchButton:hover {
     background-color: #0069D9;
     transform: translateY(-1px);
 }
 
-/* 投稿成功画面のボタン */
 .success-button {
     padding: 12px 25px;
     border-radius: 5px;
     font-size: 1em;
     box-shadow: var(--shadow-light);
+    border: none;
+    color: white;
+    font-weight: 700;
+    cursor: pointer;
 }
 
 #viewPosts {
     background-color: var(--color-primary); 
 }
 #newPost {
-    background-color: var(--color-accent); /* 緑のアクセントカラー */
+    background-color: var(--color-accent); 
 }
 
-/* ---------------------------------
-  6. メッセージとリスト
---------------------------------- */
 #message {
     padding: 15px;
     border-radius: 5px;
@@ -196,7 +181,6 @@ button[type="button"]:hover,
     color: #721C24;
 }
 
-/* リストアイテム (view.html) */
 .search-controls {
     display: flex;
     gap: 15px;
@@ -215,7 +199,7 @@ button[type="button"]:hover,
 
 .item-card {
     border: 1px solid var(--color-border);
-    border-left: 5px solid var(--color-primary); /* 左にプライマリーカラーのライン */
+    border-left: 5px solid var(--color-primary);
     border-radius: 8px;
     padding: 20px;
     background-color: white;
@@ -254,7 +238,6 @@ button[type="button"]:hover,
     color: var(--color-text-light);
 }
 
-/* レスポンシブデザイン */
 @media (max-width: 768px) {
     header h1 {
         font-size: 2em;
@@ -268,6 +251,6 @@ button[type="button"]:hover,
         gap: 10px;
     }
     .item-list {
-        grid-template-columns: 1fr; /* 1列表示 */
+        grid-template-columns: 1fr;
     }
 }
