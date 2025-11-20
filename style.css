@@ -1,5 +1,5 @@
 /* ---------------------------------
-  1. 基本設定 (リセットとフォント)
+  1. 基本設定 
 --------------------------------- */
 body {
     font-family: 'Arial', 'Helvetica Neue', Helvetica, sans-serif;
@@ -44,7 +44,6 @@ footer {
   3. メインコンテンツとフォームのコンテナ
 --------------------------------- */
 main {
-    /* 投稿ページと閲覧ページで幅を調整 */
     max-width: 800px;
     margin: 30px auto;
     padding: 30px;
@@ -53,7 +52,6 @@ main {
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
 }
 
-/* フォーム内の各入力グループ */
 .form-group {
     margin-bottom: 25px;
 }
