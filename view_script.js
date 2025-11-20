@@ -1,23 +1,24 @@
 const SUPABASE_URL = 'https://xoefqmgwjpauuebjhfgp.supabase.co'; 
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhvZWZxbWd3anBhdXVlYmpoZmdwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjMwMTA5MDIsImV4cCI6MjA3ODU4NjkwMn0.G1ZFLY4HgHe1FD7k-qeUh6KHlKT5CSsmh-E4s-U'; 
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhvZWZxbWd3anBhdXVlYmpoZmdwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjMwMTA5MDIsImV4cCI6MjA3ODU4NjkwMn0.G1ZFLY4HgHe1FD7k-qeUh6KHsKT5CSsmh-E4s-U'; 
 
 const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-// DOMContentLoadedイベント内で全てを実行し、要素が確実に存在するようにします
 document.addEventListener('DOMContentLoaded', function() {
     
-    // 必要なHTML要素をDOMContentLoaded内で取得
     const itemListContainer = document.getElementById('itemListContainer');
     const searchProductInput = document.getElementById('searchProduct');
     const sortDateSelect = document.getElementById('sortDate');
     const searchButton = document.getElementById('searchButton');
+    const refreshButton = document.getElementById('refreshButton'); 
 
-    // データ取得と表示を行うメイン関数
     async function fetchAndDisplayItems() {
+        // ボタンを一時的に無効化
+        if (searchButton) searchButton.disabled = true;
+        if (refreshButton) refreshButton.disabled = true;
+
         const searchTerm = searchProductInput.value.trim();
         const sortOrder = sortDateSelect.value === 'newest' ? 'desc' : 'asc';
 
-        // 読み込みメッセージの表示
         itemListContainer.innerHTML = '<p class="loading-message">情報を読み込み中です...</p>';
 
         let query = supabase
@@ -25,16 +26,19 @@ document.addEventListener('DOMContentLoaded', function() {
             .select('product_name, store_name, address, date_time')
             .order('date_time', { ascending: sortOrder === 'asc' });
 
-        // 検索機能の適用
+        // 検索窓に値がある場合のみフィルターを適用
         if (searchTerm) {
             query = query.ilike('product_name', `%${searchTerm}%`);
         }
 
         const { data, error } = await query;
         
+        // 処理完了後にボタンを有効化
+        if (searchButton) searchButton.disabled = false;
+        if (refreshButton) refreshButton.disabled = false;
+
         if (error) {
             console.error('データ取得エラー:', error);
-            // エラーの詳細を表示
             itemListContainer.innerHTML = `<p class="loading-message" style="color:#DC3545;">🚨 データ取得エラーが発生しました。<br>【原因】: RLSポリシー（SELECT権限）を確認してください。<br>エラーメッセージ: ${error.message}</p>`;
             return;
         }
@@ -44,7 +48,6 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
 
-        // 取得したデータを表示
         itemListContainer.innerHTML = '';
         data.forEach(item => {
             const card = document.createElement('div');
@@ -69,15 +72,21 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // ★ 検索・更新ボタンにイベントリスナーを設定 ★
+    // 検索ボタン（入力値に応じてデータを再取得）
     if (searchButton) {
         searchButton.addEventListener('click', function(event) {
-            event.preventDefault(); // ボタンのデフォルト動作を防止
-            fetchAndDisplayItems(); // データを再取得・表示
+            event.preventDefault(); 
+            fetchAndDisplayItems();
         });
-    } else {
-         // コンソールにエラーを出力し、ボタンが見つからないことを報告
-         console.error("致命的なエラー: 検索ボタンのID 'searchButton' が見つかりません。");
+    }
+
+    // 更新ボタン（現在の条件を維持してデータを再取得）
+    if (refreshButton) {
+        refreshButton.addEventListener('click', function(event) {
+            event.preventDefault(); 
+            // 検索・ソートの現在の状態を維持したままfetchAndDisplayItemsを実行
+            fetchAndDisplayItems(); 
+        });
     }
 
     // ページロード時にデータを取得
