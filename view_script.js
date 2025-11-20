@@ -3,21 +3,17 @@ const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBh
 
 const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-// DOMContentLoadedの中で全てを実行し、要素が確実に存在するようにします
 document.addEventListener('DOMContentLoaded', function() {
     
-    // 必要なHTML要素をDOMContentLoaded内で取得
     const itemListContainer = document.getElementById('itemListContainer');
     const searchProductInput = document.getElementById('searchProduct');
     const sortDateSelect = document.getElementById('sortDate');
     const searchButton = document.getElementById('searchButton');
 
-    // fetchAndDisplayItems関数をDOMContentLoaded内に定義
     async function fetchAndDisplayItems() {
         const searchTerm = searchProductInput.value.trim();
         const sortOrder = sortDateSelect.value === 'newest' ? 'desc' : 'asc';
 
-        // 読み込みメッセージの表示
         itemListContainer.innerHTML = '<p class="loading-message">情報を読み込み中です...</p>';
 
         let query = supabase
@@ -33,7 +29,6 @@ document.addEventListener('DOMContentLoaded', function() {
         
         if (error) {
             console.error('データ取得エラー:', error);
-            // エラーの詳細を表示
             itemListContainer.innerHTML = `<p class="loading-message" style="color:#DC3545;">🚨 データ取得エラーが発生しました。<br>【原因】: Supabaseの**SELECT RLSポリシー**が設定されていません。<br>エラーメッセージ: ${error.message}</p>`;
             return;
         }
@@ -68,16 +63,14 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // ★ ボタンにイベントリスナーを設定 ★
     if (searchButton) {
         searchButton.addEventListener('click', function(event) {
-            event.preventDefault(); // フォームのデフォルト動作を防止（もしあれば）
+            event.preventDefault(); 
             fetchAndDisplayItems();
         });
     } else {
          console.error("致命的なエラー: 検索ボタンのID 'searchButton' が見つかりません。");
     }
 
-    // ページロード時に一度実行
     fetchAndDisplayItems();
 });
