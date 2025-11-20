@@ -1,59 +1,73 @@
 /* ---------------------------------
-  1. 基本設定 
+  1. 基本設定とカラーパレット
 --------------------------------- */
+:root {
+    --color-primary: #1E90FF; /* ドジャーブルー: ポップな青色 */
+    --color-secondary: #FF69B4; /* ホットピンク: アクセント */
+    --color-background: #F8F8FF; /* ゴーストホワイト: 柔らかな背景 */
+    --color-text: #333;
+    --color-light-gray: #E0E0E0;
+    --color-shadow: rgba(0, 0, 0, 0.15);
+}
+
 body {
     font-family: 'Arial', 'Helvetica Neue', Helvetica, sans-serif;
-    background-color: #f4f7f6;
+    background-color: var(--color-background);
     margin: 0;
     padding: 0;
-    color: #333;
+    color: var(--color-text);
     line-height: 1.6;
+    /* 全体にアニメーションを適用し、なめらかにする */
+    transition: background-color 0.5s ease;
 }
 
 /* ---------------------------------
   2. ヘッダーとフッター
 --------------------------------- */
 header {
-    background-color: #4CAF50;
+    background-color: var(--color-primary);
     color: white;
-    padding: 20px 0;
+    padding: 30px 0; /* 上下の余白を増やす */
     text-align: center;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 8px var(--color-shadow);
+    /* グラデーションや図形を追加するのも効果的 */
 }
 
 header h1 {
     margin: 0 0 5px 0;
-    font-size: 2.2em;
+    font-size: 2.5em; /* 大きく強調 */
+    letter-spacing: 1px;
 }
 
 header p {
-    font-size: 1em;
+    font-size: 1.1em;
     opacity: 0.9;
 }
 
 footer {
     text-align: center;
-    padding: 15px 0;
-    margin-top: 40px;
-    background-color: #eee;
-    color: #666;
+    padding: 20px 0;
+    margin-top: 50px; /* 上の余白を増やす */
+    background-color: var(--color-light-gray);
+    color: var(--color-text);
     font-size: 0.9em;
+    box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.05);
 }
 
 /* ---------------------------------
-  3. メインコンテンツとフォームのコンテナ
+  3. メインコンテンツとカード
 --------------------------------- */
 main {
-    max-width: 800px;
-    margin: 30px auto;
-    padding: 30px;
+    max-width: 900px; /* 幅を広げてモダンに */
+    margin: 40px auto;
+    padding: 40px;
     background-color: white;
-    border-radius: 10px;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    border-radius: 12px; /* 角を丸く */
+    box-shadow: 0 10px 20px var(--color-shadow);
 }
 
 .form-group {
-    margin-bottom: 25px;
+    margin-bottom: 30px;
 }
 
 /* ---------------------------------
@@ -61,72 +75,138 @@ main {
 --------------------------------- */
 label {
     display: block;
-    font-weight: bold;
-    margin-bottom: 8px;
-    color: #38761d;
+    font-weight: 700; /* 太く */
+    margin-bottom: 10px;
+    color: var(--color-primary); /* プライマリーカラーを適用 */
     font-size: 1.1em;
 }
 
 input[type="text"],
-input[type="datetime-local"] {
+input[type="datetime-local"],
+.search-controls input, 
+.search-controls select {
     width: 100%;
-    padding: 12px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
+    padding: 14px; /* パディングを増やす */
+    border: 1px solid var(--color-light-gray);
+    border-radius: 8px; /* 角を丸く */
     box-sizing: border-box;
     font-size: 1em;
-    transition: border-color 0.3s;
+    transition: all 0.3s;
 }
 
 input[type="text"]:focus,
-input[type="datetime-local"]:focus {
-    border-color: #4CAF50;
+input[type="datetime-local"]:focus,
+.search-controls input:focus, 
+.search-controls select:focus {
+    border-color: var(--color-secondary); /* フォーカス時にアクセントカラー */
     outline: none;
-    box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
+    box-shadow: 0 0 8px rgba(255, 105, 180, 0.4);
 }
 
 .hint-text {
-    font-size: 0.85em;
-    color: #777;
+    font-size: 0.8em;
+    color: #888;
     margin-top: 5px;
 }
 
 /* ---------------------------------
-  5. 投稿ボタンとメッセージ
+  5. ボタンとナビゲーション
 --------------------------------- */
-button[type="button"] {
-    background-color: #4CAF50;
+.nav-link {
+    display: block;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.nav-button {
+    display: inline-block;
+    background-color: var(--color-secondary); /* アクセントカラー */
     color: white;
-    padding: 15px 25px;
+    padding: 12px 25px;
+    border-radius: 30px; /* ピル型ボタン */
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 1.05em;
+    transition: background-color 0.3s, transform 0.2s;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+.nav-button:hover {
+    background-color: #f04e9e;
+    transform: translateY(-2px);
+}
+
+button[type="button"],
+#searchButton {
+    background-color: var(--color-primary);
+    color: white;
+    padding: 16px 25px;
     border: none;
-    border-radius: 6px;
+    border-radius: 8px;
     cursor: pointer;
-    font-size: 1.1em;
-    transition: background-color 0.3s;
+    font-size: 1.15em;
+    transition: background-color 0.3s, transform 0.2s;
     width: 100%;
     font-weight: bold;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-button[type="button"]:hover {
-    background-color: #45a049;
+button[type="button"]:hover,
+#searchButton:hover {
+    background-color: #147ad1;
+    transform: translateY(-1px);
 }
 
+/* 投稿成功画面のボタン */
+.success-button {
+    padding: 16px 35px;
+    border-radius: 30px; 
+    font-size: 1.05em;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+#viewPosts {
+    background-color: var(--color-primary); 
+}
+#newPost {
+    background-color: var(--color-secondary); 
+}
+
+/* ---------------------------------
+  6. メッセージとリスト
+--------------------------------- */
 #message {
     padding: 15px;
-    border-radius: 6px;
+    border-radius: 8px;
     border: 1px solid transparent;
     margin-top: 20px;
     font-weight: bold;
 }
 
-#message[style*="green"] {
-    background-color: #e6ffed;
-    border-color: #4CAF50;
-    color: #38761d;
+#message[style*="red"] {
+    background-color: #ffeded;
+    border-color: #ff6961;
+    color: #d10000;
 }
 
-#message[style*="red"] {
-    background-color: #ffeaea;
-    border-color: #f44336;
-    color: #f44336;
+/* リストアイテム (view.html) */
+.item-card {
+    border: 1px solid var(--color-light-gray);
+    border-left: 5px solid var(--color-primary); /* 左にアクセントライン */
+    border-radius: 8px;
+    padding: 20px;
+    background-color: white;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); /* より強い影 */
+    transition: transform 0.2s;
+}
+.item-card:hover {
+    transform: translateY(-3px); /* ホバーで少し浮き上がる */
+}
+
+.item-card h3 {
+    color: var(--color-primary);
+    margin-top: 0;
+    margin-bottom: 10px;
+    border-bottom: 2px solid var(--color-light-gray);
+    padding-bottom: 8px;
+    font-size: 1.3em;
 }
