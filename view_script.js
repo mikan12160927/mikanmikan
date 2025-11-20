@@ -26,7 +26,8 @@ async function fetchAndDisplayItems() {
     
     if (error) {
         console.error('データ取得エラー:', error);
-        itemListContainer.innerHTML = `<p class="loading-message" style="color:red;">❌ データ取得中にエラーが発生しました: ${error.message}</p>`;
+        // ★ エラーの詳細を表示 ★
+        itemListContainer.innerHTML = `<p class="loading-message" style="color:#DC3545;">🚨 データ取得エラーが発生しました。<br>【原因】: Supabaseの**SELECT RLSポリシー**が設定されていません。<br>エラーメッセージ: ${error.message}</p>`;
         return;
     }
 
@@ -52,9 +53,9 @@ async function fetchAndDisplayItems() {
 
         card.innerHTML = `
             <h3>${item.product_name}</h3>
-            <p><strong>🏪 店舗名:</strong> ${item.store_name}</p>
-            <p><strong>📍 住所:</strong> ${item.address}</p>
-            <p><strong>🗓️ 発見日時:</strong> ${formattedDate}</p>
+            <p><strong>店舗名:</strong> ${item.store_name}</p>
+            <p><strong>住所:</strong> ${item.address}</p>
+            <p><strong>発見日時:</strong> ${formattedDate}</p>
         `;
         itemListContainer.appendChild(card);
     });
