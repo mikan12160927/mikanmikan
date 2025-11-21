@@ -234,13 +234,17 @@ button[type="submit"]:disabled {
     transform: translateY(-1px);
 }
 
+/* style.css の該当箇所 */
+
 /* <a>タグの無効化スタイル（JavaScriptで'disabled'クラスが付与される） */
 .control-button.disabled {
-    opacity: 0.6;
+    opacity: 0.6; /* 不透明度を下げて、グレーアウトする */
     pointer-events: none; /* クリックを無効にする */
     cursor: default;
+    /* ★ 修正点: 無効時はホバーエフェクトを完全に無効にする ★ */
+    box-shadow: none !important; 
+    transform: none !important;
 }
-
 
 /* リストアイテム (view.html) */
 .item-list {
@@ -321,3 +325,4 @@ button[type="submit"]:disabled {
         grid-template-columns: 1fr;
     }
 }
+
