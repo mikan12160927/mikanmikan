@@ -14,16 +14,12 @@ document.addEventListener('DOMContentLoaded', function() {
     const addressInput = document.getElementById('address');
     const dateTimeInput = document.getElementById('date-time');
 
-    if (!postForm) {
-        console.error("致命的なエラー: HTML要素のID 'postForm' が見つかりません。");
-        return; 
-    }
+    if (!postForm) return; 
 
     postForm.addEventListener('submit', async function(event) {
         event.preventDefault(); 
         
         messageDiv.innerHTML = '';
-        messageDiv.style.color = '';
         
         const dataToInsert = {
             product_name: productNameInput.value.trim(),
@@ -52,9 +48,9 @@ document.addEventListener('DOMContentLoaded', function() {
         if (error) {
             console.error('投稿エラー:', error);
             messageDiv.style.color = 'red';
-            messageDiv.innerHTML = `❌ 投稿に失敗しました: ${error.message} <br> (原因: RLSポリシーやテーブルの列名をご確認ください)`;
+            // RLSが原因であることが多いので、そのメッセージを付加
+            messageDiv.innerHTML = `❌ 投稿に失敗しました: ${error.message} <br> (原因: Supabaseの**RLSポリシー**をご確認ください)`;
         } else {
-            // 投稿成功時のUI切り替え
             postForm.style.display = 'none';
             successScreen.style.display = 'block';
             
@@ -64,16 +60,12 @@ document.addEventListener('DOMContentLoaded', function() {
             
             document.getElementById('newPost').addEventListener('click', function(event) {
                 event.preventDefault(); 
-                
                 successScreen.style.display = 'none';
                 postForm.style.display = 'block';
-                
-                // フォームをリセット
                 productNameInput.value = '';
                 storeNameInput.value = '';
                 addressInput.value = '';
                 dateTimeInput.value = '';
-                
                 messageDiv.innerHTML = '';
                 window.scrollTo(0, 0); 
             });
