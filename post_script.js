@@ -1,7 +1,8 @@
 const SUPABASE_URL = 'https://xoefqmgwjpauuebjhfgp.supabase.co'; 
+// ★★★ ここにあなたの正しいAnonキーを貼り付ける ★★★
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhvZWZxbWd3anBhdXVlYmpoZmdwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjMwMTA5MDIsImV4cCI6MjA3ODU4NjkwMn0.G1ZFLY4HgHe1FD7k-qeUh6KHlKT5CSsmxshq7jMts-U'; 
 
-// ★★★ 修正済み: 変数名を sb (Supabase Clientの略) に変更し、エラーを回避します ★★★
+// TDZエラー回避のため、クライアントを sb (Supabase Clientの略) として定義
 let sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY); 
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -39,7 +40,7 @@ document.addEventListener('DOMContentLoaded', function() {
         submitButton.disabled = true;
         submitButton.textContent = '投稿中...';
 
-        // ★ sb を使用してINSERT処理を実行 ★
+        // sb を使用してINSERT処理を実行
         const { error } = await sb
             .from('posts')
             .insert([dataToInsert]); 
@@ -51,7 +52,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (error) {
             console.error('投稿エラー:', error);
             messageDiv.style.color = 'red';
-            messageDiv.innerHTML = `❌ 投稿に失敗しました: ${error.message} <br> **【最重要】**: Supabaseの**RLSポリシー（INSERT権限）**を確認してください。`;
+            messageDiv.innerHTML = `❌ 投稿に失敗しました: ${error.message} <br> **【確認】**: APIキーかRLSポリシー（INSERT権限）を確認してください。`;
         } else {
             postForm.style.display = 'none';
             successScreen.style.display = 'block';
@@ -74,4 +75,3 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 });
-
