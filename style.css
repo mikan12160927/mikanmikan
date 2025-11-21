@@ -4,12 +4,19 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;700&family=Montserrat:wght@400;700&display=swap');
 
 :root {
+    /* メインカラー */
     --color-light-bg: #F8F9FA;      
     --color-light-surface: #FFFFFF; 
-    --color-accent-main: #1C3F75; 
-    --color-accent-light: #3B7DD8; 
+    
+    /* アクセントカラー (信頼感のあるディープブルー) */
+    --color-accent-main: #1C3F75; /* 深い紺色 */
+    --color-accent-light: #3B7DD8; /* ロイヤルブルー */
+    
+    /* テキストとボーダー */
     --color-text-dark: #343A40;
     --color-border: #E0E0E0;
+    
+    /* シャドウと質感 */
     --shadow-soft: 0 4px 12px rgba(0, 0, 0, 0.08);
     --shadow-deep: 0 8px 25px rgba(0, 0, 0, 0.1);
 }
@@ -63,7 +70,7 @@ footer {
 --------------------------------- */
 main {
     flex-grow: 1;
-    max-width: 800px; /* ★ フォームの幅を制御 ★ */
+    max-width: 800px; 
     margin: 40px auto;
     padding: 40px;
     background-color: var(--color-light-surface);
