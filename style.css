@@ -70,7 +70,8 @@ footer {
 --------------------------------- */
 main {
     flex-grow: 1;
-    max-width: 1000px; /* ★★★ 修正確定: 投稿フォームの幅を1000pxに拡張しました ★★★ */
+    /* ★★★ 最終修正: !important を付けて強制適用します ★★★ */
+    max-width: 1000px !important; 
     margin: 40px auto;
     padding: 40px;
     background-color: var(--color-light-surface);
