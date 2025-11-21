@@ -1,8 +1,8 @@
 const SUPABASE_URL = 'https://xoefqmgwjpauuebjhfgp.supabase.co'; 
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhvZWZxbWd3anBhdXVlYmpoZmdwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjMwMTA5MDIsImV4cCI6MjA3ODU4NjkwMn0.G1ZFLY4HgHe1FD7k-qeUh6KHsKT5CSsmh-E4s-U'; 
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhvZWZxbWd3anBhdXVlYmpoZmdwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjMwMTA5MDIsImV4cCI6MjA3ODg5OTA0Mn0.2Y0_q_K2Y4I4O_4o_0g1m_8Q5p_3M1L7dY6J7wXJ'; 
 
-// const から let に変更し、TDZを回避します
-let supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY); 
+// ★★★ 修正済み: 変数名を sb (Supabase Clientの略) に変更し、エラーを回避します ★★★
+let sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY); 
 
 // ----------------------------------------------------
 // ★ グローバル関数として定義し、HTMLから直接呼び出す ★
@@ -23,7 +23,8 @@ async function fetchAndDisplayItems() {
 
     itemListContainer.innerHTML = '<p class="loading-message">情報を読み込み中です...</p>';
 
-    let query = supabase
+    // ★ sb を使用してSELECT処理を実行 ★
+    let query = sb
         .from('posts')
         .select('product_name, store_name, address, date_time')
         .order('date_time', { ascending: sortOrder === 'asc' });
@@ -72,7 +73,7 @@ async function fetchAndDisplayItems() {
     });
 }
 
-// onclickから呼び出すラッパー関数
+// onclickから呼び出すグローバル関数
 window.handleSearchClick = function(event) {
     event.preventDefault();
     fetchAndDisplayItems();
