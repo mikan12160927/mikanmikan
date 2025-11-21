@@ -1,8 +1,22 @@
+// post_script.js の冒頭
+
 const SUPABASE_URL = 'https://xoefqmgwjpauuebjhfgp.supabase.co'; 
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhvZWZxbWd3anBhdXVlYmpoZmdwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjMwMTA5MDIsImV4cCI6MjA3ODU4NjkwMn0.G1ZFLY4HgHe1FD7k-qeUh6KHsKT5CSsmh-E4s-U'; 
 
-// const から let に変更し、TDZを回避します
-let supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY); 
+// ★★★ 修正箇所: 変数名を sb (Supabase Clientの略) に変更します ★★★
+let sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY); 
+// 以降のコードでは、supabaseの代わりに sb を使います。
+
+document.addEventListener('DOMContentLoaded', function() {
+    // ...
+    // postForm.addEventListener('submit', async function(event) {
+        // ...
+        const { error } = await sb // ★ここも sb に変更
+            .from('posts')
+            .insert([dataToInsert]); 
+        // ...
+    // });
+});
 
 document.addEventListener('DOMContentLoaded', function() {
     
@@ -75,3 +89,4 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 });
+
