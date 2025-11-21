@@ -8,8 +8,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const itemListContainer = document.getElementById('itemListContainer');
     const searchProductInput = document.getElementById('searchProduct');
     const sortDateSelect = document.getElementById('sortDate');
-    const searchButton = document.getElementById('searchButton'); // <a>タグ
-    const refreshButton = document.getElementById('refreshButton'); // <a>タグ
+    const searchButton = document.getElementById('searchButton'); 
+    const refreshButton = document.getElementById('refreshButton'); 
 
     async function fetchAndDisplayItems() {
         // ボタンを一時的に無効化
@@ -38,7 +38,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         if (error) {
             console.error('データ取得エラー:', error);
-            itemListContainer.innerHTML = `<p class="loading-message" style="color:#DC3545;">🚨 データ取得エラーが発生しました。<br>【原因】: RLSポリシー（SELECT権限）を確認してください。<br>エラーメッセージ: ${error.message}</p>`;
+            itemListContainer.innerHTML = `<p class="loading-message" style="color:#DC3545;">🚨 データ取得エラーが発生しました。<br>【原因】: RLSポリシー（SELECT権限）をご確認ください。<br>エラーメッセージ: ${error.message}</p>`;
             return;
         }
 
@@ -71,18 +71,18 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // 検索ボタン (<a>タグ: 入力値に応じてデータを再取得)
+    // 検索ボタン (<a>タグ)
     if (searchButton) {
         searchButton.addEventListener('click', function(event) {
-            event.preventDefault(); // <a>タグのページ遷移を防止
+            event.preventDefault(); // リンク遷移防止
             fetchAndDisplayItems();
         });
     }
 
-    // 更新ボタン (<a>タグ: 現在の条件を維持してデータを再取得)
+    // 更新ボタン (<a>タグ)
     if (refreshButton) {
         refreshButton.addEventListener('click', function(event) {
-            event.preventDefault(); // <a>タグのページ遷移を防止
+            event.preventDefault(); // リンク遷移防止
             fetchAndDisplayItems(); 
         });
     }
