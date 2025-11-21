@@ -8,13 +8,13 @@ document.addEventListener('DOMContentLoaded', function() {
     const itemListContainer = document.getElementById('itemListContainer');
     const searchProductInput = document.getElementById('searchProduct');
     const sortDateSelect = document.getElementById('sortDate');
-    const searchButton = document.getElementById('searchButton');
-    const refreshButton = document.getElementById('refreshButton'); 
+    const searchButton = document.getElementById('searchButton'); // <a>タグ
+    const refreshButton = document.getElementById('refreshButton'); // <a>タグ
 
     async function fetchAndDisplayItems() {
         // ボタンを一時的に無効化
-        if (searchButton) searchButton.disabled = true;
-        if (refreshButton) refreshButton.disabled = true;
+        if (searchButton) searchButton.classList.add('disabled');
+        if (refreshButton) refreshButton.classList.add('disabled');
 
         const searchTerm = searchProductInput.value.trim();
         const sortOrder = sortDateSelect.value === 'newest' ? 'desc' : 'asc';
@@ -26,7 +26,6 @@ document.addEventListener('DOMContentLoaded', function() {
             .select('product_name, store_name, address, date_time')
             .order('date_time', { ascending: sortOrder === 'asc' });
 
-        // 検索窓に値がある場合のみフィルターを適用
         if (searchTerm) {
             query = query.ilike('product_name', `%${searchTerm}%`);
         }
@@ -34,8 +33,8 @@ document.addEventListener('DOMContentLoaded', function() {
         const { data, error } = await query;
         
         // 処理完了後にボタンを有効化
-        if (searchButton) searchButton.disabled = false;
-        if (refreshButton) refreshButton.disabled = false;
+        if (searchButton) searchButton.classList.remove('disabled');
+        if (refreshButton) refreshButton.classList.remove('disabled');
 
         if (error) {
             console.error('データ取得エラー:', error);
@@ -72,19 +71,18 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // 検索ボタン（入力値に応じてデータを再取得）
+    // 検索ボタン (<a>タグ: 入力値に応じてデータを再取得)
     if (searchButton) {
         searchButton.addEventListener('click', function(event) {
-            event.preventDefault(); 
+            event.preventDefault(); // <a>タグのページ遷移を防止
             fetchAndDisplayItems();
         });
     }
 
-    // 更新ボタン（現在の条件を維持してデータを再取得）
+    // 更新ボタン (<a>タグ: 現在の条件を維持してデータを再取得)
     if (refreshButton) {
         refreshButton.addEventListener('click', function(event) {
-            event.preventDefault(); 
-            // 検索・ソートの現在の状態を維持したままfetchAndDisplayItemsを実行
+            event.preventDefault(); // <a>タグのページ遷移を防止
             fetchAndDisplayItems(); 
         });
     }
