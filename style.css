@@ -320,3 +320,5 @@ button[type="submit"]:disabled {
         grid-template-columns: 1fr;
     }
 }
+
+/* ロゴ調整用のCSSは削除済み */
