@@ -3,90 +3,82 @@ const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBh
 
 const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-document.addEventListener('DOMContentLoaded', function() {
+// ----------------------------------------------------
+// ★ グローバル関数として定義し、HTMLから直接呼び出す ★
+// ----------------------------------------------------
+async function fetchAndDisplayItems() {
     
+    // DOM要素の取得は関数内で実行し、確実に参照できるようにする
     const itemListContainer = document.getElementById('itemListContainer');
     const searchProductInput = document.getElementById('searchProduct');
     const sortDateSelect = document.getElementById('sortDate');
     const searchButton = document.getElementById('searchButton'); 
     const refreshButton = document.getElementById('refreshButton'); 
 
-    async function fetchAndDisplayItems() {
-        // ボタンを一時的に無効化
-        if (searchButton) searchButton.classList.add('disabled');
-        if (refreshButton) refreshButton.classList.add('disabled');
+    // ボタンを一時的に無効化
+    if (searchButton) searchButton.classList.add('disabled');
+    if (refreshButton) refreshButton.classList.add('disabled');
 
-        const searchTerm = searchProductInput.value.trim();
-        const sortOrder = sortDateSelect.value === 'newest' ? 'desc' : 'asc';
+    const searchTerm = searchProductInput.value.trim();
+    const sortOrder = sortDateSelect.value === 'newest' ? 'desc' : 'asc';
 
-        itemListContainer.innerHTML = '<p class="loading-message">情報を読み込み中です...</p>';
+    itemListContainer.innerHTML = '<p class="loading-message">情報を読み込み中です...</p>';
 
-        let query = supabase
-            .from('posts')
-            .select('product_name, store_name, address, date_time')
-            .order('date_time', { ascending: sortOrder === 'asc' });
+    let query = supabase
+        .from('posts')
+        .select('product_name, store_name, address, date_time')
+        .order('date_time', { ascending: sortOrder === 'asc' });
 
-        if (searchTerm) {
-            query = query.ilike('product_name', `%${searchTerm}%`);
-        }
-
-        const { data, error } = await query;
-        
-        // 処理完了後にボタンを有効化
-        if (searchButton) searchButton.classList.remove('disabled');
-        if (refreshButton) refreshButton.classList.remove('disabled');
-
-        if (error) {
-            console.error('データ取得エラー:', error);
-            itemListContainer.innerHTML = `<p class="loading-message" style="color:#DC3545;">🚨 データ取得エラーが発生しました。<br>【原因】: RLSポリシー（SELECT権限）をご確認ください。<br>エラーメッセージ: ${error.message}</p>`;
-            return;
-        }
-
-        if (data.length === 0) {
-            itemListContainer.innerHTML = '<p class="loading-message">該当する情報は見つかりませんでした。</p>';
-            return;
-        }
-
-        itemListContainer.innerHTML = '';
-        data.forEach(item => {
-            const card = document.createElement('div');
-            card.className = 'item-card';
-
-            const date = new Date(item.date_time);
-            const formattedDate = date.toLocaleString('ja-JP', {
-                year: 'numeric',
-                month: '2-digit',
-                day: '2-digit',
-                hour: '2-digit',
-                minute: '2-digit'
-            });
-
-            card.innerHTML = `
-                <h3>${item.product_name}</h3>
-                <p><strong>店舗名:</strong> ${item.store_name}</p>
-                <p><strong>住所:</strong> ${item.address}</p>
-                <p><strong>発見日時:</strong> ${formattedDate}</p>
-            `;
-            itemListContainer.appendChild(card);
-        });
+    if (searchTerm) {
+        query = query.ilike('product_name', `%${searchTerm}%`);
     }
 
-    // 検索ボタン (<a>タグ)
-    if (searchButton) {
-        searchButton.addEventListener('click', function(event) {
-            event.preventDefault(); // リンク遷移防止
-            fetchAndDisplayItems();
-        });
+    const { data, error } = await query;
+    
+    // 処理完了後にボタンを有効化
+    if (searchButton) searchButton.classList.remove('disabled');
+    if (refreshButton) refreshButton.classList.remove('disabled');
+
+    if (error) {
+        console.error('データ取得エラー:', error);
+        itemListContainer.innerHTML = `<p class="loading-message" style="color:#DC3545;">🚨 データ取得エラーが発生しました。<br>【原因】: RLSポリシー（SELECT権限）をご確認ください。<br>エラーメッセージ: ${error.message}</p>`;
+        return;
     }
 
-    // 更新ボタン (<a>タグ)
-    if (refreshButton) {
-        refreshButton.addEventListener('click', function(event) {
-            event.preventDefault(); // リンク遷移防止
-            fetchAndDisplayItems(); 
-        });
+    if (data.length === 0) {
+        itemListContainer.innerHTML = '<p class="loading-message">該当する情報は見つかりませんでした。</p>';
+        return;
     }
 
-    // ページロード時にデータを取得
+    itemListContainer.innerHTML = '';
+    data.forEach(item => {
+        const card = document.createElement('div');
+        card.className = 'item-card';
+
+        const date = new Date(item.date_time);
+        const formattedDate = date.toLocaleString('ja-JP', {
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit',
+            hour: '2-digit',
+            minute: '2-digit'
+        });
+
+        card.innerHTML = `
+            <h3>${item.product_name}</h3>
+            <p><strong>店舗名:</strong> ${item.store_name}</p>
+            <p><strong>住所:</strong> ${item.address}</p>
+            <p><strong>発見日時:</strong> ${formattedDate}</p>
+        `;
+        itemListContainer.appendChild(card);
+    });
+}
+
+// onclickから呼び出すラッパー関数
+window.handleSearchClick = function(event) {
+    event.preventDefault();
     fetchAndDisplayItems();
-});
+}
+
+// ページロード時にデータを取得
+document.addEventListener('DOMContentLoaded', fetchAndDisplayItems);
