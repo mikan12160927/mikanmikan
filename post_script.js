@@ -1,22 +1,8 @@
-// post_script.js の冒頭
-
 const SUPABASE_URL = 'https://xoefqmgwjpauuebjhfgp.supabase.co'; 
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhvZWZxbWd3anBhdXVlYmpoZmdwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjMwMTA5MDIsImV4cCI6MjA3ODU4NjkwMn0.G1ZFLY4HgHe1FD7k-qeUh6KHsKT5CSsmh-E4s-U'; 
 
-// ★★★ 修正箇所: 変数名を sb (Supabase Clientの略) に変更します ★★★
+// ★★★ 修正済み: 変数名を sb (Supabase Clientの略) に変更し、エラーを回避します ★★★
 let sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY); 
-// 以降のコードでは、supabaseの代わりに sb を使います。
-
-document.addEventListener('DOMContentLoaded', function() {
-    // ...
-    // postForm.addEventListener('submit', async function(event) {
-        // ...
-        const { error } = await sb // ★ここも sb に変更
-            .from('posts')
-            .insert([dataToInsert]); 
-        // ...
-    // });
-});
 
 document.addEventListener('DOMContentLoaded', function() {
     
@@ -53,8 +39,8 @@ document.addEventListener('DOMContentLoaded', function() {
         submitButton.disabled = true;
         submitButton.textContent = '投稿中...';
 
-        // ★ postsテーブルへのINSERT処理 ★
-        const { error } = await supabase
+        // ★ sb を使用してINSERT処理を実行 ★
+        const { error } = await sb
             .from('posts')
             .insert([dataToInsert]); 
         
@@ -65,7 +51,6 @@ document.addEventListener('DOMContentLoaded', function() {
         if (error) {
             console.error('投稿エラー:', error);
             messageDiv.style.color = 'red';
-            // RLSが原因であることが多いので、そのメッセージを付加
             messageDiv.innerHTML = `❌ 投稿に失敗しました: ${error.message} <br> **【最重要】**: Supabaseの**RLSポリシー（INSERT権限）**を確認してください。`;
         } else {
             postForm.style.display = 'none';
@@ -89,4 +74,3 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 });
-
