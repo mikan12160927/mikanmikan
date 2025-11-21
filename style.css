@@ -70,7 +70,7 @@ footer {
 --------------------------------- */
 main {
     flex-grow: 1;
-    max-width: 1000px; /* ★ 修正済み: フォームの幅を広げました ★ */
+    max-width: 1000px; /* ★★★ 修正済み: 投稿フォームの幅を1000pxに拡張しました ★★★ */
     margin: 40px auto;
     padding: 40px;
     background-color: var(--color-light-surface);
@@ -320,5 +320,3 @@ button[type="submit"]:disabled {
         grid-template-columns: 1fr;
     }
 }
-
-/* ロゴ調整用のCSSは削除済み */
