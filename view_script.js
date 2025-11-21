@@ -1,21 +1,20 @@
 const SUPABASE_URL = 'https://xoefqmgwjpauuebjhfgp.supabase.co'; 
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhvZWZxbWd3anBhdXVlYmpoZmdwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjMwMTA5MDIsImV4cCI6MjA3ODU4NjkwMn0.G1ZFLY4HgHe1FD7k-qeUh6KHsKT5CSsmh-E4s-U'; 
 
-const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+// const から let に変更し、TDZを回避します
+let supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY); 
 
 // ----------------------------------------------------
 // ★ グローバル関数として定義し、HTMLから直接呼び出す ★
 // ----------------------------------------------------
 async function fetchAndDisplayItems() {
     
-    // DOM要素の取得は関数内で実行し、確実に参照できるようにする
     const itemListContainer = document.getElementById('itemListContainer');
     const searchProductInput = document.getElementById('searchProduct');
     const sortDateSelect = document.getElementById('sortDate');
     const searchButton = document.getElementById('searchButton'); 
     const refreshButton = document.getElementById('refreshButton'); 
 
-    // ボタンを一時的に無効化
     if (searchButton) searchButton.classList.add('disabled');
     if (refreshButton) refreshButton.classList.add('disabled');
 
@@ -35,7 +34,6 @@ async function fetchAndDisplayItems() {
 
     const { data, error } = await query;
     
-    // 処理完了後にボタンを有効化
     if (searchButton) searchButton.classList.remove('disabled');
     if (refreshButton) refreshButton.classList.remove('disabled');
 
