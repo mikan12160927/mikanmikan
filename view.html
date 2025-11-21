@@ -20,14 +20,14 @@
 
     <main>
         <div class="search-controls">
-            <input type="text" id="searchProduct" placeholder="商品名で検索">
-            <select id="sortDate">
-                <option value="newest">新しい順</option>
-                <option value="oldest">古い順</option>
-            </select>
-            <a href="#" id="searchButton" class="control-button primary-control">検索</a>
-            <a href="#" id="refreshButton" class="control-button secondary-control">🔄 更新</a>
-        </div>
+    <input type="text" id="searchProduct" placeholder="商品名で検索">
+    <select id="sortDate">
+        <option value="newest">新しい順</option>
+        <option value="oldest">古い順</option>
+    </select>
+    <a href="#" id="searchButton" class="control-button primary-control" onclick="handleSearchClick(event)">検索</a>
+    <a href="#" id="refreshButton" class="control-button secondary-control" onclick="handleSearchClick(event)">🔄 更新</a>
+</div>
 
         <div id="itemListContainer" class="item-list">
             <p class="loading-message">情報を読み込み中です...</p>
