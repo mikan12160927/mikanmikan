@@ -3,29 +3,31 @@ const SUPABASE_URL = 'https://xoefqmgwjpauuebjhfgp.supabase.co';
 // ★★★ ここにあなたの正しいAnonキーを貼り付ける ★★★
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhvZWZxbWd3anBhdXVlYmpoZmdwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjMwMTA5MDIsImV4cCI6MjA3ODU4NjkwMn0.G1ZFLY4HgHe1FD7k-qeUh6KHlKT5CSsmxshq7jMts-U'; 
 
-// TDZエラー回避のため、クライアントを sb (Supabase Clientの略) として定義
 let sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY); 
 
 // ----------------------------------------------------
 // グローバル関数として定義し、HTMLから直接呼び出す
 // ----------------------------------------------------
-async function fetchAndDisplayItems() {
+async function fetchAndDisplayItems(clickedButtonId) {
     
     const itemListContainer = document.getElementById('itemListContainer');
     const searchProductInput = document.getElementById('searchProduct');
     const sortDateSelect = document.getElementById('sortDate');
-    const searchButton = document.getElementById('searchButton'); 
-    const refreshButton = document.getElementById('refreshButton'); 
+    
+    // 押されたボタンの要素を取得
+    const clickedButton = document.getElementById(clickedButtonId); 
 
-    if (searchButton) searchButton.classList.add('disabled');
-    if (refreshButton) refreshButton.classList.add('disabled');
+    // ★★★ 修正点 1: 処理開始時、押されたボタンのみを無効化する ★★★
+    if (clickedButton) {
+        clickedButton.classList.add('disabled');
+    }
+    // --------------------------------------------------------
 
     const searchTerm = searchProductInput.value.trim();
     const sortOrder = sortDateSelect.value === 'newest' ? 'desc' : 'asc';
 
     itemListContainer.innerHTML = '<p class="loading-message">情報を読み込み中です...</p>';
 
-    // sb を使用してSELECT処理を実行
     let query = sb
         .from('posts')
         .select('product_name, store_name, address, date_time')
@@ -37,8 +39,11 @@ async function fetchAndDisplayItems() {
 
     const { data, error } = await query;
     
-    if (searchButton) searchButton.classList.remove('disabled');
-    if (refreshButton) refreshButton.classList.remove('disabled');
+    // ★★★ 修正点 2: 処理終了後、押されたボタンのみを有効化に戻す ★★★
+    if (clickedButton) {
+        clickedButton.classList.remove('disabled');
+    }
+    // -----------------------------------------------------------
 
     if (error) {
         console.error('データ取得エラー:', error);
@@ -78,8 +83,12 @@ async function fetchAndDisplayItems() {
 // onclickから呼び出すグローバル関数
 window.handleSearchClick = function(event) {
     event.preventDefault();
-    fetchAndDisplayItems();
+    // 押されたボタンのIDを引数として渡す
+    const clickedId = event.currentTarget.id; 
+    fetchAndDisplayItems(clickedId);
 }
 
-// ページロード時にデータを取得
-document.addEventListener('DOMContentLoaded', fetchAndDisplayItems);
+// ページロード時にデータを取得（初期表示は検索ボタンが押された体で処理）
+document.addEventListener('DOMContentLoaded', function() {
+    fetchAndDisplayItems('searchButton');
+});
