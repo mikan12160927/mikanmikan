@@ -5,16 +5,38 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>商品情報 投稿フォーム | 探究サイト</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;700&family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    
+    <link rel="icon" href="/favicon.ico" type="image/x-icon"> 
+    
 </head>
 <body>
 
-@@ -34,35 +34,35 @@
+    <header>
+        <h1>商品情報 投稿フォーム</h1>
+        <p>入手困難な商品を見つけたら、情報を共有しましょう。</p>
+    </header>
+    
+    <div class="nav-link">
+        <a href="/view.html" class="nav-button">みんなの投稿を見る</a>
+    </div>
+
+    <main>
+        <form id="postForm" class="supabase-form">
+            
+            <div class="form-group">
+                <label for="product-name">商品名:</label>
+                <input type="text" id="product-name" name="product_name" required>
+            </div>
+
+            <div class="form-group">
+                <label for="store-name">店舗名:</label>
+                <input type="text" id="store-name" name="store_name" required>
+            </div>
+            
             <div class="form-group">
                 <label for="address">店舗の正確な住所 (番地まで):</label>
                 <input type="text" id="address" name="address" placeholder="例: 東京都千代田区丸の内1-9-1" required>
-                <p class="hint-text">地図連携ができないため、正確な住所の入力をお願いします。</p>
                 <p class="hint-text">正確な住所の入力をお願いします。</p>
             </div>
 
@@ -22,7 +44,7 @@
                 <label for="date-time">発見した日時:</label>
                 <input type="datetime-local" id="date-time" name="date_time" required>
             </div>
-
+            
             <button type="submit" id="submitButton">情報を投稿する</button>
 
             <div id="message" style="margin-top: 15px;"></div>
@@ -31,7 +53,7 @@
         <div id="successScreen" style="display:none; text-align:center;">
             <h2>投稿が完了しました！</h2>
             <p style="font-size: 1.1em; margin-bottom: 30px;">貴重な情報のご提供ありがとうございます。</p>
-
+            
             <div style="display:flex; justify-content:center; gap: 20px;">
                 <button id="viewPosts" class="success-button">みんなの投稿を見る</button>
                 <button id="newPost" class="success-button">さらに投稿する</button>
