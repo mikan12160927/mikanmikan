@@ -142,6 +142,15 @@ button[type="submit"],
     box-shadow: var(--shadow-soft);
 }
 
+/* <a>タグのボタンとしてのスタイル定義 */
+.control-button {
+    display: flex; 
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    text-decoration: none; /* リンクの下線を消す */
+}
+
 .nav-button {
     display: inline-block;
     font-size: 0.95em;
@@ -160,6 +169,12 @@ button[type="submit"]:hover,
     background: linear-gradient(135deg, #1A54A8 0%, var(--color-accent-light) 100%);
     transform: translateY(-1px);
     box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+}
+
+/* フォームのsubmitボタン（これは<button>タグのまま）の無効化スタイル */
+button[type="submit"]:disabled {
+    opacity: 0.6;
+    cursor: default;
 }
 
 /* 成功画面のボタン */
@@ -217,6 +232,14 @@ button[type="submit"]:hover,
     background: #505050;
     transform: translateY(-1px);
 }
+
+/* <a>タグの無効化スタイル（JavaScriptで'disabled'クラスが付与される） */
+.control-button.disabled {
+    opacity: 0.6;
+    pointer-events: none; /* クリックを無効にする */
+    cursor: default;
+}
+
 
 /* リストアイテム (view.html) */
 .item-list {
