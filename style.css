@@ -4,19 +4,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;700&family=Montserrat:wght@400;700&display=swap');
 
 :root {
-    /* メインカラー */
-    --color-light-bg: #F8F9FA;      /* 最も明るい背景 (ほぼ白) */
-    --color-light-surface: #FFFFFF; /* 要素の背景 */
-    
-    /* アクセントカラー (信頼感のあるディープブルー) */
-    --color-accent-main: #1C3F75; /* 深い紺色 */
-    --color-accent-light: #3B7DD8; /* ロイヤルブルー */
-    
-    /* テキストとボーダー */
+    --color-light-bg: #F8F9FA;      
+    --color-light-surface: #FFFFFF; 
+    --color-accent-main: #1C3F75; 
+    --color-accent-light: #3B7DD8; 
     --color-text-dark: #343A40;
     --color-border: #E0E0E0;
-    
-    /* シャドウと質感 */
     --shadow-soft: 0 4px 12px rgba(0, 0, 0, 0.08);
     --shadow-deep: 0 8px 25px rgba(0, 0, 0, 0.1);
 }
@@ -70,7 +63,7 @@ footer {
 --------------------------------- */
 main {
     flex-grow: 1;
-    max-width: 800px;
+    max-width: 800px; /* ★ フォームの幅を制御 ★ */
     margin: 40px auto;
     padding: 40px;
     background-color: var(--color-light-surface);
@@ -148,7 +141,7 @@ button[type="submit"],
     align-items: center;
     justify-content: center;
     text-align: center;
-    text-decoration: none; /* リンクの下線を消す */
+    text-decoration: none; 
 }
 
 .nav-button {
@@ -171,7 +164,7 @@ button[type="submit"]:hover,
     box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
 }
 
-/* フォームのsubmitボタン（これは<button>タグのまま）の無効化スタイル */
+/* フォームのsubmitボタン（<button>タグ）の無効化スタイル */
 button[type="submit"]:disabled {
     opacity: 0.6;
     cursor: default;
@@ -225,7 +218,7 @@ button[type="submit"]:disabled {
 
 /* セカンダリーボタン (更新) */
 .secondary-control {
-    background: var(--color-text-dark); /* 濃いグレー */
+    background: var(--color-text-dark); 
     color: white;
 }
 .secondary-control:hover {
@@ -300,7 +293,6 @@ button[type="submit"]:disabled {
         margin: 20px auto;
         padding: 20px;
     }
-    /* 検索コントロールのレイアウト調整 */
     .search-controls {
         grid-template-columns: 1fr 1fr; 
     }
