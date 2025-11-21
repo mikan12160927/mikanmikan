@@ -1,5 +1,5 @@
 const SUPABASE_URL = 'https://xoefqmgwjpauuebjhfgp.supabase.co'; 
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhvZWZxbWd3anBhdXVlYmpoZmdwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjMwMTA5MDIsImV4cCI6MjA3ODU4NjkwMn0.G1ZFLY4HgHe1FD7k-qeUh6KHlKT5CSsmh-E4s-U'; 
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhvZWZxbWd3anBhdXVlYmpoZmdwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjMwMTA5MDIsImV4cCI6MjA3ODU4NjkwMn0.G1ZFLY4HgHe1FD7k-qeUh6KHsKT5CSsmh-E4s-U'; 
 const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -41,6 +41,7 @@ document.addEventListener('DOMContentLoaded', function() {
         submitButton.disabled = true;
         submitButton.textContent = '投稿中...';
 
+        // ★ postsテーブルへのINSERT処理 ★
         const { error } = await supabase
             .from('posts')
             .insert([dataToInsert]); 
@@ -51,8 +52,9 @@ document.addEventListener('DOMContentLoaded', function() {
         if (error) {
             console.error('投稿エラー:', error);
             messageDiv.style.color = 'red';
-            messageDiv.innerHTML = `❌ 投稿に失敗しました: ${error.message} <br> (原因: RLSポリシーまたはテーブルの列名をご確認ください)`;
+            messageDiv.innerHTML = `❌ 投稿に失敗しました: ${error.message} <br> (原因: RLSポリシーやテーブルの列名をご確認ください)`;
         } else {
+            // 投稿成功時のUI切り替え
             postForm.style.display = 'none';
             successScreen.style.display = 'block';
             
@@ -66,6 +68,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 successScreen.style.display = 'none';
                 postForm.style.display = 'block';
                 
+                // フォームをリセット
                 productNameInput.value = '';
                 storeNameInput.value = '';
                 addressInput.value = '';
@@ -73,15 +76,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 messageDiv.innerHTML = '';
                 window.scrollTo(0, 0); 
-
-                if (window.location.hash) {
-                    history.replaceState(null, '', window.location.pathname);
-                }
-                setTimeout(() => {
-                    if (window.location.hash) {
-                        history.replaceState(null, '', window.location.pathname);
-                    }
-                }, 100); 
             });
         }
     });
