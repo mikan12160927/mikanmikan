@@ -1,11 +1,12 @@
 const SUPABASE_URL = 'https://xoefqmgwjpauuebjhfgp.supabase.co'; 
+// ★★★ ここにあなたの正しいAnonキーを貼り付ける ★★★
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhvZWZxbWd3anBhdXVlYmpoZmdwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjMwMTA5MDIsImV4cCI6MjA3ODU4NjkwMn0.G1ZFLY4HgHe1FD7k-qeUh6KHlKT5CSsmxshq7jMts-U'; 
 
-// ★★★ 修正済み: 変数名を sb (Supabase Clientの略) に変更し、エラーを回避します ★★★
+// TDZエラー回避のため、クライアントを sb (Supabase Clientの略) として定義
 let sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY); 
 
 // ----------------------------------------------------
-// ★ グローバル関数として定義し、HTMLから直接呼び出す ★
+// グローバル関数として定義し、HTMLから直接呼び出す
 // ----------------------------------------------------
 async function fetchAndDisplayItems() {
     
@@ -23,7 +24,7 @@ async function fetchAndDisplayItems() {
 
     itemListContainer.innerHTML = '<p class="loading-message">情報を読み込み中です...</p>';
 
-    // ★ sb を使用してSELECT処理を実行 ★
+    // sb を使用してSELECT処理を実行
     let query = sb
         .from('posts')
         .select('product_name, store_name, address, date_time')
