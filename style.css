@@ -9,8 +9,8 @@
     --color-light-surface: #FFFFFF; 
     
     /* アクセントカラー (信頼感のあるディープブルー) */
-    --color-accent-main: #1C3F75; /* 深い紺色 */
-    --color-accent-light: #3B7DD8; /* ロイヤルブルー */
+    --color-accent-main: #1C3F75; 
+    --color-accent-light: #3B7DD8; 
     
     /* テキストとボーダー */
     --color-text-dark: #343A40;
@@ -70,7 +70,7 @@ footer {
 --------------------------------- */
 main {
     flex-grow: 1;
-    /* ★★★ 最終修正: !important を付けて強制適用します ★★★ */
+    /* ★★★ ここが最重要: 1000px に !important を付けて強制適用 ★★★ */
     max-width: 1000px !important; 
     margin: 40px auto;
     padding: 40px;
