@@ -1,6 +1,7 @@
+// view_script.js
 const SUPABASE_URL = 'https://xoefqmgwjpauuebjhfgp.supabase.co'; 
 // ★★★ ここにあなたの正しいAnonキーを貼り付ける ★★★
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhvZWZxbWd3anBhdXVlYmpoZmdwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjMwMTA5MDIsImV4cCI6MjA3ODU4NjkwMn0.G1ZFLY4HgHe1FD7k-qeUh6KHlKT5CSsmxshq7jMts-U'; 
+const SUPABASE_ANON_KEY = '【ここにあなたの正しいAnonキーを貼り付ける】'; 
 
 // TDZエラー回避のため、クライアントを sb (Supabase Clientの略) として定義
 let sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY); 
@@ -41,7 +42,7 @@ async function fetchAndDisplayItems() {
 
     if (error) {
         console.error('データ取得エラー:', error);
-        itemListContainer.innerHTML = `<p class="loading-message" style="color:#DC3545;">🚨 データ取得エラーが発生しました。<br>【原因】: RLSポリシー（SELECT権限）をご確認ください。<br>エラーメッセージ: ${error.message}</p>`;
+        itemListContainer.innerHTML = `<p class="loading-message" style="color:#DC3545;">🚨 データ取得エラーが発生しました。<br>【原因】: APIキーまたはRLSポリシー（SELECT権限）を確認してください。<br>エラーメッセージ: ${error.message}</p>`;
         return;
     }
 
@@ -82,4 +83,3 @@ window.handleSearchClick = function(event) {
 
 // ページロード時にデータを取得
 document.addEventListener('DOMContentLoaded', fetchAndDisplayItems);
-```http://googleusercontent.com/image_generation_content/10
