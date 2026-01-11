@@ -29,7 +29,7 @@ body {
 header {
     background-color: var(--color-primary);
     color: white;
-    padding: 40px 20px;
+    padding: 40px 5%;
     text-align: center;
     box-shadow: var(--shadow-deep);
 }
@@ -51,9 +51,9 @@ footer {
 
 main {
     flex-grow: 1;
-    max-width: 1000px !important;
-    width: 90%;
-    margin: 50px auto; 
+    width: 95%;
+    max-width: none !important;
+    margin: 40px auto; 
     padding: 40px;
     background-color: var(--color-surface);
     border-radius: 16px;
@@ -120,23 +120,28 @@ button[type="submit"],
 .search-controls {
     display: grid;
     grid-template-columns: 1fr auto auto auto;
-    gap: 10px;
+    gap: 15px;
     margin-bottom: 30px;
 }
 
 .item-list {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 20px;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 25px;
 }
 
 .item-card {
     background-color: var(--color-surface);
     border: 1px solid var(--color-border);
-    border-left: 6px solid var(--color-primary);
+    border-left: 8px solid var(--color-primary);
     border-radius: 12px;
-    padding: 25px;
+    padding: 30px;
     box-sizing: border-box;
+    transition: transform 0.2s;
+}
+
+.item-card:hover {
+    transform: scale(1.01);
 }
 
 .item-card h3 { 
@@ -153,11 +158,12 @@ button[type="submit"],
     grid-column: 1 / -1;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 900px) {
     .search-controls {
         grid-template-columns: 1fr;
     }
     main {
         padding: 20px;
+        width: 98%;
     }
 }
