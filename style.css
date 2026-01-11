@@ -9,8 +9,7 @@
     --color-text-main: #1B4332;
     --color-text-muted: #588157;
     --color-border: #CFE1D6;
-    --shadow-soft: 0 4px 15px rgba(45, 106, 79, 0.05);
-    --shadow-deep: 0 10px 30px rgba(45, 106, 79, 0.1);
+    --shadow-soft: 0 4px 15px rgba(45, 106, 79, 0.08);
 }
 
 body {
@@ -19,8 +18,6 @@ body {
     margin: 0;
     padding: 0;
     color: var(--color-text-main);
-    line-height: 1.8;
-    letter-spacing: 0.03em;
     display: flex;
     flex-direction: column;
     min-height: 100vh;
@@ -29,34 +26,20 @@ body {
 header {
     background-color: var(--color-primary);
     color: white;
-    padding: 50px 20px;
+    padding: 40px 20px;
     text-align: center;
-    box-shadow: var(--shadow-deep);
-}
-
-header h1 {
-    margin: 0;
-    font-size: 2.2em;
-    font-weight: 700;
-}
-
-footer {
-    text-align: center;
-    padding: 25px;
-    background-color: var(--color-border);
-    color: var(--color-primary);
-    font-size: 0.85em;
-    margin-top: auto;
 }
 
 main {
     flex-grow: 1;
-    width: 92%;
-    max-width: 1200px !important;
-    margin: 40px auto; 
-    padding: 45px;
+    width: 95%;
+    /* 850pxに凝縮 */
+    max-width: 850px !important;
+    /* めり込み解消：上にしっかり50pxの空き */
+    margin: 50px auto; 
+    padding: 40px;
     background-color: var(--color-surface);
-    border-radius: 20px;
+    border-radius: 12px;
     box-shadow: var(--shadow-soft);
     border: 1px solid var(--color-border);
     box-sizing: border-box;
@@ -65,7 +48,7 @@ main {
 label {
     display: block;
     font-weight: 700;
-    margin-bottom: 12px;
+    margin-bottom: 8px;
     color: var(--color-primary);
 }
 
@@ -73,110 +56,58 @@ input[type="text"],
 input[type="datetime-local"],
 .search-controls select {
     width: 100%;
-    padding: 16px;
+    padding: 14px;
     border: 2px solid var(--color-border);
-    border-radius: 12px;
+    border-radius: 8px;
     box-sizing: border-box;
-    font-size: 1.05em;
-    font-family: inherit;
-    background-color: #FBFEFC;
-    margin-bottom: 25px;
-    transition: border-color 0.3s;
-}
-
-input:focus {
-    outline: none;
-    border-color: var(--color-primary-light);
-}
-
-.nav-link { 
-    text-align: center; 
-    margin-bottom: 35px; 
-}
-
-.nav-button,
-button[type="submit"],
-.control-button {
-    background-color: var(--color-primary);
-    color: white;
-    padding: 15px 35px;
-    border: none;
-    border-radius: 60px;
-    cursor: pointer;
-    font-weight: 700;
-    text-decoration: none;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.3s ease;
+    margin-bottom: 20px;
     font-size: 1em;
-}
-
-.nav-button:hover, button[type="submit"]:hover, .control-button:hover {
-    background-color: var(--color-primary-light);
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-}
-
-.control-button.disabled {
-    opacity: 0.5;
-    pointer-events: none;
 }
 
 .search-controls {
     display: grid;
-    grid-template-columns: 1fr 200px auto auto;
-    gap: 15px;
-    margin-bottom: 40px;
+    /* 狭い幅に合わせてレイアウトを最適化 */
+    grid-template-columns: 1fr 150px auto auto;
+    gap: 10px;
+    margin-bottom: 30px;
 }
 
 .item-list {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-    gap: 30px;
+    grid-template-columns: 1fr; /* 狭い幅なので1カラムでリストアップ */
+    gap: 20px;
 }
 
 .item-card {
     background-color: var(--color-surface);
     border: 1px solid var(--color-border);
-    border-left: 8px solid var(--color-primary);
-    border-radius: 15px;
-    padding: 30px;
-    box-sizing: border-box;
-    transition: transform 0.2s, box-shadow 0.2s;
+    border-left: 6px solid var(--color-primary);
+    border-radius: 10px;
+    padding: 20px 25px;
 }
 
-.item-card:hover {
-    transform: translateY(-5px);
-    box-shadow: var(--shadow-deep);
+.nav-button, button[type="submit"], .control-button {
+    background-color: var(--color-primary);
+    color: white;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 700;
+    transition: 0.2s;
 }
 
-.item-card h3 { 
-    margin: 0 0 15px 0; 
-    color: var(--color-primary); 
-    border-bottom: 2px solid var(--color-accent); 
-    padding-bottom: 10px;
-    font-size: 1.4em;
+.nav-button:hover {
+    background-color: var(--color-primary-light);
 }
 
-.item-card p {
-    margin: 10px 0;
+.disabled {
+    opacity: 0.5;
+    pointer-events: none;
 }
 
-.loading-message { 
-    text-align: center; 
-    padding: 60px; 
-    color: var(--color-text-muted); 
-    grid-column: 1 / -1;
-    font-size: 1.1em;
-}
-
-@media (max-width: 950px) {
+@media (max-width: 600px) {
     .search-controls {
         grid-template-columns: 1fr;
-    }
-    main {
-        padding: 25px;
-        width: 95%;
     }
 }
