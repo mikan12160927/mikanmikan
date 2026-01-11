@@ -22,7 +22,7 @@
 body {
     font-family: 'Noto Sans JP', sans-serif;
     background-color: var(--color-bg);
-    color: var(--color-text-main);
+    color: var(--color-text-main) !important; /* 全体の基本文字色を固定 */
     display: flex;
     flex-direction: column;
     min-height: 100vh;
@@ -31,7 +31,7 @@ body {
 
 header {
     background-color: var(--color-primary);
-    color: white;
+    color: #FFFFFF !important; /* ヘッダー文字を白に固定 */
     padding: 60px 0;
     text-align: center;
     width: 100%;
@@ -42,6 +42,7 @@ header {
 header h1 {
     font-size: 2.2em;
     font-weight: 700;
+    color: #FFFFFF !important;
 }
 
 main {
@@ -72,10 +73,11 @@ label {
     display: block;
     font-weight: 700;
     margin-bottom: 12px;
-    color: var(--color-primary);
+    color: var(--color-primary) !important; /* 項目名を深い緑に固定 */
     font-size: 1.1em;
 }
 
+/* 入力欄の文字をハッキリさせる */
 input[type="text"],
 input[type="datetime-local"],
 select,
@@ -87,7 +89,7 @@ select,
     border-radius: 15px;
     font-size: 16px;
     background-color: #FBFEFC;
-    color: var(--color-text-main);
+    color: var(--color-text-main) !important; /* 入力文字を濃い緑に固定 */
     outline: none;
 }
 
@@ -99,12 +101,12 @@ select,
     align-items: center;
 }
 
-/* 全てのボタン（戻るボタン含む）の色を深い緑で統一 */
+/* 全ボタンの文字を白に固定 */
 .control-button, .nav-button, button[type="submit"], .nav-link a, .nav-link button {
     height: 60px;
     padding: 0 35px;
     background-color: var(--color-primary) !important;
-    color: white !important;
+    color: #FFFFFF !important; /* 文字を白に強制 */
     border: none !important;
     border-radius: 50px; 
     cursor: pointer;
@@ -116,11 +118,11 @@ select,
     font-size: 16px;
 }
 
-/* 全ボタン共通のホバーアクション */
 .control-button:hover, .nav-button:hover, button[type="submit"]:hover, .nav-link a:hover, .nav-link button:hover {
     transform: translateY(-5px);
     box-shadow: var(--shadow-hover);
     background-color: var(--color-primary-light) !important;
+    color: #FFFFFF !important;
 }
 
 button[type="submit"] {
@@ -151,7 +153,7 @@ button[type="submit"] {
 
 .item-card h3 {
     margin: 0 0 12px 0;
-    color: var(--color-primary);
+    color: var(--color-primary) !important; /* 商品名を深い緑に */
     border-bottom: 2px solid var(--color-accent);
     padding-bottom: 10px;
     font-size: 1.5em;
@@ -160,12 +162,14 @@ button[type="submit"] {
 .item-card p {
     font-size: 1.1em;
     margin: 12px 0;
+    color: var(--color-text-main) !important; /* カード内テキストを濃い緑に */
 }
 
 footer {
     text-align: center;
     padding: 40px;
     background-color: var(--color-border);
+    color: var(--color-primary) !important;
     width: 100%;
     margin-top: 60px;
 }
