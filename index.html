@@ -3,70 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>商品情報 投稿フォーム | 探究サイト</title>
+    <title>在庫投稿 | 探究サイト</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;700&family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
-    
-    <link rel="icon" type="image/png" href="/favicon.png"> 
-    
+    <link rel="icon" type="image/png" href="favicon.png">
 </head>
 <body>
-
     <header>
-        <h1>商品情報 投稿フォーム</h1>
-        <p>商品の情報共有サイトです。</p>
+        <h1>商品情報 投稿</h1>
+        <p>見つけた在庫情報をみんなに教えよう</p>
     </header>
-    
-    <div class="nav-link">
-        <a href="/view.html" class="nav-button">みんなの投稿を見る</a>
-    </div>
-
     <main>
-        <form id="postForm" class="supabase-form">
-            
-            <div class="form-group">
-                <label for="product-name">商品名:</label>
-                <input type="text" id="product-name" name="product_name" required>
-            </div>
-
-            <div class="form-group">
-                <label for="store-name">店舗名:</label>
-                <input type="text" id="store-name" name="store_name" required>
-            </div>
-            
-            <div class="form-group">
-                <label for="address">店舗の正確な住所 (番地まで):</label>
-                <input type="text" id="address" name="address" placeholder="例: 東京都千代田区丸の内1-9-1" required>
-                <p class="hint-text">正確な住所の入力をお願いします。</p>
-            </div>
-
-            <div class="form-group">
-                <label for="date-time">日時:</label>
-                <input type="datetime-local" id="date-time" name="date_time" required>
-            </div>
-            
-            <button type="submit" id="submitButton">情報を投稿する</button>
-
-            <div id="message" style="margin-top: 15px;"></div>
+        <div class="nav-link">
+            <a href="view.html" class="nav-button">みんなの投稿を見る</a>
+        </div>
+        <form id="postForm">
+            <label>商品名</label>
+            <input type="text" id="product-name" required>
+            <label>店舗名</label>
+            <input type="text" id="store-name" required>
+            <label>住所</label>
+            <input type="text" id="address" required>
+            <label>発見日時</label>
+            <input type="datetime-local" id="date-time" required>
+            <button type="submit" id="submitButton" style="width:100%; margin-top:20px;">投稿する</button>
+            <div id="message" style="margin-top:15px; text-align:center;"></div>
         </form>
-
         <div id="successScreen" style="display:none; text-align:center;">
-            <h2>投稿が完了しました！</h2>
-            <p style="font-size: 1.1em; margin-bottom: 30px;">情報のご提供ありがとうございます。</p>
-            
-            <div style="display:flex; justify-content:center; gap: 20px;">
-                <button id="viewPosts" class="success-button">みんなの投稿を見る</button>
-                <button id="newPost" class="success-button">さらに投稿する</button>
-            </div>
+            <h2>投稿完了！</h2>
+            <button onclick="location.reload()" class="nav-button">続けて投稿する</button>
         </div>
     </main>
-
-    <footer>
-        <p>© 探究サイト - 情報共有プロジェクト</p>
-    </footer>
-
+    <footer>© 探究サイト</footer>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="post_script.js"></script>
 </body>
 </html>
-
