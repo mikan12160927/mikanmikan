@@ -51,6 +51,7 @@ document.addEventListener('DOMContentLoaded', function() {
             postForm.style.display = 'none';
             successScreen.style.display = 'block';
             
+            // 投稿完了画面のボタン制御
             document.getElementById('viewPosts').onclick = function() {
                 window.location.href = 'view.html'; 
             };
@@ -67,4 +68,12 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         }
     });
+
+    
+    const backButton = document.getElementById('backToView');
+    if (backButton) {
+        backButton.onclick = function() {
+            window.location.href = 'view.html';
+        };
+    }
 });
