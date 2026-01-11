@@ -11,7 +11,7 @@
     --shadow-soft: 0 10px 25px rgba(45, 106, 79, 0.08);
 }
 
-/* 全ての要素から下線を強制的に消す */
+/* 下線は一切不要 */
 * {
     text-decoration: none !important;
 }
@@ -25,117 +25,122 @@ body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+    /* 左右中央に寄せるための保険 */
+    align-items: center;
 }
 
 header {
     background-color: var(--color-primary);
     color: white;
-    padding: 50px 20px;
+    padding: 60px 0;
     text-align: center;
+    width: 100%;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 2.2em;
+    font-weight: 700;
 }
 
 main {
     flex-grow: 1;
     width: 90%;
     max-width: 850px;
-    /* めり込みを完全に排除 */
-    margin: 40px auto; 
-    padding: 40px;
+    /* 【超重要】めり込み解消：マイナス値を絶対に使わず、上にしっかり余白を空ける */
+    margin: 60px auto !important; 
+    padding: 45px;
     background-color: var(--color-surface);
-    border-radius: 20px;
+    /* 【超重要】丸みの復活 */
+    border-radius: 30px; 
     box-shadow: var(--shadow-soft);
     border: 1px solid var(--color-border);
     box-sizing: border-box;
+    /* 左寄りを防ぐ */
+    display: block;
 }
 
-/* 入力欄のスタイル */
+label {
+    display: block;
+    font-weight: 700;
+    margin-bottom: 12px;
+    color: var(--color-primary);
+}
+
 input[type="text"],
 input[type="datetime-local"],
 .search-controls select {
     width: 100%;
-    height: 48px; /* 少し高さを抑える */
-    padding: 0 15px;
+    height: 54px;
+    padding: 0 20px;
     border: 2px solid var(--color-border);
-    border-radius: 8px; /* 丸すぎない角丸 */
+    border-radius: 15px; /* 入力欄も丸く */
     box-sizing: border-box;
-    margin-bottom: 20px;
-    font-size: 14px;
+    margin-bottom: 25px;
+    font-size: 16px;
     font-family: inherit;
+    background-color: #FBFEFC;
     display: flex;
     align-items: center;
-    background-color: #FBFEFC;
 }
 
-/* 検索・更新ボタン専用：デカすぎ・丸すぎを解消 */
 .search-controls {
     display: grid;
-    grid-template-columns: 1fr 150px 80px 80px; /* ボタン幅を固定してコンパクトに */
-    gap: 10px;
-    margin-bottom: 30px;
+    grid-template-columns: 1fr 180px auto auto;
+    gap: 12px;
+    margin-bottom: 40px;
     align-items: center;
 }
 
-.control-button {
-    height: 48px; /* 入力欄と同じ高さ */
-    padding: 0; /* 幅指定があるのでpaddingは0 */
+.control-button, .nav-button, button[type="submit"] {
+    height: 54px;
+    padding: 0 30px;
     background-color: var(--color-primary);
     color: white;
     border: none;
-    border-radius: 8px; /* 丸すぎない、シュッとした角丸 */
-    cursor: pointer;
-    font-weight: 700;
-    font-size: 14px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: 0.2s;
-}
-
-/* 投稿ボタン（メインボタン）も少し形を整える */
-.nav-button, button[type="submit"] {
-    background-color: var(--color-primary);
-    color: white;
-    padding: 12px 30px;
-    border: none;
-    border-radius: 8px;
+    /* ボタンの丸み復活 */
+    border-radius: 50px; 
     cursor: pointer;
     font-weight: 700;
     font-size: 15px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    transition: 0.2s;
-}
-
-.nav-button:hover, .control-button:hover, button[type="submit"]:hover {
-    background-color: var(--color-primary-light);
-    transform: translateY(-1px);
+    transition: 0.3s;
 }
 
 .item-card {
     background-color: var(--color-surface);
     border: 1px solid var(--color-border);
-    border-left: 6px solid var(--color-primary);
-    border-radius: 12px;
-    padding: 25px;
-    margin-bottom: 20px;
+    border-left: 10px solid var(--color-primary);
+    /* カードの丸み復活 */
+    border-radius: 25px; 
+    padding: 30px;
+    margin-bottom: 25px;
 }
 
 .item-card h3 {
     margin: 0 0 10px 0;
     color: var(--color-primary);
     border-bottom: 2px solid var(--color-accent);
-    padding-bottom: 5px;
-    line-height: 1.5;
+    padding-bottom: 10px;
+    line-height: 1.4;
 }
 
-.disabled {
-    opacity: 0.5;
-    pointer-events: none;
+/* ページロード時などのローディング文字も中央に */
+.loading-message {
+    text-align: center;
+    width: 100%;
+    padding: 40px 0;
 }
 
-@media (max-width: 800px) {
+@media (max-width: 850px) {
     .search-controls {
         grid-template-columns: 1fr;
+    }
+    main {
+        width: 95%;
+        padding: 30px 20px;
+        margin: 30px auto !important;
     }
 }
