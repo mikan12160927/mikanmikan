@@ -35,6 +35,8 @@ header {
     padding: 60px 0;
     text-align: center;
     width: 100%;
+    position: relative;
+    z-index: 10;
 }
 
 header h1 {
@@ -46,25 +48,29 @@ main {
     flex-grow: 1;
     width: 90%;
     max-width: 850px;
-    margin: 50px auto !important; 
+    margin: 60px auto !important; 
     padding: 50px;
     background-color: var(--color-surface);
     border-radius: 30px; 
     box-shadow: var(--shadow-soft);
     border: 1px solid var(--color-border);
+    position: relative;
+    z-index: 5;
 }
 
 .nav-link { 
     text-align: center; 
-    margin-bottom: 50px; 
-    margin-top: 0 !important;
+    margin: 20px 0 50px 0 !important; 
     display: block;
+}
+
+.form-group {
+    margin-bottom: 30px;
 }
 
 label {
     display: block;
     font-weight: 700;
-    margin-top: 25px;
     margin-bottom: 12px;
     color: var(--color-primary);
 }
@@ -79,6 +85,7 @@ input[type="datetime-local"],
     border-radius: 15px;
     font-size: 16px;
     background-color: #FBFEFC;
+    outline: none;
 }
 
 .search-controls {
@@ -102,6 +109,11 @@ input[type="datetime-local"],
     align-items: center;
     justify-content: center;
     transition: all 0.3s ease;
+}
+
+button[type="submit"] {
+    width: 100%;
+    margin-top: 10px;
 }
 
 .control-button:hover, .nav-button:hover, button[type="submit"]:hover {
