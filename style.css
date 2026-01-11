@@ -22,7 +22,7 @@
 body {
     font-family: 'Noto Sans JP', sans-serif;
     background-color: var(--color-bg);
-    color: var(--color-text-main) !important; /* 全体の基本文字色を固定 */
+    color: var(--color-text-main) !important;
     display: flex;
     flex-direction: column;
     min-height: 100vh;
@@ -31,82 +31,47 @@ body {
 
 header {
     background-color: var(--color-primary);
-    color: #FFFFFF !important; /* ヘッダー文字を白に固定 */
-    padding: 60px 0;
+    color: #FFFFFF !important;
+    padding: 60px 20px;
     text-align: center;
     width: 100%;
-    position: relative;
-    z-index: 10;
 }
 
 header h1 {
     font-size: 2.2em;
     font-weight: 700;
     color: #FFFFFF !important;
+    margin-bottom: 10px;
+}
+
+header p {
+    color: #FFFFFF !important;
+    opacity: 0.9;
 }
 
 main {
     flex-grow: 1;
     width: 92%;
-    max-width: 750px !important; 
-    margin: 60px auto !important; 
-    padding: 50px;
+    max-width: 800px !important; 
+    margin: 40px auto !important; 
+    padding: 40px;
     background-color: var(--color-surface);
     border-radius: 30px; 
     box-shadow: var(--shadow-soft);
     border: 1px solid var(--color-border);
-    position: relative;
-    z-index: 5;
 }
 
 .nav-link { 
     text-align: center; 
-    margin: 10px 0 50px 0 !important; 
-    display: block;
+    margin-bottom: 30px !important;
 }
 
-.form-group {
-    margin-bottom: 30px;
-}
-
-label {
-    display: block;
-    font-weight: 700;
-    margin-bottom: 12px;
-    color: var(--color-primary) !important; /* 項目名を深い緑に固定 */
-    font-size: 1.1em;
-}
-
-/* 入力欄の文字をハッキリさせる */
-input[type="text"],
-input[type="datetime-local"],
-select,
-.search-controls select {
-    width: 100%;
-    height: 60px;
-    padding: 0 20px;
-    border: 2px solid var(--color-border);
-    border-radius: 15px;
-    font-size: 16px;
-    background-color: #FBFEFC;
-    color: var(--color-text-main) !important; /* 入力文字を濃い緑に固定 */
-    outline: none;
-}
-
-.search-controls {
-    display: grid;
-    grid-template-columns: 1fr 180px auto auto;
-    gap: 12px;
-    margin-bottom: 40px;
-    align-items: center;
-}
-
-/* 全ボタンの文字を白に固定 */
+/* 全てのボタンの文字色を白で固定 */
 .control-button, .nav-button, button[type="submit"], .nav-link a, .nav-link button {
     height: 60px;
-    padding: 0 35px;
+    padding: 0 30px;
     background-color: var(--color-primary) !important;
-    color: #FFFFFF !important; /* 文字を白に強制 */
+    color: #FFFFFF !important;
     border: none !important;
     border-radius: 50px; 
     cursor: pointer;
@@ -114,56 +79,63 @@ select,
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    transition: all 0.3s ease;
     font-size: 16px;
+    transition: all 0.3s ease;
 }
 
-.control-button:hover, .nav-button:hover, button[type="submit"]:hover, .nav-link a:hover, .nav-link button:hover {
+.control-button:hover, .nav-button:hover, button:hover, .nav-link a:hover {
+    background-color: var(--color-primary-light) !important;
     transform: translateY(-5px);
     box-shadow: var(--shadow-hover);
-    background-color: var(--color-primary-light) !important;
-    color: #FFFFFF !important;
 }
 
-button[type="submit"] {
+/* 入力・選択エリア */
+.form-group { margin-bottom: 25px; }
+label {
+    display: block;
+    font-weight: 700;
+    margin-bottom: 10px;
+    color: var(--color-primary) !important;
+}
+
+input[type="text"], input[type="datetime-local"], select {
     width: 100%;
-    margin-top: 20px;
-    font-size: 1.1em;
+    height: 55px;
+    padding: 0 20px;
+    border: 2px solid var(--color-border);
+    border-radius: 12px;
+    font-size: 16px;
+    color: var(--color-text-main) !important;
+    background-color: #FBFEFC;
+    outline: none;
 }
 
-.item-list {
-    display: flex;
-    flex-direction: column;
-    gap: 25px;
+.search-controls {
+    display: grid;
+    grid-template-columns: 1fr 160px auto auto;
+    gap: 10px;
+    margin-bottom: 30px;
 }
 
+/* カードデザイン */
+.item-list { display: flex; flex-direction: column; gap: 20px; }
 .item-card {
     background-color: var(--color-surface);
     border: 1px solid var(--color-border);
     border-left: 10px solid var(--color-primary);
-    border-radius: 25px; 
-    padding: 35px;
-    transition: all 0.3s ease;
-}
-
-.item-card:hover {
-    transform: translateY(-8px);
-    box-shadow: var(--shadow-hover);
+    border-radius: 20px; 
+    padding: 25px;
+    transition: transform 0.2s;
 }
 
 .item-card h3 {
-    margin: 0 0 12px 0;
-    color: var(--color-primary) !important; /* 商品名を深い緑に */
+    color: var(--color-primary) !important;
     border-bottom: 2px solid var(--color-accent);
-    padding-bottom: 10px;
-    font-size: 1.5em;
+    padding-bottom: 8px;
+    margin-bottom: 12px;
 }
 
-.item-card p {
-    font-size: 1.1em;
-    margin: 12px 0;
-    color: var(--color-text-main) !important; /* カード内テキストを濃い緑に */
-}
+.item-card p { margin: 5px 0; color: var(--color-text-main) !important; }
 
 footer {
     text-align: center;
@@ -171,11 +143,8 @@ footer {
     background-color: var(--color-border);
     color: var(--color-primary) !important;
     width: 100%;
-    margin-top: 60px;
 }
 
 @media (max-width: 750px) {
-    .search-controls {
-        grid-template-columns: 1fr;
-    }
+    .search-controls { grid-template-columns: 1fr; }
 }
