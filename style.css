@@ -52,12 +52,14 @@ footer {
 main {
     flex-grow: 1;
     max-width: 1000px !important;
-    margin: 40px auto;
+    width: 90%;
+    margin: 50px auto; 
     padding: 40px;
     background-color: var(--color-surface);
     border-radius: 16px;
     box-shadow: var(--shadow-soft);
     border: 1px solid var(--color-border);
+    box-sizing: border-box;
 }
 
 label {
@@ -78,9 +80,13 @@ input[type="datetime-local"],
     font-size: 1em;
     font-family: inherit;
     background-color: #FBFEFC;
+    margin-bottom: 20px;
 }
 
-.nav-link { text-align: center; margin-bottom: 30px; }
+.nav-link { 
+    text-align: center; 
+    margin-bottom: 30px; 
+}
 
 .nav-button,
 button[type="submit"],
@@ -130,7 +136,28 @@ button[type="submit"],
     border-left: 6px solid var(--color-primary);
     border-radius: 12px;
     padding: 25px;
+    box-sizing: border-box;
 }
 
-.item-card h3 { margin: 0 0 10px 0; color: var(--color-primary); border-bottom: 1px solid var(--color-accent); padding-bottom: 5px; }
-.loading-message { text-align: center; padding: 50px; color: var(--color-text-muted); }
+.item-card h3 { 
+    margin: 0 0 10px 0; 
+    color: var(--color-primary); 
+    border-bottom: 1px solid var(--color-accent); 
+    padding-bottom: 5px; 
+}
+
+.loading-message { 
+    text-align: center; 
+    padding: 50px; 
+    color: var(--color-text-muted); 
+    grid-column: 1 / -1;
+}
+
+@media (max-width: 768px) {
+    .search-controls {
+        grid-template-columns: 1fr;
+    }
+    main {
+        padding: 20px;
+    }
+}
