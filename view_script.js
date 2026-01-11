@@ -20,7 +20,7 @@ async function fetchAndDisplayItems(clickedButtonId) {
 
     let query = sb
         .from('posts')
-        .select('product_name, store_name, address, date_time')
+        .select('product_name, store_name, date_time') // addressを除外
         .order('date_time', { ascending: sortOrder === 'asc' });
 
     if (searchTerm) {
@@ -57,7 +57,6 @@ async function fetchAndDisplayItems(clickedButtonId) {
         card.innerHTML = `
             <h3>${item.product_name}</h3>
             <p><strong>店舗名:</strong> ${item.store_name}</p>
-            <p><strong>住所:</strong> ${item.address}</p>
             <p><strong>発見日時:</strong> ${formattedDate}</p>
         `;
         itemListContainer.appendChild(card);
@@ -71,7 +70,6 @@ window.handleSearchClick = function(event) {
 
 document.addEventListener('DOMContentLoaded', function() {
     const searchProductInput = document.getElementById('searchProduct');
-    
     if (searchProductInput) {
         searchProductInput.addEventListener('keypress', function(e) {
             if (e.key === 'Enter') {
@@ -80,6 +78,5 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
-
     fetchAndDisplayItems('searchButton');
 });
