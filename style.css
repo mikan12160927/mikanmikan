@@ -46,11 +46,11 @@ header h1 {
 
 main {
     flex-grow: 1;
-    width: 90%;
-    /* さらに狭い650pxに設定 */
-    max-width: 650px !important; 
+    width: 92%;
+    /* 狭すぎない 750px に設定 */
+    max-width: 750px !important; 
     margin: 60px auto !important; 
-    padding: 40px;
+    padding: 50px;
     background-color: var(--color-surface);
     border-radius: 30px; 
     box-shadow: var(--shadow-soft);
@@ -61,46 +61,46 @@ main {
 
 .nav-link { 
     text-align: center; 
-    margin: 10px 0 40px 0 !important; 
+    margin: 10px 0 50px 0 !important; 
     display: block;
 }
 
 .form-group {
-    margin-bottom: 25px;
+    margin-bottom: 30px;
 }
 
 label {
     display: block;
     font-weight: 700;
-    margin-bottom: 8px;
+    margin-bottom: 12px;
     color: var(--color-primary);
-    font-size: 0.95em;
+    font-size: 1.1em; /* 文字を少し大きく */
 }
 
 input[type="text"],
 input[type="datetime-local"],
 .search-controls select {
     width: 100%;
-    height: 50px;
-    padding: 0 15px;
+    height: 60px; /* 入力欄を大きくして押しやすく */
+    padding: 0 20px;
     border: 2px solid var(--color-border);
-    border-radius: 12px;
-    font-size: 15px;
+    border-radius: 15px;
+    font-size: 16px; /* 文字サイズを標準に */
     background-color: #FBFEFC;
     outline: none;
 }
 
 .search-controls {
     display: grid;
-    grid-template-columns: 1fr 150px auto auto;
-    gap: 10px;
-    margin-bottom: 35px;
+    grid-template-columns: 1fr 180px auto auto;
+    gap: 12px;
+    margin-bottom: 40px;
     align-items: center;
 }
 
 .control-button, .nav-button, button[type="submit"] {
-    height: 50px;
-    padding: 0 25px;
+    height: 60px; /* ボタンを大きく */
+    padding: 0 35px;
     background-color: var(--color-primary);
     color: white !important;
     border: none;
@@ -111,18 +111,17 @@ input[type="datetime-local"],
     align-items: center;
     justify-content: center;
     transition: all 0.3s ease;
-    font-size: 14px;
+    font-size: 16px;
 }
 
 button[type="submit"] {
     width: 100%;
-    margin-top: 15px;
-    height: 54px;
-    font-size: 16px;
+    margin-top: 20px;
+    font-size: 1.1em;
 }
 
 .control-button:hover, .nav-button:hover, button[type="submit"]:hover {
-    transform: translateY(-4px);
+    transform: translateY(-5px);
     box-shadow: var(--shadow-hover);
     background-color: var(--color-primary-light);
 }
@@ -130,44 +129,46 @@ button[type="submit"] {
 .item-list {
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 25px;
 }
 
 .item-card {
     background-color: var(--color-surface);
     border: 1px solid var(--color-border);
-    border-left: 8px solid var(--color-primary);
-    border-radius: 20px; 
-    padding: 25px;
+    border-left: 10px solid var(--color-primary);
+    border-radius: 25px; 
+    padding: 35px;
     transition: all 0.3s ease;
 }
 
 .item-card:hover {
-    transform: translateY(-6px);
+    transform: translateY(-8px);
     box-shadow: var(--shadow-hover);
 }
 
 .item-card h3 {
-    margin: 0 0 8px 0;
+    margin: 0 0 12px 0;
     color: var(--color-primary);
     border-bottom: 2px solid var(--color-accent);
-    padding-bottom: 8px;
-    font-size: 1.25em;
+    padding-bottom: 10px;
+    font-size: 1.5em;
+}
+
+.item-card p {
+    font-size: 1.05em;
+    margin: 8px 0;
 }
 
 footer {
     text-align: center;
-    padding: 35px;
+    padding: 40px;
     background-color: var(--color-border);
     width: 100%;
-    margin-top: 50px;
+    margin-top: 60px;
 }
 
-@media (max-width: 650px) {
+@media (max-width: 750px) {
     .search-controls {
         grid-template-columns: 1fr;
-    }
-    main {
-        padding: 25px 20px;
     }
 }
