@@ -1,5 +1,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;700&display=swap');
 
+/* すべての要素の基本設定をリセット */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    text-decoration: none !important;
+}
+
 :root {
     --color-bg: #F0F9F4;
     --color-surface: #FFFFFF;
@@ -9,24 +17,18 @@
     --color-text-main: #1B4332;
     --color-border: #CFE1D6;
     --shadow-soft: 0 10px 25px rgba(45, 106, 79, 0.08);
-}
-
-/* 下線は一切不要 */
-* {
-    text-decoration: none !important;
+    --shadow-hover: 0 15px 35px rgba(45, 106, 79, 0.15);
 }
 
 body {
     font-family: 'Noto Sans JP', sans-serif;
     background-color: var(--color-bg);
-    margin: 0;
-    padding: 0;
     color: var(--color-text-main);
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-    /* 左右中央に寄せるための保険 */
-    align-items: center;
+    /* 左右中央寄せを保証 */
+    align-items: center; 
 }
 
 header {
@@ -38,26 +40,50 @@ header {
 }
 
 header h1 {
-    margin: 0;
     font-size: 2.2em;
     font-weight: 700;
 }
 
+/* 【重要】めり込みを100%防ぐためのメインエリア設定 */
 main {
     flex-grow: 1;
     width: 90%;
     max-width: 850px;
-    /* 【超重要】めり込み解消：マイナス値を絶対に使わず、上にしっかり余白を空ける */
-    margin: 60px auto !important; 
+    /* 上に80pxの巨大な余白を空け、めり込みを物理的に不可能にする */
+    margin-top: 80px !important;
+    margin-bottom: 80px !important;
+    /* 左右中央寄せ */
+    margin-left: auto !important;
+    margin-right: auto !important;
+    
     padding: 45px;
     background-color: var(--color-surface);
-    /* 【超重要】丸みの復活 */
     border-radius: 30px; 
     box-shadow: var(--shadow-soft);
     border: 1px solid var(--color-border);
-    box-sizing: border-box;
-    /* 左寄りを防ぐ */
-    display: block;
+}
+
+/* 【重要】触ったときに浮かぶやつ（ホバー効果） */
+.item-card, .nav-button, button[type="submit"], .control-button {
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+/* カードのホバー：浮き上がって影を濃くする */
+.item-card:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-hover);
+}
+
+/* ボタンのホバー：少し大きくして浮かす */
+.nav-button:hover, button[type="submit"]:hover, .control-button:hover {
+    background-color: var(--color-primary-light);
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+}
+
+.nav-link { 
+    text-align: center; 
+    margin-bottom: 40px; 
 }
 
 label {
@@ -74,14 +100,12 @@ input[type="datetime-local"],
     height: 54px;
     padding: 0 20px;
     border: 2px solid var(--color-border);
-    border-radius: 15px; /* 入力欄も丸く */
-    box-sizing: border-box;
-    margin-bottom: 25px;
+    border-radius: 15px;
     font-size: 16px;
-    font-family: inherit;
     background-color: #FBFEFC;
     display: flex;
     align-items: center;
+    margin-bottom: 25px;
 }
 
 .search-controls {
@@ -89,31 +113,26 @@ input[type="datetime-local"],
     grid-template-columns: 1fr 180px auto auto;
     gap: 12px;
     margin-bottom: 40px;
-    align-items: center;
 }
 
 .control-button, .nav-button, button[type="submit"] {
     height: 54px;
     padding: 0 30px;
     background-color: var(--color-primary);
-    color: white;
+    color: white !important;
     border: none;
-    /* ボタンの丸み復活 */
     border-radius: 50px; 
     cursor: pointer;
     font-weight: 700;
-    font-size: 15px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    transition: 0.3s;
 }
 
 .item-card {
     background-color: var(--color-surface);
     border: 1px solid var(--color-border);
     border-left: 10px solid var(--color-primary);
-    /* カードの丸み復活 */
     border-radius: 25px; 
     padding: 30px;
     margin-bottom: 25px;
@@ -124,23 +143,17 @@ input[type="datetime-local"],
     color: var(--color-primary);
     border-bottom: 2px solid var(--color-accent);
     padding-bottom: 10px;
-    line-height: 1.4;
 }
 
-/* ページロード時などのローディング文字も中央に */
-.loading-message {
+footer {
     text-align: center;
+    padding: 30px;
+    background-color: var(--color-border);
     width: 100%;
-    padding: 40px 0;
 }
 
 @media (max-width: 850px) {
     .search-controls {
         grid-template-columns: 1fr;
-    }
-    main {
-        width: 95%;
-        padding: 30px 20px;
-        margin: 30px auto !important;
     }
 }
