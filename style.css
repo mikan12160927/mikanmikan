@@ -21,77 +21,82 @@ body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-    align-items: center; /* ボディ全体を中央に */
 }
 
 header {
     background-color: var(--color-primary);
     color: white;
-    padding: 50px 0;
+    padding: 60px 20px;
     text-align: center;
-    width: 100%; /* ヘッダーは横いっぱいに */
+    /* ヘッダー自体の高さを確保して余裕を持たせる */
 }
 
 header h1 {
     margin: 0;
     font-size: 2.2em;
     font-weight: 700;
-}
-
-footer {
-    text-align: center;
-    padding: 30px;
-    background-color: var(--color-border);
-    color: var(--color-primary);
-    font-size: 0.9em;
-    width: 100%;
-    margin-top: auto;
+    line-height: 1.2;
 }
 
 main {
     flex-grow: 1;
     width: 90%;
     max-width: 850px;
-    margin: 60px auto; /* 上下にしっかり距離をあけて中央寄せ */
+    /* めり込みを完全に防ぐため、マイナス値を一切排除 */
+    margin: 40px auto; 
     padding: 50px;
     background-color: var(--color-surface);
-    border-radius: 30px; /* 角をしっかり丸く */
+    border-radius: 30px;
     box-shadow: var(--shadow-soft);
     border: 1px solid var(--color-border);
     box-sizing: border-box;
 }
 
-.nav-link { 
-    text-align: center; 
-    margin-bottom: 40px; 
+/* リンクの変な下線を消去 */
+a {
+    text-decoration: none;
 }
 
-label {
-    display: block;
+/* ボタン内の文字を上下中央に配置 */
+.nav-button, button[type="submit"], .control-button {
+    background-color: var(--color-primary);
+    color: white !important;
+    padding: 0 35px; /* 左右のみpadding */
+    height: 56px; /* 高さを固定 */
+    display: inline-flex;
+    align-items: center; /* 垂直方向中央 */
+    justify-content: center; /* 水平方向中央 */
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
     font-weight: 700;
-    margin-bottom: 15px;
-    color: var(--color-primary);
-    padding-left: 5px;
+    font-size: 1em;
+    transition: 0.3s;
+    text-decoration: none !important; /* 下線を完全に消す */
+    line-height: 1; /* 文字の浮き上がりを抑制 */
 }
 
+.nav-button:hover, button[type="submit"]:hover, .control-button:hover {
+    background-color: var(--color-primary-light);
+    transform: translateY(-2px);
+}
+
+/* 入力欄の文字位置調整 */
 input[type="text"],
 input[type="datetime-local"],
 .search-controls select {
     width: 100%;
-    padding: 18px;
+    height: 56px; /* ボタンと高さを揃える */
+    padding: 0 20px;
     border: 2px solid var(--color-border);
-    border-radius: 20px; /* 入力欄も丸く */
+    border-radius: 15px;
     box-sizing: border-box;
-    margin-bottom: 30px;
+    margin-bottom: 25px;
     font-size: 1.05em;
-    background-color: #FBFEFC;
-    transition: all 0.3s;
-}
-
-input:focus {
-    outline: none;
-    border-color: var(--color-primary-light);
-    box-shadow: 0 0 0 4px var(--color-accent);
+    font-family: inherit;
+    display: flex;
+    align-items: center;
+    line-height: 56px; /* 行高で中央寄せを補助 */
 }
 
 .search-controls {
@@ -99,50 +104,24 @@ input:focus {
     grid-template-columns: 1fr 180px auto auto;
     gap: 15px;
     margin-bottom: 40px;
-}
-
-.item-list {
-    display: flex;
-    flex-direction: column;
-    gap: 25px;
+    align-items: center; /* 検索バー内の要素を横並びで中央に */
 }
 
 .item-card {
     background-color: var(--color-surface);
     border: 1px solid var(--color-border);
     border-left: 10px solid var(--color-primary);
-    border-radius: 25px; /* カードもガッツリ丸く */
-    padding: 35px;
-    transition: transform 0.2s;
-}
-
-.item-card:hover {
-    transform: translateY(-3px);
+    border-radius: 25px;
+    padding: 30px;
+    margin-bottom: 20px;
 }
 
 .item-card h3 {
-    margin: 0 0 15px 0;
+    margin: 0 0 10px 0;
     color: var(--color-primary);
     border-bottom: 2px solid var(--color-accent);
-    padding-bottom: 10px;
-    font-size: 1.4em;
-}
-
-.nav-button, button[type="submit"], .control-button {
-    background-color: var(--color-primary);
-    color: white;
-    padding: 16px 35px;
-    border: none;
-    border-radius: 50px; /* ボタンは完全な楕円 */
-    cursor: pointer;
-    font-weight: 700;
-    font-size: 1em;
-    transition: 0.3s;
-}
-
-.nav-button:hover, button[type="submit"]:hover, .control-button:hover {
-    background-color: var(--color-primary-light);
-    transform: scale(1.03);
+    padding-bottom: 8px;
+    line-height: 1.4; /* 見出しの文字浮き防止 */
 }
 
 .disabled {
@@ -154,7 +133,7 @@ input:focus {
     .search-controls {
         grid-template-columns: 1fr;
     }
-    main {
-        padding: 30px 20px;
+    .search-controls input, .search-controls select {
+        margin-bottom: 10px;
     }
 }
