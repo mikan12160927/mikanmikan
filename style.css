@@ -41,12 +41,6 @@ header h1 {
     font-size: 2.2em;
     font-weight: 700;
     color: #FFFFFF !important;
-    margin-bottom: 10px;
-}
-
-header p {
-    color: #FFFFFF !important;
-    opacity: 0.9;
 }
 
 main {
@@ -66,14 +60,14 @@ main {
     margin-bottom: 30px !important;
 }
 
-/* 全てのボタンの文字色を白で固定 */
-.control-button, .nav-button, button[type="submit"], .nav-link a, .nav-link button {
-    height: 60px;
-    padding: 0 30px;
+/* ★ボタンの色を「深い緑」で強制統一★ */
+.control-button, .nav-button, button, .nav-link a {
+    height: 60px !important;
+    padding: 0 30px !important;
     background-color: var(--color-primary) !important;
-    color: #FFFFFF !important;
+    color: #FFFFFF !important; /* 文字は白 */
     border: none !important;
-    border-radius: 50px; 
+    border-radius: 50px !important; 
     cursor: pointer;
     font-weight: 700;
     display: inline-flex;
@@ -86,11 +80,8 @@ main {
 .control-button:hover, .nav-button:hover, button:hover, .nav-link a:hover {
     background-color: var(--color-primary-light) !important;
     transform: translateY(-5px);
-    box-shadow: var(--shadow-hover);
 }
 
-/* 入力・選択エリア */
-.form-group { margin-bottom: 25px; }
 label {
     display: block;
     font-weight: 700;
@@ -98,7 +89,7 @@ label {
     color: var(--color-primary) !important;
 }
 
-input[type="text"], input[type="datetime-local"], select {
+input, select {
     width: 100%;
     height: 55px;
     padding: 0 20px;
@@ -117,15 +108,13 @@ input[type="text"], input[type="datetime-local"], select {
     margin-bottom: 30px;
 }
 
-/* カードデザイン */
-.item-list { display: flex; flex-direction: column; gap: 20px; }
 .item-card {
     background-color: var(--color-surface);
     border: 1px solid var(--color-border);
     border-left: 10px solid var(--color-primary);
     border-radius: 20px; 
     padding: 25px;
-    transition: transform 0.2s;
+    margin-bottom: 20px;
 }
 
 .item-card h3 {
@@ -134,8 +123,6 @@ input[type="text"], input[type="datetime-local"], select {
     padding-bottom: 8px;
     margin-bottom: 12px;
 }
-
-.item-card p { margin: 5px 0; color: var(--color-text-main) !important; }
 
 footer {
     text-align: center;
