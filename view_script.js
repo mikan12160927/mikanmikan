@@ -35,7 +35,7 @@ async function fetchAndDisplayItems(clickedButtonId) {
 
     if (error) {
         console.error(error);
-        itemListContainer.innerHTML = `<p class="loading-message" style="color:#DC3545;">🚨 データ取得エラーが発生しました。<br>エラーメッセージ: ${error.message}</p>`;
+        itemListContainer.innerHTML = `<p class="loading-message" style="color:#DC3545;">🚨 データ取得エラーが発生しました。</p>`;
         return;
     }
 
@@ -65,11 +65,21 @@ async function fetchAndDisplayItems(clickedButtonId) {
 }
 
 window.handleSearchClick = function(event) {
-    event.preventDefault();
-    const clickedId = event.currentTarget.id;
-    fetchAndDisplayItems(clickedId);
+    if (event) event.preventDefault();
+    fetchAndDisplayItems('searchButton');
 }
 
 document.addEventListener('DOMContentLoaded', function() {
+    const searchProductInput = document.getElementById('searchProduct');
+    
+    if (searchProductInput) {
+        searchProductInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                fetchAndDisplayItems('searchButton');
+            }
+        });
+    }
+
     fetchAndDisplayItems('searchButton');
 });
