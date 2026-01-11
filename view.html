@@ -5,20 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>商品情報 閲覧 | 探究サイト</title>
     <link rel="stylesheet" href="style.css"> 
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;700&family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
-    
-    <link rel="icon" type="image/png" href="/favicon.png"> 
-    
 </head>
 <body>
-
     <header>
         <h1>商品情報 閲覧</h1>
         <p>投稿された商品の在庫情報はこちらから確認できます。</p>
     </header>
     
-    <div class="nav-link">
-        <a href="/index.html" class="nav-button">新しく投稿する</a> 
+    <div class="nav-link" style="margin-top: 30px;">
+        <a href="index.html" class="nav-button">新しく投稿する</a> 
     </div>
 
     <main>
@@ -28,14 +23,13 @@
                 <option value="newest">新しい順</option>
                 <option value="oldest">古い順</option>
             </select>
-            <a href="#" id="searchButton" class="control-button primary-control" onclick="handleSearchClick(event)">検索</a>
-            <a href="#" id="refreshButton" class="control-button secondary-control" onclick="handleSearchClick(event)">更新</a>
+            <button id="searchButton" class="control-button">検索</button>
+            <button id="refreshButton" class="control-button" style="background-color: var(--color-primary-light) !important;">更新</button>
         </div>
 
         <div id="itemListContainer" class="item-list">
             <p class="loading-message">情報を読み込み中です...</p>
         </div>
-        
     </main>
 
     <footer>
