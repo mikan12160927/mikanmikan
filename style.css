@@ -7,9 +7,13 @@
     --color-primary-light: #40916C;
     --color-accent: #D8F3DC;
     --color-text-main: #1B4332;
-    --color-text-muted: #588157;
     --color-border: #CFE1D6;
     --shadow-soft: 0 10px 25px rgba(45, 106, 79, 0.08);
+}
+
+/* 全ての要素から下線を強制的に消す */
+* {
+    text-decoration: none !important;
 }
 
 body {
@@ -26,93 +30,94 @@ body {
 header {
     background-color: var(--color-primary);
     color: white;
-    padding: 60px 20px;
+    padding: 50px 20px;
     text-align: center;
-    /* ヘッダー自体の高さを確保して余裕を持たせる */
-}
-
-header h1 {
-    margin: 0;
-    font-size: 2.2em;
-    font-weight: 700;
-    line-height: 1.2;
 }
 
 main {
     flex-grow: 1;
     width: 90%;
     max-width: 850px;
-    /* めり込みを完全に防ぐため、マイナス値を一切排除 */
+    /* めり込みを完全に排除 */
     margin: 40px auto; 
-    padding: 50px;
+    padding: 40px;
     background-color: var(--color-surface);
-    border-radius: 30px;
+    border-radius: 20px;
     box-shadow: var(--shadow-soft);
     border: 1px solid var(--color-border);
     box-sizing: border-box;
 }
 
-/* リンクの変な下線を消去 */
-a {
-    text-decoration: none;
-}
-
-/* ボタン内の文字を上下中央に配置 */
-.nav-button, button[type="submit"], .control-button {
-    background-color: var(--color-primary);
-    color: white !important;
-    padding: 0 35px; /* 左右のみpadding */
-    height: 56px; /* 高さを固定 */
-    display: inline-flex;
-    align-items: center; /* 垂直方向中央 */
-    justify-content: center; /* 水平方向中央 */
-    border: none;
-    border-radius: 50px;
-    cursor: pointer;
-    font-weight: 700;
-    font-size: 1em;
-    transition: 0.3s;
-    text-decoration: none !important; /* 下線を完全に消す */
-    line-height: 1; /* 文字の浮き上がりを抑制 */
-}
-
-.nav-button:hover, button[type="submit"]:hover, .control-button:hover {
-    background-color: var(--color-primary-light);
-    transform: translateY(-2px);
-}
-
-/* 入力欄の文字位置調整 */
+/* 入力欄のスタイル */
 input[type="text"],
 input[type="datetime-local"],
 .search-controls select {
     width: 100%;
-    height: 56px; /* ボタンと高さを揃える */
-    padding: 0 20px;
+    height: 48px; /* 少し高さを抑える */
+    padding: 0 15px;
     border: 2px solid var(--color-border);
-    border-radius: 15px;
+    border-radius: 8px; /* 丸すぎない角丸 */
     box-sizing: border-box;
-    margin-bottom: 25px;
-    font-size: 1.05em;
+    margin-bottom: 20px;
+    font-size: 14px;
     font-family: inherit;
     display: flex;
     align-items: center;
-    line-height: 56px; /* 行高で中央寄せを補助 */
+    background-color: #FBFEFC;
 }
 
+/* 検索・更新ボタン専用：デカすぎ・丸すぎを解消 */
 .search-controls {
     display: grid;
-    grid-template-columns: 1fr 180px auto auto;
-    gap: 15px;
-    margin-bottom: 40px;
-    align-items: center; /* 検索バー内の要素を横並びで中央に */
+    grid-template-columns: 1fr 150px 80px 80px; /* ボタン幅を固定してコンパクトに */
+    gap: 10px;
+    margin-bottom: 30px;
+    align-items: center;
+}
+
+.control-button {
+    height: 48px; /* 入力欄と同じ高さ */
+    padding: 0; /* 幅指定があるのでpaddingは0 */
+    background-color: var(--color-primary);
+    color: white;
+    border: none;
+    border-radius: 8px; /* 丸すぎない、シュッとした角丸 */
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.2s;
+}
+
+/* 投稿ボタン（メインボタン）も少し形を整える */
+.nav-button, button[type="submit"] {
+    background-color: var(--color-primary);
+    color: white;
+    padding: 12px 30px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 15px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.2s;
+}
+
+.nav-button:hover, .control-button:hover, button[type="submit"]:hover {
+    background-color: var(--color-primary-light);
+    transform: translateY(-1px);
 }
 
 .item-card {
     background-color: var(--color-surface);
     border: 1px solid var(--color-border);
-    border-left: 10px solid var(--color-primary);
-    border-radius: 25px;
-    padding: 30px;
+    border-left: 6px solid var(--color-primary);
+    border-radius: 12px;
+    padding: 25px;
     margin-bottom: 20px;
 }
 
@@ -120,8 +125,8 @@ input[type="datetime-local"],
     margin: 0 0 10px 0;
     color: var(--color-primary);
     border-bottom: 2px solid var(--color-accent);
-    padding-bottom: 8px;
-    line-height: 1.4; /* 見出しの文字浮き防止 */
+    padding-bottom: 5px;
+    line-height: 1.5;
 }
 
 .disabled {
@@ -132,8 +137,5 @@ input[type="datetime-local"],
 @media (max-width: 800px) {
     .search-controls {
         grid-template-columns: 1fr;
-    }
-    .search-controls input, .search-controls select {
-        margin-bottom: 10px;
     }
 }
