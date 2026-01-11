@@ -1,6 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;700&display=swap');
 
-/* すべてをリセット */
 * {
     margin: 0;
     padding: 0;
@@ -17,12 +16,13 @@
     --color-text-main: #1B4332;
     --color-border: #CFE1D6;
     --shadow-soft: 0 10px 25px rgba(45, 106, 79, 0.08);
+    --shadow-hover: 0 15px 35px rgba(45, 106, 79, 0.15);
 }
 
 body {
     font-family: 'Noto Sans JP', sans-serif;
-    background-color: var(--color-bg) !important;
-    color: var(--color-text-main) !important;
+    background-color: var(--color-bg);
+    color: var(--color-text-main) !important; /* 全体の基本文字色を固定 */
     display: flex;
     flex-direction: column;
     min-height: 100vh;
@@ -30,11 +30,13 @@ body {
 }
 
 header {
-    background-color: var(--color-primary) !important;
-    color: #FFFFFF !important;
+    background-color: var(--color-primary);
+    color: #FFFFFF !important; /* ヘッダー文字を白に固定 */
     padding: 60px 0;
     text-align: center;
     width: 100%;
+    position: relative;
+    z-index: 10;
 }
 
 header h1 {
@@ -49,78 +51,131 @@ main {
     max-width: 750px !important; 
     margin: 60px auto !important; 
     padding: 50px;
-    background-color: var(--color-surface) !important;
+    background-color: var(--color-surface);
     border-radius: 30px; 
     box-shadow: var(--shadow-soft);
     border: 1px solid var(--color-border);
+    position: relative;
+    z-index: 5;
 }
 
-/* フォーム周りの文字色を強制固定 */
+.nav-link { 
+    text-align: center; 
+    margin: 10px 0 50px 0 !important; 
+    display: block;
+}
+
+.form-group {
+    margin-bottom: 30px;
+}
+
 label {
     display: block;
     font-weight: 700;
     margin-bottom: 12px;
-    color: var(--color-primary) !important;
+    color: var(--color-primary) !important; /* 項目名を深い緑に固定 */
+    font-size: 1.1em;
 }
 
-input, select {
+/* 入力欄の文字をハッキリさせる */
+input[type="text"],
+input[type="datetime-local"],
+select,
+.search-controls select {
     width: 100%;
     height: 60px;
     padding: 0 20px;
-    border: 2px solid var(--color-border) !important;
+    border: 2px solid var(--color-border);
     border-radius: 15px;
     font-size: 16px;
-    background-color: #FBFEFC !important;
-    color: var(--color-text-main) !important;
+    background-color: #FBFEFC;
+    color: var(--color-text-main) !important; /* 入力文字を濃い緑に固定 */
     outline: none;
 }
 
-/* ★最強のボタン設定：文字が絶対に見えるように白に固定★ */
-.control-button, 
-.nav-button, 
-button[type="submit"], 
-#submitButton, 
-.nav-link a {
-    height: 60px !important;
-    padding: 0 35px !important;
+.search-controls {
+    display: grid;
+    grid-template-columns: 1fr 180px auto auto;
+    gap: 12px;
+    margin-bottom: 40px;
+    align-items: center;
+}
+
+/* 全ボタンの文字を白に固定 */
+.control-button, .nav-button, button[type="submit"], .nav-link a, .nav-link button {
+    height: 60px;
+    padding: 0 35px;
     background-color: var(--color-primary) !important;
-    color: #FFFFFF !important; /* 文字は絶対白 */
+    color: #FFFFFF !important; /* 文字を白に強制 */
     border: none !important;
-    border-radius: 50px !important; 
+    border-radius: 50px; 
     cursor: pointer;
     font-weight: 700;
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    transition: all 0.3s ease;
     font-size: 16px;
+}
+
+.control-button:hover, .nav-button:hover, button[type="submit"]:hover, .nav-link a:hover, .nav-link button:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-hover);
+    background-color: var(--color-primary-light) !important;
+    color: #FFFFFF !important;
+}
+
+button[type="submit"] {
+    width: 100%;
+    margin-top: 20px;
+    font-size: 1.1em;
+}
+
+.item-list {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.item-card {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-left: 10px solid var(--color-primary);
+    border-radius: 25px; 
+    padding: 35px;
     transition: all 0.3s ease;
 }
 
-/* ホバー設定 */
-.control-button:hover, .nav-button:hover, button:hover, a:hover {
-    background-color: var(--color-primary-light) !important;
-    transform: translateY(-5px);
-}
-
-/* カードのデザイン */
-.item-card {
-    background-color: var(--color-surface) !important;
-    border: 1px solid var(--color-border) !important;
-    border-left: 10px solid var(--color-primary) !important;
-    border-radius: 25px; 
-    padding: 35px;
-    margin-bottom: 25px;
+.item-card:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-hover);
 }
 
 .item-card h3 {
-    color: var(--color-primary) !important;
+    margin: 0 0 12px 0;
+    color: var(--color-primary) !important; /* 商品名を深い緑に */
     border-bottom: 2px solid var(--color-accent);
+    padding-bottom: 10px;
+    font-size: 1.5em;
+}
+
+.item-card p {
+    font-size: 1.1em;
+    margin: 12px 0;
+    color: var(--color-text-main) !important; /* カード内テキストを濃い緑に */
 }
 
 footer {
+    text-align: center;
     padding: 40px;
-    background-color: var(--color-border) !important;
+    background-color: var(--color-border);
     color: var(--color-primary) !important;
     width: 100%;
-    text-align: center;
+    margin-top: 60px;
+}
+
+@media (max-width: 750px) {
+    .search-controls {
+        grid-template-columns: 1fr;
+    }
 }
