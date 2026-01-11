@@ -11,19 +11,22 @@
         <h1>商品情報 投稿</h1>
     </header>
     <main>
-        <div class="nav-link">
-            <a href="view.html" class="nav-button">みんなの投稿を見る</a>
-        </div>
-        <form id="postForm">
-            <label>商品名</label>
-            <input type="text" id="product-name" required>
-            <label>店舗名</label>
-            <input type="text" id="store-name" required>
-            <label>住所</label>
-            <input type="text" id="address" required>
-            <label>発見日時</label>
-            <input type="datetime-local" id="date-time" required>
-            <button type="submit" id="submitButton" style="width:100%;">情報を投稿する</button>
+        <div class="form-group">
+    <label for="productName">商品名</label>
+    <input type="text" id="productName" placeholder="例：たまご" required>
+</div>
+
+<div class="form-group">
+    <label for="storeName">店舗名</label>
+    <input type="text" id="storeName" placeholder="例：〇〇スーパー" required>
+</div>
+
+<div class="form-group">
+    <label for="dateTime">日時</label>
+    <input type="datetime-local" id="dateTime" required>
+</div>
+
+<button type="submit" id="submitButton">情報を投稿する</button>
             <div id="message" style="margin-top:20px; text-align:center;"></div>
         </form>
         <div id="successScreen" style="display:none; text-align:center;">
@@ -37,3 +40,4 @@
     <script src="post_script.js"></script>
 </body>
 </html>
+
