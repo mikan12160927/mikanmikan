@@ -1,55 +1,50 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>在庫投稿 | 探究サイト</title>
-    <link rel="stylesheet" href="style.css">
-</head>
 <body>
     <header>
-        <h1>商品情報 投稿</h1>
+        <h1>在庫報告システム</h1>
     </header>
+
     <main>
-    <div class="nav-link">
-        <button id="backToView" class="nav-button" style="background-color: transparent; color: var(--color-primary) !important; border: 2px solid var(--color-primary);">
-            ← 投稿一覧に戻る
-        </button>
-    </div>
-
-    <form id="postForm">
-        <div class="form-group">
-            <label for="product-name">商品名</label>
-            <input type="text" id="product-name" placeholder="例：たまご" required>
+        <div class="nav-link">
+            <a href="view.html" class="nav-button">
+                ← 投稿一覧に戻る
+            </a>
         </div>
 
-        <div class="form-group">
-            <label for="store-name">店舗名</label>
-            <input type="text" id="store-name" placeholder="例：〇〇スーパー" required>
-        </div>
+        <form id="postForm">
+            <div class="form-group">
+                <label for="product-name">商品名</label>
+                <input type="text" id="product-name" placeholder="例：たまご" required>
+            </div>
 
-        <div class="form-group">
-            <label for="date-time">発見日時</label>
-            <input type="datetime-local" id="date-time" required>
-        </div>
+            <div class="form-group">
+                <label for="store-name">店舗名</label>
+                <input type="text" id="store-name" placeholder="例：〇〇スーパー" required>
+            </div>
 
-        <div id="message"></div>
-        <button type="submit" id="submitButton">情報を投稿する</button>
-    </form>
+            <div class="form-group">
+                <label for="date-time">発見日時</label>
+                <input type="datetime-local" id="date-time" required>
+            </div>
 
-    <div id="successScreen" style="display: none; text-align: center; padding: 20px 0;">
-        <h2 style="color: var(--color-primary); margin-bottom: 20px;">投稿が完了しました！</h2>
-        <p style="margin-bottom: 30px;">ご協力ありがとうございます。</p>
-        <div style="display: flex; gap: 15px; justify-content: center;">
-            <button id="viewPosts" class="control-button">投稿を見る</button>
-            <button id="newPost" class="control-button" style="background-color: var(--color-primary-light);">続けて投稿する</button>
+            <div id="message" style="margin-bottom: 20px; text-align: center; font-weight: bold; min-height: 1.5em;"></div>
+            
+            <button type="submit" id="submitButton">情報を投稿する</button>
+        </form>
+
+        <div id="successScreen" style="display: none; text-align: center; padding: 20px 0;">
+            <h2 style="margin-bottom: 20px;">投稿が完了しました！</h2>
+            <p style="margin-bottom: 40px;">ご協力ありがとうございます。</p>
+            <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
+                <button id="viewPosts" class="control-button">投稿を見る</button>
+                <button id="newPost" class="control-button" style="background-color: var(--color-primary-light) !important;">続けて投稿する</button>
+            </div>
         </div>
-    </div>
-</main>
-    <footer>© 探究サイト</footer>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 在庫報告システム</p>
+    </footer>
+
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="post_script.js"></script>
 </body>
-</html>
-
-
