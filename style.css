@@ -29,7 +29,7 @@ body {
 header {
     background-color: var(--color-primary);
     color: white;
-    padding: 40px 5%;
+    padding: 50px 20px;
     text-align: center;
     box-shadow: var(--shadow-deep);
 }
@@ -42,7 +42,7 @@ header h1 {
 
 footer {
     text-align: center;
-    padding: 20px;
+    padding: 25px;
     background-color: var(--color-border);
     color: var(--color-primary);
     font-size: 0.85em;
@@ -51,12 +51,12 @@ footer {
 
 main {
     flex-grow: 1;
-    width: 95%;
-    max-width: none !important;
+    width: 92%;
+    max-width: 1200px !important;
     margin: 40px auto; 
-    padding: 40px;
+    padding: 45px;
     background-color: var(--color-surface);
-    border-radius: 16px;
+    border-radius: 20px;
     box-shadow: var(--shadow-soft);
     border: 1px solid var(--color-border);
     box-sizing: border-box;
@@ -65,7 +65,7 @@ main {
 label {
     display: block;
     font-weight: 700;
-    margin-bottom: 10px;
+    margin-bottom: 12px;
     color: var(--color-primary);
 }
 
@@ -73,19 +73,25 @@ input[type="text"],
 input[type="datetime-local"],
 .search-controls select {
     width: 100%;
-    padding: 15px;
+    padding: 16px;
     border: 2px solid var(--color-border);
-    border-radius: 10px;
+    border-radius: 12px;
     box-sizing: border-box;
-    font-size: 1em;
+    font-size: 1.05em;
     font-family: inherit;
     background-color: #FBFEFC;
-    margin-bottom: 20px;
+    margin-bottom: 25px;
+    transition: border-color 0.3s;
+}
+
+input:focus {
+    outline: none;
+    border-color: var(--color-primary-light);
 }
 
 .nav-link { 
     text-align: center; 
-    margin-bottom: 30px; 
+    margin-bottom: 35px; 
 }
 
 .nav-button,
@@ -93,9 +99,9 @@ button[type="submit"],
 .control-button {
     background-color: var(--color-primary);
     color: white;
-    padding: 14px 28px;
+    padding: 15px 35px;
     border: none;
-    border-radius: 50px;
+    border-radius: 60px;
     cursor: pointer;
     font-weight: 700;
     text-decoration: none;
@@ -103,67 +109,74 @@ button[type="submit"],
     align-items: center;
     justify-content: center;
     transition: all 0.3s ease;
+    font-size: 1em;
 }
 
 .nav-button:hover, button[type="submit"]:hover, .control-button:hover {
     background-color: var(--color-primary-light);
     transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
 }
 
 .control-button.disabled {
     opacity: 0.5;
     pointer-events: none;
-    box-shadow: none !important;
-    transform: none !important;
 }
 
 .search-controls {
     display: grid;
-    grid-template-columns: 1fr auto auto auto;
+    grid-template-columns: 1fr 200px auto auto;
     gap: 15px;
-    margin-bottom: 30px;
+    margin-bottom: 40px;
 }
 
 .item-list {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-    gap: 25px;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 30px;
 }
 
 .item-card {
     background-color: var(--color-surface);
     border: 1px solid var(--color-border);
     border-left: 8px solid var(--color-primary);
-    border-radius: 12px;
+    border-radius: 15px;
     padding: 30px;
     box-sizing: border-box;
-    transition: transform 0.2s;
+    transition: transform 0.2s, box-shadow 0.2s;
 }
 
 .item-card:hover {
-    transform: scale(1.01);
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-deep);
 }
 
 .item-card h3 { 
-    margin: 0 0 10px 0; 
+    margin: 0 0 15px 0; 
     color: var(--color-primary); 
-    border-bottom: 1px solid var(--color-accent); 
-    padding-bottom: 5px; 
+    border-bottom: 2px solid var(--color-accent); 
+    padding-bottom: 10px;
+    font-size: 1.4em;
+}
+
+.item-card p {
+    margin: 10px 0;
 }
 
 .loading-message { 
     text-align: center; 
-    padding: 50px; 
+    padding: 60px; 
     color: var(--color-text-muted); 
     grid-column: 1 / -1;
+    font-size: 1.1em;
 }
 
-@media (max-width: 900px) {
+@media (max-width: 950px) {
     .search-controls {
         grid-template-columns: 1fr;
     }
     main {
-        padding: 20px;
-        width: 98%;
+        padding: 25px;
+        width: 95%;
     }
 }
