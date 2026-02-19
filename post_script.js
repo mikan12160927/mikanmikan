@@ -38,3 +38,4 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('newPost').onclick = () => location.reload();
     document.getElementById('backToView').onclick = () => window.location.href = 'view.html';
 });
+
