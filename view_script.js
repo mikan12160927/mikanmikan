@@ -18,10 +18,10 @@ async function fetchAndDisplayItems(clickedButtonId) {
 
     itemListContainer.innerHTML = '<p class="loading-message">情報を読み込み中です...</p>';
 
-    // ★修正ポイント: .select() の中に 'id' を追加しました
+    // sold_out_count も一緒に取得するように修正
     let query = sb
         .from('posts')
-        .select('id, product_name, store_name, date_time') 
+        .select('id, product_name, store_name, date_time, sold_out_count') 
         .order('date_time', { ascending: sortOrder === 'asc' });
 
     if (searchTerm) {
@@ -36,7 +36,7 @@ async function fetchAndDisplayItems(clickedButtonId) {
 
     if (error) {
         console.error(error);
-        itemListContainer.innerHTML = `<p class="loading-message" style="color:#DC3545;">🚨 データ取得エラーが発生しました: ${error.message}</p>`;
+        itemListContainer.innerHTML = `<p class="loading-message" style="color:#DC3545;">🚨 取得失敗: ${error.message}</p>`;
         return;
     }
 
@@ -49,36 +49,43 @@ async function fetchAndDisplayItems(clickedButtonId) {
     data.forEach(item => {
         const card = document.createElement('div');
         card.className = 'item-card';
-
-        // ★追加ポイント: カードをクリックした時に detail.html へ ID付きで飛ばす設定
         card.style.cursor = 'pointer';
         card.onclick = () => {
             window.location.href = `detail.html?id=${item.id}`;
         };
 
         const date = new Date(item.date_time);
+        const now = new Date();
+        const diffHours = (now - date) / (1000 * 60 * 60);
+
+        // 鮮度による視覚効果：24時間以上経ったデータは少し透明にする
+        if (diffHours > 24) {
+            card.style.opacity = "0.6";
+        }
+
         const formattedDate = date.toLocaleString('ja-JP', {
             year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit'
         });
+
+        let warningHtml = '';
+        // 売り切れ報告が3件以上なら警告表示
+        if (item.sold_out_count >= 3) {
+            card.style.borderLeft = "10px solid #AE2012";
+            warningHtml = `<p style="color: #AE2012; font-weight: bold; font-size: 0.8em; margin-top: 5px;">⚠️ 売り切れ報告多数</p>`;
+        }
 
         card.innerHTML = `
             <h3>${item.product_name}</h3>
             <p><strong>店舗名:</strong> ${item.store_name}</p>
             <p><strong>発見日時:</strong> ${formattedDate}</p>
+            ${warningHtml}
             <p style="color: var(--color-primary); font-size: 0.85em; margin-top: 10px; font-weight: bold;">➔ 詳細・地図を見る</p>
         `;
         itemListContainer.appendChild(card);
     });
 }
 
-// 検索ボタンなどの処理を共通化
-window.handleSearchClick = function(event) {
-    if (event) event.preventDefault();
-    fetchAndDisplayItems('searchButton');
-}
-
 document.addEventListener('DOMContentLoaded', function() {
-    // ページ読み込み時に自動でデータを表示
     fetchAndDisplayItems();
 
     const searchProductInput = document.getElementById('searchProduct');
