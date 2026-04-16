@@ -34,4 +34,27 @@ async function fetchAndDisplayItems(clickedButtonId) {
         itemListContainer.appendChild(card);
     });
 }
-// ... 以下、DOMContentLoadedなどはそのまま ...
+document.addEventListener('DOMContentLoaded', function() {
+    // ページが開かれたらすぐにデータを取得する
+    fetchAndDisplayItems(); 
+
+    const searchProductInput = document.getElementById('searchProduct');
+    if (searchProductInput) {
+        searchProductInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                fetchAndDisplayItems('searchButton');
+            }
+        });
+    }
+
+    const refreshButton = document.getElementById('refreshButton');
+    if (refreshButton) {
+        refreshButton.addEventListener('click', () => fetchAndDisplayItems('refreshButton'));
+    }
+
+    const searchButton = document.getElementById('searchButton');
+    if (searchButton) {
+        searchButton.addEventListener('click', () => fetchAndDisplayItems('searchButton'));
+    }
+});
