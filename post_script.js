@@ -6,7 +6,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const postForm = document.getElementById('postForm'); 
     const submitButton = document.getElementById('submitButton'); 
 
-    // HTMLに <input type="file" id="image-file"> を追加しておいてください
+    if (!postForm) return; 
+
     postForm.addEventListener('submit', async function(event) {
         event.preventDefault();
         submitButton.disabled = true;
@@ -23,9 +24,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 .upload(fileName, file);
 
             if (uploadError) {
-                alert('画像アップロード失敗: ' + uploadError.message);
+                console.error('Upload Error:', uploadError);
             } else {
-                // 公開URLを取得
                 const { data: publicUrlData } = sb.storage
                     .from('post-images')
                     .getPublicUrl(fileName);
@@ -38,18 +38,24 @@ document.addEventListener('DOMContentLoaded', function() {
             store_name: document.getElementById('store-name').value.trim(),
             date_time: document.getElementById('date-time').value,
             sold_out_count: 0,
-            thanks_count: 0, // ★3の初期値
-            image_url: imageUrl // ★5のURL
+            thanks_count: 0,
+            image_url: imageUrl
         };
 
         const { error } = await sb.from('posts').insert([dataToInsert]); 
 
         if (error) {
-            alert('投稿失敗: ' + error.message);
+            alert('❌ 失敗: ' + error.message);
             submitButton.disabled = false;
+            submitButton.textContent = '情報を投稿する';
         } else {
             postForm.style.display = 'none';
             document.getElementById('successScreen').style.display = 'block';
         }
     });
+
+    document.getElementById('viewPosts').onclick = () => window.location.href = 'view.html';
+    document.getElementById('newPost').onclick = () => location.reload();
+    const backBtn = document.getElementById('backToView');
+    if(backBtn) backBtn.onclick = () => window.location.href = 'view.html';
 });
