@@ -4,41 +4,52 @@ let sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 document.addEventListener('DOMContentLoaded', function() {
     const postForm = document.getElementById('postForm'); 
-    const messageDiv = document.getElementById('message');
-    const successScreen = document.getElementById('successScreen'); 
     const submitButton = document.getElementById('submitButton'); 
 
-    if (!postForm) return; 
-
+    // HTMLに <input type="file" id="image-file"> を追加しておいてください
     postForm.addEventListener('submit', async function(event) {
         event.preventDefault();
+        submitButton.disabled = true;
+        submitButton.textContent = '投稿中...';
+
+        const file = document.getElementById('image-file').files[0];
+        let imageUrl = null;
+
+        // 画像がある場合はStorageにアップロード
+        if (file) {
+            const fileName = `${Date.now()}_${file.name}`;
+            const { data: uploadData, error: uploadError } = await sb.storage
+                .from('post-images')
+                .upload(fileName, file);
+
+            if (uploadError) {
+                alert('画像アップロード失敗: ' + uploadError.message);
+            } else {
+                // 公開URLを取得
+                const { data: publicUrlData } = sb.storage
+                    .from('post-images')
+                    .getPublicUrl(fileName);
+                imageUrl = publicUrlData.publicUrl;
+            }
+        }
+
         const dataToInsert = {
             product_name: document.getElementById('product-name').value.trim(),
             store_name: document.getElementById('store-name').value.trim(),
             date_time: document.getElementById('date-time').value,
-            // ★追加：初期値として0を設定
-            sold_out_count: 0
+            sold_out_count: 0,
+            thanks_count: 0, // ★3の初期値
+            image_url: imageUrl // ★5のURL
         };
-
-        submitButton.disabled = true;
-        submitButton.textContent = '投稿中...';
 
         const { error } = await sb.from('posts').insert([dataToInsert]); 
 
         if (error) {
-            messageDiv.style.color = 'red';
-            messageDiv.innerHTML = `❌ 失敗: ${error.message}`;
+            alert('投稿失敗: ' + error.message);
             submitButton.disabled = false;
-            submitButton.textContent = '情報を投稿する';
         } else {
             postForm.style.display = 'none';
-            successScreen.style.display = 'block';
+            document.getElementById('successScreen').style.display = 'block';
         }
     });
-
-    document.getElementById('viewPosts').onclick = () => window.location.href = 'view.html';
-    document.getElementById('newPost').onclick = () => location.reload();
-    // 戻るボタンのIDがHTMLと一致するように修正
-    const backToViewBtn = document.getElementById('backToView');
-    if(backToViewBtn) backToViewBtn.onclick = () => window.location.href = 'view.html';
 });
