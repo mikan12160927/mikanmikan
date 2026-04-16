@@ -15,7 +15,9 @@ document.addEventListener('DOMContentLoaded', function() {
         const dataToInsert = {
             product_name: document.getElementById('product-name').value.trim(),
             store_name: document.getElementById('store-name').value.trim(),
-            date_time: document.getElementById('date-time').value
+            date_time: document.getElementById('date-time').value,
+            // ★追加：初期値として0を設定
+            sold_out_count: 0
         };
 
         submitButton.disabled = true;
@@ -36,6 +38,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     document.getElementById('viewPosts').onclick = () => window.location.href = 'view.html';
     document.getElementById('newPost').onclick = () => location.reload();
-    document.getElementById('backToView').onclick = () => window.location.href = 'view.html';
+    // 戻るボタンのIDがHTMLと一致するように修正
+    const backToViewBtn = document.getElementById('backToView');
+    if(backToViewBtn) backToViewBtn.onclick = () => window.location.href = 'view.html';
 });
-
