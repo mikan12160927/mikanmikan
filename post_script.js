@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 .upload(fileName, file);
 
             if (uploadError) {
-                console.error('Upload Error:', uploadError);
+                console.error('Storage Error:', uploadError);
             } else {
                 const { data: publicUrlData } = sb.storage
                     .from('post-images')
@@ -45,7 +45,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const { error } = await sb.from('posts').insert([dataToInsert]); 
 
         if (error) {
-            alert('❌ 失敗: ' + error.message);
+            alert('❌ エラー: ' + error.message);
             submitButton.disabled = false;
             submitButton.textContent = '情報を投稿する';
         } else {
