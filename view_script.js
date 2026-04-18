@@ -2,55 +2,56 @@ const SUPABASE_URL = 'https://xoefqmgwjpauuebjhfgp.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhvZWZxbWd3anBhdXVlYmpoZmdwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjMwMTA5MDIsImV4cCI6MjA3ODU4NjkwMn0.G1ZFLY4HgHe1FD7k-qeUh6KHlKT5CSsmxshq7jMts-U';
 let sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-async function loadPosts() {
-    console.log("投稿データの取得を開始します...");
-    
-    // データを取得 (作成日時順)
-    const { data, error } = await sb
-        .from('posts')
-        .select('*')
-        .order('created_at', { ascending: false });
+async function fetchAndDisplayItems(clickedButtonId) {
+    const itemListContainer = document.getElementById('itemListContainer');
+    const searchProductInput = document.getElementById('searchProduct');
+    const sortDateSelect = document.getElementById('sortDate');
+    const clickedButton = document.getElementById(clickedButtonId);
 
-    const container = document.getElementById('posts-container');
-    container.innerHTML = ''; // 一度コンテナを空にする
+    if (clickedButton) clickedButton.classList.add('disabled');
+
+    const searchTerm = searchProductInput.value.trim();
+    const sortOrder = sortDateSelect.value === 'newest' ? 'desc' : 'asc';
+    itemListContainer.innerHTML = '<p class="loading-message">情報を読み込み中です...</p>';
+
+    let query = sb.from('posts').select('*').order('date_time', { ascending: sortOrder === 'asc' });
+    if (searchTerm) query = query.ilike('product_name', `%${searchTerm}%`);
+
+    let { data, error } = await query;
+    if (clickedButton) clickedButton.classList.remove('disabled');
 
     if (error) {
-        console.error("データ取得エラー:", error);
-        container.innerHTML = `<p style="color:red;">データの読み込みに失敗しました: ${error.message}</p>`;
+        itemListContainer.innerHTML = `<p class="loading-message">🚨 取得失敗</p>`;
         return;
     }
 
-    if (!data || data.length === 0) {
-        container.innerHTML = "<p>まだ投稿がありません。</p>";
-        return;
-    }
-
-    console.log(`${data.length} 件の投稿を表示します`);
-
-    // 取得したデータをループでカード化
-    data.forEach(post => {
+    itemListContainer.innerHTML = '';
+    data.forEach(item => {
         const card = document.createElement('div');
-        card.className = 'card';
-        
-        // 画像の出し分け
-        const imgHtml = post.image_url 
-            ? `<img src="${post.image_url}" alt="商品画像" onerror="this.style.display='none'">` 
-            : '<div style="height:180px; background:#f0f0f0; display:flex; align-items:center; justify-content:center; border-radius:10px;">画像なし</div>';
-        
-        // カードのHTML構成
+        card.className = 'item-card';
+        card.onclick = () => { window.location.href = `detail.html?id=${item.id}`; };
+
+        const date = new Date(item.date_time);
+        const diffHours = (new Date() - date) / (1000 * 60 * 60);
+        if (diffHours > 24) card.style.opacity = "0.6";
+
+        let warningHtml = item.sold_out_count >= 3 ? `<p style="color: #AE2012; font-weight: bold; font-size: 0.8em;">⚠️ 売り切れ報告あり</p>` : '';
+
         card.innerHTML = `
-            ${imgHtml}
-            <h3>${post.product_name}</h3>
-            <p style="font-size: 0.9em; color: #666;"><strong>店名:</strong> ${post.store_name}</p>
-            <p style="font-size: 0.9em; color: #666;"><strong>日時:</strong> ${new Date(post.date_time).toLocaleString()}</p>
-            <button onclick="window.location.href='detail.html?id=${post.id}'" 
-                    style="margin-top: 10px; padding: 10px; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer;">
-                詳細を見る
-            </button>
+            <h3>${item.product_name}</h3>
+            <p><strong>店舗名:</strong> ${item.store_name}</p>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px;">
+                <span style="font-size: 0.8em; color: #666;">📅 ${date.toLocaleString('ja-JP')}</span>
+                <span style="font-size: 0.9em; background: #D8F3DC; padding: 2px 8px; border-radius: 10px;">🙌 ${item.thanks_count || 0}</span>
+            </div>
+            ${warningHtml}
         `;
-        container.appendChild(card);
+        itemListContainer.appendChild(card);
     });
 }
 
-// ページ読み込み時に実行
-loadPosts();
+document.addEventListener('DOMContentLoaded', () => {
+    fetchAndDisplayItems();
+    document.getElementById('searchButton').onclick = () => fetchAndDisplayItems('searchButton');
+    document.getElementById('refreshButton').onclick = () => fetchAndDisplayItems('refreshButton');
+});
