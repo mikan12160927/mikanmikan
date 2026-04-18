@@ -6,10 +6,7 @@ async function fetchAndDisplayItems(clickedButtonId) {
     const itemListContainer = document.getElementById('itemListContainer');
     const searchProductInput = document.getElementById('searchProduct');
     const sortDateSelect = document.getElementById('sortDate');
-    const clickedButton = clickedButtonId ? document.getElementById(clickedButtonId) : null;
-
-    // グリッド用クラスを確実に付与
-    itemListContainer.className = 'item-list grid-container';
+    const clickedButton = document.getElementById(clickedButtonId);
 
     if (clickedButton) clickedButton.classList.add('disabled');
 
@@ -24,30 +21,23 @@ async function fetchAndDisplayItems(clickedButtonId) {
     if (clickedButton) clickedButton.classList.remove('disabled');
 
     if (error) {
-        itemListContainer.innerHTML = `<p class="loading-message">🚨 取得失敗: ${error.message}</p>`;
+        itemListContainer.innerHTML = `<p class="loading-message">🚨 取得失敗</p>`;
         return;
     }
 
     itemListContainer.innerHTML = '';
-    
-    if (!data || data.length === 0) {
-        itemListContainer.innerHTML = '<p>該当する投稿はありません。</p>';
-        return;
-    }
-
     data.forEach(item => {
         const card = document.createElement('div');
         card.className = 'item-card';
         card.onclick = () => { window.location.href = `detail.html?id=${item.id}`; };
 
         const date = new Date(item.date_time);
+        const diffHours = (new Date() - date) / (1000 * 60 * 60);
+        if (diffHours > 24) card.style.opacity = "0.6";
+
         let warningHtml = item.sold_out_count >= 3 ? `<p style="color: #AE2012; font-weight: bold; font-size: 0.8em;">⚠️ 売り切れ報告あり</p>` : '';
 
-        // 画像がある場合のみimgタグを追加
-        const imgHtml = item.image_url ? `<img src="${item.image_url}" style="width:100%; height:150px; object-fit:cover; border-radius:10px; margin-bottom:10px;">` : '';
-
         card.innerHTML = `
-            ${imgHtml}
             <h3>${item.product_name}</h3>
             <p><strong>店舗名:</strong> ${item.store_name}</p>
             <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px;">
