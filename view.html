@@ -2,36 +2,42 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <title>投稿一覧</title>
-    <style>
-        body { font-family: sans-serif; background: #f4f4f9; padding: 20px; }
-        .grid-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 20px;
-        }
-        .card {
-            border-radius: 15px;
-            padding: 15px;
-            background: #fff;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-        }
-        .card img {
-            width: 100%;
-            height: 180px;
-            object-fit: cover;
-            border-radius: 10px;
-            margin-bottom: 10px;
-        }
-        .card h3 { margin: 0 0 10px 0; }
-        .card button { width: 100%; padding: 10px; cursor: pointer; }
-    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>商品情報 閲覧 | 探究サイト</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/png" href="favicon.png">
 </head>
 <body>
-    <h1>みんなの投稿</h1>
-    <div id="posts-container" class="grid-container"></div>
+    <header>
+        <h1>商品情報 閲覧</h1>
+        <p>投稿された商品の在庫情報はこちらから確認できます。</p>
+    </header>
     
+    <div class="nav-link" style="margin-top: 30px;">
+        <a href="index.html" class="nav-button">新しく投稿する</a> 
+    </div>
+
+    <main>
+        <div class="search-controls">
+            <input type="text" id="searchProduct" placeholder="商品名で検索">
+            <select id="sortDate">
+                <option value="newest">新しい順</option>
+                <option value="oldest">古い順</option>
+            </select>
+            <button id="searchButton" class="control-button">検索</button>
+            <button id="refreshButton" class="control-button">更新</button>
+        </div>
+
+        <div id="itemListContainer" class="item-list">
+            <p class="loading-message">情報を読み込み中です...</p>
+        </div>
+    </main>
+
+    <footer>
+        <p>© 探究サイト - 情報共有プロジェクト</p>
+    </footer>
+
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="view.js"></script>
+    <script src="view_script.js"></script>
 </body>
 </html>
