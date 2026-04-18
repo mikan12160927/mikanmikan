@@ -10,21 +10,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
     postForm.addEventListener('submit', async function(event) {
         event.preventDefault();
-
-        // --- 未来の日時チェック ---
-        const inputDate = new Date(document.getElementById('date-time').value);
-        const now = new Date();
-        if (inputDate > now) {
-            alert("未来の日時は指定できません。現在の日時以前を選択してください。");
-            return; 
-        }
-
         submitButton.disabled = true;
         submitButton.textContent = '投稿中...';
 
         const file = document.getElementById('image-file').files[0];
         let imageUrl = null;
 
+        // 画像がある場合はStorageにアップロード
         if (file) {
             const fileName = `${Date.now()}_${file.name}`;
             const { data: uploadData, error: uploadError } = await sb.storage
@@ -64,4 +56,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     document.getElementById('viewPosts').onclick = () => window.location.href = 'view.html';
     document.getElementById('newPost').onclick = () => location.reload();
+    const backBtn = document.getElementById('backToView');
+    if(backBtn) backBtn.onclick = () => window.location.href = 'view.html';
 });
