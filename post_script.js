@@ -10,6 +10,18 @@ document.addEventListener('DOMContentLoaded', function() {
 
     postForm.addEventListener('submit', async function(event) {
         event.preventDefault();
+
+        // --- 未来の日時ブロック機能 (ここから) ---
+        const inputDateValue = document.getElementById('date-time').value;
+        const inputDate = new Date(inputDateValue);
+        const now = new Date();
+
+        if (inputDate > now) {
+            alert("未来の日時は指定できません。現在の日時以前を選択してください。");
+            return; // ここで処理を終了し、送信をブロックする
+        }
+        // --- 未来の日時ブロック機能 (ここまで) ---
+
         submitButton.disabled = true;
         submitButton.textContent = '投稿中...';
 
@@ -57,5 +69,5 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('viewPosts').onclick = () => window.location.href = 'view.html';
     document.getElementById('newPost').onclick = () => location.reload();
     const backBtn = document.getElementById('backToView');
-    if(backBtn) backBtn.onclick = () => window.location.href = 'view.html';
+    if (backBtn) backBtn.onclick = () => window.location.href = 'view.html';
 });
