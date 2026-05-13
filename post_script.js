@@ -24,27 +24,16 @@ document.addEventListener('DOMContentLoaded', function() {
                 .upload(fileName, file);
 
             if (uploadError) {
+                console.error('Upload Error:', uploadError);
                 console.error('Storage Error:', uploadError);
             } else {
                 const { data: publicUrlData } = sb.storage
                     .from('post-images')
-                    .getPublicUrl(fileName);
-                imageUrl = publicUrlData.publicUrl;
-            }
-        }
-
-        const dataToInsert = {
-            product_name: document.getElementById('product-name').value.trim(),
-            store_name: document.getElementById('store-name').value.trim(),
-            date_time: document.getElementById('date-time').value,
-            sold_out_count: 0,
-            thanks_count: 0,
-            image_url: imageUrl
-        };
-
+@@ -45,17 +45,17 @@
         const { error } = await sb.from('posts').insert([dataToInsert]); 
 
         if (error) {
+            alert('❌ 失敗: ' + error.message);
             alert('❌ エラー: ' + error.message);
             submitButton.disabled = false;
             submitButton.textContent = '情報を投稿する';
@@ -58,3 +47,4 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('newPost').onclick = () => location.reload();
     const backBtn = document.getElementById('backToView');
     if(backBtn) backBtn.onclick = () => window.location.href = 'view.html';
+});
