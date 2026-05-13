@@ -8,102 +8,102 @@
 }
 
 :root {
-    --color-bg: #F0F9F4;
-    --color-surface: #FFFFFF;
-    --color-primary: #2D6A4F;
-    --color-primary-light: #40916C;
-    --color-accent: #D8F3DC;
-    --color-text-main: #1B4332;
-    --color-border: #CFE1D6;
-    --shadow-soft: 0 10px 25px rgba(45, 106, 79, 0.08);
-    --shadow-hover: 0 15px 35px rgba(45, 106, 79, 0.15);
+    /* 色の設定を少し洗練されたトーンに変更 */
+    --color-bg: #f8fbfa; /* 真っ白ではなく、ごくわずかに緑がかったグレー */
+    --color-surface: #ffffff;
+    --color-primary: #1b4332; /* 少し深い緑 */
+    --color-primary-light: #40916c;
+    --color-accent: #d8f3dc;
+    --color-text-main: #081c15;
+    --color-text-sub: #52796f;
+    --color-border: #e9ecef;
+    
+    /* 参考画像のような立体感を出す影 */
+    --shadow-sm: 0 2px 4px rgba(0,0,0,0.05);
+    --shadow-md: 0 10px 20px rgba(0,0,0,0.06);
+    --shadow-lg: 0 20px 40px rgba(0,0,0,0.1);
 }
 
 body {
     font-family: 'Noto Sans JP', sans-serif;
-    background-color: var(--color-bg);
-    color: var(--color-text-main) !important;
+    background: linear-gradient(135deg, #f0f9f4 0%, #f8fbfa 100%); /* 背景にグラデーション */
+    color: var(--color-text-main);
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-    /* align-items: center; を削除または調整して横幅を確保 */
-    align-items: stretch; 
+    align-items: stretch;
 }
 
 header {
-    background: linear-gradient(135deg, var(--color-primary), var(--color-primary-light));
+    background: linear-gradient(135deg, #1b4332 0%, #2d6a4f 100%);
     color: white;
-    padding: 40px 20px;
+    padding: 60px 20px; /* 少し余白を広げて優雅に */
     width: 100%;
     text-align: center;
-    box-shadow: var(--shadow-soft);
+    box-shadow: var(--shadow-md);
+    border-bottom: 4px solid var(--color-accent);
+}
+
+header h1 {
+    font-size: 2rem;
+    letter-spacing: 0.05em;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.2);
 }
 
 main {
     width: 100%;
-    max-width: 1200px; /* 少し広めに設定 */
-    margin: 0 auto;    /* 中央寄せ */
+    max-width: 1100px;
+    margin: 0 auto;
     padding: 40px 20px;
 }
 
-/* 一覧表示のグリッド設定 */
+/* 一覧表示のカード */
 .item-list {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 25px;
-    width: 100%;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 30px;
 }
 
 .item-card {
     background-color: var(--color-surface);
-    border: 1px solid var(--color-border);
-    border-left: 10px solid var(--color-primary);
-    border-radius: 20px; 
-    padding: 25px;
+    border: none; /* ボーダーを消して影で表現 */
+    border-radius: 24px; /* 角をさらに丸く */
+    padding: 30px;
     cursor: pointer;
-    transition: transform 0.2s, box-shadow 0.2s;
-    box-shadow: var(--shadow-soft);
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    box-shadow: var(--shadow-md);
+    position: relative;
+    overflow: hidden;
+}
+
+.item-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 8px;
+    height: 100%;
+    background: var(--color-primary-light);
 }
 
 .item-card:hover {
-    transform: translateY(-5px);
-    box-shadow: var(--shadow-hover);
+    transform: translateY(-8px); /* 少し大きく持ち上げる */
+    box-shadow: var(--shadow-lg);
 }
 
-.nav-link {
-    text-align: center;
-    width: 100%;
-    margin: 20px 0;
+.item-card h3 {
+    font-size: 1.25rem;
+    margin-bottom: 8px;
+    color: var(--color-primary);
 }
 
-.control-button, .nav-button, button, .nav-link a {
-    background-color: var(--color-primary) !important;
-    color: white !important;
-    border: none;
-    padding: 12px 25px;
-    border-radius: 12px;
-    cursor: pointer;
-    font-weight: 700;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 16px;
-    transition: all 0.3s ease;
-}
-
-.control-button:hover, .nav-button:hover, button:hover, .nav-link a:hover {
-    background-color: var(--color-primary-light) !important;
-    transform: translateY(-5px);
-}
-
-label {
-    display: block;
-    font-weight: 700;
-    margin-bottom: 10px;
-    color: var(--color-primary) !important;
+/* 入力フォーム周り */
+.form-group {
+    margin-bottom: 25px;
+    background: white;
+    padding: 20px;
+    border-radius: 16px;
+    box-shadow: var(--shadow-sm);
 }
 
 input, select {
@@ -113,66 +113,48 @@ input, select {
     border: 2px solid var(--color-border);
     border-radius: 12px;
     font-size: 16px;
-    color: var(--color-text-main) !important;
-    background-color: #FBFEFC;
-    outline: none;
+    background-color: #fdfdfd;
+    transition: border-color 0.3s;
 }
 
+input:focus {
+    border-color: var(--color-primary-light);
+    background-color: #fff;
+}
+
+/* ボタンのデザインを高級に */
+.nav-button, .control-button, button[type="submit"] {
+    background: linear-gradient(135deg, var(--color-primary-light) 0%, var(--color-primary) 100%) !important;
+    color: white !important;
+    border: none;
+    padding: 15px 30px;
+    border-radius: 50px; /* カプセル型 */
+    font-weight: 700;
+    box-shadow: 0 4px 15px rgba(45, 106, 79, 0.3);
+    transition: all 0.3s;
+}
+
+.nav-button:hover, .control-button:hover, button[type="submit"]:hover {
+    filter: brightness(1.1);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(45, 106, 79, 0.4);
+}
+
+/* 検索エリアを背景から浮かせる */
 .search-controls {
+    background: white;
+    padding: 20px;
+    border-radius: 20px;
+    box-shadow: var(--shadow-md);
     display: flex;
     flex-wrap: wrap;
     gap: 15px;
-    margin-bottom: 30px;
-    justify-content: center;
-}
-
-.search-controls input {
-    flex: 1;
-    min-width: 200px;
-}
-
-.search-controls select {
-    width: 160px;
+    margin-bottom: 40px;
 }
 
 footer {
-    margin-top: auto;
-    padding: 20px;
-    text-align: center;
-    color: var(--color-primary);
-    font-size: 0.9em;
-}
-/* --- 前回の修正に以下を追加・上書き --- */
-
-input[type="text"], 
-input[type="datetime-local"], 
-select {
-    width: 100%;
-    height: 55px;
-    padding: 0 20px;
-    border: 2px solid var(--color-border);
-    border-radius: 12px;
-    font-size: 16px;
-    color: var(--color-text-main) !important;
-    background-color: #FBFEFC;
-    outline: none;
-}
-
-/* ファイル選択ボタン専用のスタイル（上寄せを直す） */
-input[type="file"] {
-    width: 100%;
-    height: auto; /* 高さを固定しない */
-    padding: 12px; /* 上下にゆとりを持たせる */
-    border: 2px solid var(--color-border);
-    border-radius: 12px;
-    background-color: #FBFEFC;
-    cursor: pointer;
-}
-
-/* その他、前回の main 修正などは維持してください */
-main {
-    width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
     padding: 40px 20px;
+    text-align: center;
+    color: var(--color-text-sub);
+    font-size: 0.9rem;
 }
