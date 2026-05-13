@@ -19,20 +19,14 @@ async function fetchAndDisplayItems(clickedButtonId) {
 
     let { data, error } = await query;
     if (clickedButton) clickedButton.classList.remove('disabled');
-async function loadPosts() {
-    const { data, error } = await sb.from('posts').select('*').order('created_at', { ascending: false });
-    const container = document.getElementById('posts-container');
-    container.innerHTML = ''; // 一度空にする
 
     if (error) {
         itemListContainer.innerHTML = `<p class="loading-message">🚨 取得失敗</p>`;
-        container.innerHTML = "読み込みエラーです";
         return;
     }
 
     itemListContainer.innerHTML = '';
     data.forEach(item => {
-    data.forEach(post => {
         const card = document.createElement('div');
         card.className = 'item-card';
         card.onclick = () => { window.location.href = `detail.html?id=${item.id}`; };
@@ -43,11 +37,6 @@ async function loadPosts() {
 
         let warningHtml = item.sold_out_count >= 3 ? `<p style="color: #AE2012; font-weight: bold; font-size: 0.8em;">⚠️ 売り切れ報告あり</p>` : '';
 
-        card.className = 'card';
-        
-        // 画像がある場合のみ表示
-        const imgHtml = post.image_url ? `<img src="${post.image_url}" alt="商品">` : '<div style="height:180px; background:#eee; display:flex; align-items:center; justify-content:center; border-radius:10px;">画像なし</div>';
-        
         card.innerHTML = `
             <h3>${item.product_name}</h3>
             <p><strong>店舗名:</strong> ${item.store_name}</p>
@@ -56,14 +45,8 @@ async function loadPosts() {
                 <span style="font-size: 0.9em; background: #D8F3DC; padding: 2px 8px; border-radius: 10px;">🙌 ${item.thanks_count || 0}</span>
             </div>
             ${warningHtml}
-            ${imgHtml}
-            <h3>${post.product_name}</h3>
-            <p><strong>店名:</strong> ${post.store_name}</p>
-            <p><strong>日時:</strong> ${new Date(post.date_time).toLocaleString()}</p>
-            <button onclick="window.location.href='detail.html?id=${post.id}'">詳細を見る</button>
         `;
         itemListContainer.appendChild(card);
-        container.appendChild(card);
     });
 }
 
@@ -72,4 +55,3 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('searchButton').onclick = () => fetchAndDisplayItems('searchButton');
     document.getElementById('refreshButton').onclick = () => fetchAndDisplayItems('refreshButton');
 });
-loadPosts();
