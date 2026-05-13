@@ -21,10 +21,12 @@
                 <label for="product-name">商品名</label>
                 <input type="text" id="product-name" placeholder="例：たまご" required>
             </div>
+            
             <div class="form-group">
                 <label for="store-name">店舗名</label>
                 <input type="text" id="store-name" placeholder="例：〇〇スーパー〇〇店" required>
             </div>
+
             <div class="form-group">
                 <label for="date-time">日時</label>
                 <input type="datetime-local" id="date-time" required>
@@ -32,7 +34,7 @@
 
             <div class="form-group">
                 <label for="image-file">商品の写真（任意）</label>
-                <input type="file" id="image-file" accept="image/*" style="padding-top: 12px;">
+                <input type="file" id="image-file" accept="image/*">
             </div>
 
             <div id="message" style="margin-bottom: 20px; text-align: center; font-weight: bold;"></div>
@@ -48,9 +50,7 @@
         </div>
     </main>
 
-    <footer>
-        <p>© 探究サイト - 情報共有プロジェクト</p>
-    </footer>
+    <footer>© 探究サイト</footer>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="post_script.js"></script>
