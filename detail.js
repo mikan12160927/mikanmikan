@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', async function() {
 
     const { data, error } = await sb.from('posts').select('*').eq('id', id).single();
     if (error || !data) {
-        document.getElementById('loading').innerHTML = "🚨 データの取得に失敗しました。";
+        document.getElementById('loading').innerHTML = "データの取得に失敗しました。";
         return;
     }
 
