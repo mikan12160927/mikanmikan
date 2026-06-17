@@ -21,7 +21,7 @@ async function fetchAndDisplayItems(clickedButtonId) {
     if (clickedButton) clickedButton.classList.remove('disabled');
 
     if (error) {
-        itemListContainer.innerHTML = `<p class="loading-message">🚨 取得失敗</p>`;
+        itemListContainer.innerHTML = `<p class="loading-message">取得失敗</p>`;
         return;
     }
 
