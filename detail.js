@@ -26,10 +26,13 @@ function getTimestampBadge(dateTimeString) {
     if (diffDays <= 3 && diffDays > 0) {
         return { text: `${diffDays}日前`, style: 'color: #E65100; background: #FFF3E0; border: 1px solid #FFE0B2;' };
     }
-    if (diffDays >= 7) {
-        return { text: '1週間前以上', style: 'color: #757575; background: #F5F5F5; border: 1px solid #E0E0E0; font-style: italic;' };
+    if (diffDays < 7 && diffDays > 0) {
+        return { text: `${diffDays}日前`, style: 'color: #744210; background: #FEFCBF; border: 1px solid #FAF089;' };
     }
-    return { text: `${diffDays}日前`, style: 'color: #757575; background: #F5F5F5; border: 1px solid #E0E0E0;' };
+    if (diffDays < 30 && diffDays >= 7) {
+        return { text: '1週間前以上', style: 'color: #C53030; background: #FFF5F5; border: 1px solid #FEB2B2; font-weight: bold;' };
+    }
+    return { text: '1か月以上前', style: 'color: #757575; background: #F5F5F5; border: 1px solid #E0E0E0; font-style: italic;' };
 }
 
 document.addEventListener('DOMContentLoaded', async function() {
@@ -46,21 +49,17 @@ document.addEventListener('DOMContentLoaded', async function() {
     const cardElement = document.querySelector('.item-card');
     const productH2 = document.getElementById('det-product');
 
-    // --- 先に商品テキストを流し込む（バグ修正のポイント） ---
     productH2.innerText = data.product_name;
 
-    // --- 画像と商品名を横並びにするレイアウトの構築 ---
     const headerWrapper = document.createElement('div');
     headerWrapper.style.display = "flex";
     headerWrapper.style.justifyContent = "space-between";
     headerWrapper.style.alignItems = "center";
     headerWrapper.style.marginBottom = "20px";
     
-    // HTML上のh2の前にラッパーを挿入し、その中にh2と画像を入れ直す
     cardElement.insertBefore(headerWrapper, productH2);
     headerWrapper.appendChild(productH2);
 
-    // 添付画像の表示処理
     if (data.image_url) {
         const img = document.createElement('img');
         img.src = data.image_url;
@@ -73,11 +72,9 @@ document.addEventListener('DOMContentLoaded', async function() {
         headerWrapper.appendChild(img);
     }
 
-    // --- 基本情報の反映 ---
     document.getElementById('det-store').innerText = data.store_name;
     document.getElementById('det-date').innerText = new Date(data.date_time).toLocaleString('ja-JP');
 
-    // --- 経過日時バッジ（一覧画面と完全に同一のロジックに修正） ---
     const badgeData = getTimestampBadge(data.date_time);
     if (badgeData) {
         const badge = document.createElement('span');
@@ -86,7 +83,6 @@ document.addEventListener('DOMContentLoaded', async function() {
         productH2.appendChild(badge);
     }
 
-    // --- ボタンエリア ---
     const btnArea = document.createElement('div');
     btnArea.style.marginTop = "20px";
     btnArea.style.display = "flex";
@@ -94,7 +90,7 @@ document.addEventListener('DOMContentLoaded', async function() {
     cardElement.appendChild(btnArea);
 
     const thanksBtn = document.createElement('button');
-    thanksBtn.innerHTML = `🙌 役に立った (<span id="t-count">${data.thanks_count || 0}</span>)`;
+    thanksBtn.innerHTML = `🙌 役に立った (<span id=\"t-count\">${data.thanks_count || 0}</span>)`;
     thanksBtn.className = "control-button";
     thanksBtn.style.backgroundColor = "#40916C";
     thanksBtn.onclick = async () => {
@@ -106,7 +102,7 @@ document.addEventListener('DOMContentLoaded', async function() {
     btnArea.appendChild(thanksBtn);
 
     const soldBtn = document.createElement('button');
-    soldBtn.innerHTML = `売り切れていた (<span id="s-count">${data.sold_out_count || 0}</span>)`;
+    soldBtn.innerHTML = `売り切れていた (<span id=\"s-count\">${data.sold_out_count || 0}</span>)`;
     soldBtn.className = "control-button";
     soldBtn.style.backgroundColor = "#AE2012";
     soldBtn.onclick = async () => {
@@ -117,7 +113,6 @@ document.addEventListener('DOMContentLoaded', async function() {
     };
     btnArea.appendChild(soldBtn);
 
-    // --- Googleマップ ---
     const query = encodeURIComponent(data.store_name);
     const mapUrl = `https://maps.google.co.jp/maps?q=${query}&output=embed&t=m&z=16`;
     document.getElementById('map-frame').src = mapUrl;
