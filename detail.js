@@ -51,31 +51,30 @@ document.addEventListener('DOMContentLoaded', async function() {
 
     productH2.innerText = data.product_name;
 
-    // --- レイアウト全体を包むコンテナ ---
-    const headerWrapper = document.createElement('div');
-    headerWrapper.style.display = "flex";
-    headerWrapper.style.flexDirection = "column"; // 縦に並べる
-    headerWrapper.style.gap = "15px";
-    headerWrapper.style.marginBottom = "20px";
+    // --- 1. 白いカードの中身を「左右2カラム」にするためのレイアウト構造を作る ---
+    cardElement.style.display = "flex";
+    cardElement.style.flexWrap = "wrap"; // 画面幅が狭いときは縦に並べる
+    cardElement.style.justifyContent = "space-between";
+    cardElement.style.alignItems = "stretch";
+    cardElement.style.padding = "25px";
+
+    // 左側のテキストエリア用のラッパー
+    const infoWrapper = document.createElement('div');
+    infoWrapper.style.flex = "1 1 300px"; // 最低300pxを確保し、残りは広がる
+    infoWrapper.style.display = "flex";
+    infoWrapper.style.flexDirection = "column";
+
+    // 既存のテキスト要素（h2やpタグ）をinfoWrapperの中に引っ越しさせる
+    infoWrapper.appendChild(productH2);
     
-    cardElement.insertBefore(headerWrapper, productH2);
-    headerWrapper.appendChild(productH2);
+    // 店舗名と日数のpタグを取得して引っ越し
+    const pTags = cardElement.querySelectorAll('p');
+    pTags.forEach(p => infoWrapper.appendChild(p));
+    
+    // 引っ越したラッパーをカードの一番左側に挿入
+    cardElement.appendChild(infoWrapper);
 
-    // 画像が大きく見やすくなるようにサイズを「200px」に変更
-    if (data.image_url) {
-        const img = document.createElement('img');
-        img.src = data.image_url;
-        img.style.width = "100%";       // 横幅いっぱいに広げる
-        img.style.maxWidth = "200px";    // 最大の大きさを200pxに制限
-        img.style.height = "200px";     // 縦幅も200pxにする
-        img.style.objectFit = "cover";
-        img.style.borderRadius = "10px";
-        headerWrapper.appendChild(img);
-    }
-
-    document.getElementById('det-store').innerText = data.store_name;
-    document.getElementById('det-date').innerText = new Date(data.date_time).toLocaleString('ja-JP');
-
+    // --- 2. 経過日時バッジの設定 ---
     const badgeData = getTimestampBadge(data.date_time);
     if (badgeData) {
         const badge = document.createElement('span');
@@ -84,11 +83,40 @@ document.addEventListener('DOMContentLoaded', async function() {
         productH2.appendChild(badge);
     }
 
+    // --- 3. 画像を右側の枠いっぱいに表示する処理 ---
+    if (data.image_url) {
+        const imgWrapper = document.createElement('div');
+        imgWrapper.style.flex = "1 1 250px"; // 画像エリアの幅を確保
+        imgWrapper.style.maxWidth = "350px";  // 白枠からはみ出さないよう上限を設定
+        imgWrapper.style.display = "flex";
+        imgWrapper.style.alignItems = "center";
+        imgWrapper.style.justifyContent = "center";
+        imgWrapper.style.marginTop = "10px";
+        imgWrapper.style.marginBottom = "10px";
+
+        const img = document.createElement('img');
+        img.src = data.image_url;
+        img.style.width = "100%";       // 割り当てられた枠の横幅いっぱいに広げる
+        img.style.height = "auto";      // 比率を保つ
+        img.style.maxHeight = "250px";   // 縦に伸びすぎないよう制限
+        img.style.objectFit = "cover";
+        img.style.borderRadius = "12px";
+        
+        imgWrapper.appendChild(img);
+        cardElement.appendChild(imgWrapper); // カードの右側に結合
+    }
+
+    // 基本データの値を割り当て
+    document.getElementById('det-store').innerText = data.store_name;
+    document.getElementById('det-date').innerText = new Date(data.date_time).toLocaleString('ja-JP');
+
+    // --- 4. ボタンエリア（テキスト側の下部に配置されるように調整） ---
     const btnArea = document.createElement('div');
-    btnArea.style.marginTop = "20px";
+    btnArea.style.marginTop = "auto"; // テキストの一番下に張り付くようにする
+    btnArea.style.paddingTop = "20px";
     btnArea.style.display = "flex";
     btnArea.style.gap = "10px";
-    cardElement.appendChild(btnArea);
+    infoWrapper.appendChild(btnArea);
 
     const thanksBtn = document.createElement('button');
     thanksBtn.innerHTML = `🙌 役に立った (<span id="t-count">${data.thanks_count || 0}</span>)`;
@@ -114,6 +142,7 @@ document.addEventListener('DOMContentLoaded', async function() {
     };
     btnArea.appendChild(soldBtn);
 
+    // --- 5. Googleマップの読み込み ---
     const query = encodeURIComponent(data.store_name);
     const mapUrl = `https://maps.google.co.jp/maps?q=${query}&output=embed&t=m&z=16`;
     document.getElementById('map-frame').src = mapUrl;
