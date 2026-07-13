@@ -11,31 +11,34 @@ function getTimestampBadge(dateTimeString) {
     const now = new Date();
     const postDate = new Date(dateTimeString);
 
-    // 時間をリセットして「日付単位」で正確に差分を計算する
     const nowDateOnly = new Date(now.getFullYear(), now.getMonth(), now.getDate());
     const postDateOnly = new Date(postDate.getFullYear(), postDate.getMonth(), postDate.getDate());
     
     const diffTime = nowDateOnly.getTime() - postDateOnly.getTime();
     const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
 
-    // 1. 今日中
+    // 1. 今日中（鮮やかな緑）
     if (diffDays === 0) {
         return { text: '今日中', style: 'color: #2D6A4F; background: #E8F5E9; border: 1px solid #C8E6C9; font-weight: bold;' };
     }
-    // 2. 昨日
+    // 2. 昨日（きれいな青）
     if (diffDays === 1) {
         return { text: '昨日', style: 'color: #1565C0; background: #E3F2FD; border: 1px solid #BBDEFB;' };
     }
-    // 3. 3日前以内（2日前、3日前）
+    // 3. 3日前以内：2日前〜3日前（注意のオレンジ）
     if (diffDays <= 3 && diffDays > 0) {
         return { text: `${diffDays}日前`, style: 'color: #E65100; background: #FFF3E0; border: 1px solid #FFE0B2;' };
     }
-    // 4. 1週間前以上
-    if (diffDays >= 7) {
-        return { text: '1週間前以上', style: 'color: #757575; background: #F5F5F5; border: 1px solid #E0E0E0; font-style: italic;' };
+    // 4. 1週間未満：4日前〜6日前（マイルドな黄色・カーキ）
+    if (diffDays < 7 && diffDays > 0) {
+        return { text: `${diffDays}日前`, style: 'color: #744210; background: #FEFCBF; border: 1px solid #FAF089;' };
     }
-    // 4日前〜6日前
-    return { text: `${diffDays}日前`, style: 'color: #757575; background: #F5F5F5; border: 1px solid #E0E0E0;' };
+    // 5. 1か月未満：7日前〜29日前（古い情報である警告の赤）
+    if (diffDays < 30 && diffDays >= 7) {
+        return { text: '1週間前以上', style: 'color: #C53030; background: #FFF5F5; border: 1px solid #FEB2B2; font-weight: bold;' };
+    }
+    // 6. 1か月以上前（完全に古い情報のグレー）
+    return { text: '1か月以上前', style: 'color: #757575; background: #F5F5F5; border: 1px solid #E0E0E0; font-style: italic;' };
 }
 
 async function fetchAndDisplayItems(clickedButtonId) {
@@ -67,18 +70,14 @@ async function fetchAndDisplayItems(clickedButtonId) {
         card.className = 'item-card';
         card.onclick = () => { window.location.href = `detail.html?id=${item.id}`; };
 
-        // 以前の「24時間以上でカード全体を薄くする(opacity = 0.6)」処理はここで削除しました
-
         let warningHtml = item.sold_out_count >= 3 ? `<p style="color: #AE2012; font-weight: bold; font-size: 0.8em; margin-top: 5px;">⚠️ 売り切れ報告あり</p>` : '';
 
-        // 今回の経過時間バッジのデータを取得
         const badgeData = getTimestampBadge(item.date_time);
         let badgeHtml = '';
         if (badgeData) {
             badgeHtml = `<span style="font-size: 0.75em; padding: 2px 8px; border-radius: 6px; ${badgeData.style}">${badgeData.text}</span>`;
         }
 
-        // HTML構造の組み立て（右側でバッジがきれいに並ぶように調整しています）
         card.innerHTML = `
             <div style="display: flex; justify-content: space-between; align-items: flex-start;">
                 <h3>${item.product_name}</h3>
