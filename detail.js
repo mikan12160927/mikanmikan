@@ -51,27 +51,23 @@ document.addEventListener('DOMContentLoaded', async function() {
 
     productH2.innerText = data.product_name;
 
-    // --- 1. 白いカードの中身を「左右2カラム」にするためのレイアウト構造を作る ---
+    // --- 1. 白いカードの中身を左右2カラムのレイアウトにする ---
     cardElement.style.display = "flex";
-    cardElement.style.flexWrap = "wrap"; // 画面幅が狭いときは縦に並べる
+    cardElement.style.flexWrap = "wrap";
     cardElement.style.justifyContent = "space-between";
     cardElement.style.alignItems = "stretch";
     cardElement.style.padding = "25px";
 
-    // 左側のテキストエリア用のラッパー
     const infoWrapper = document.createElement('div');
-    infoWrapper.style.flex = "1 1 300px"; // 最低300pxを確保し、残りは広がる
+    infoWrapper.style.flex = "1 1 300px";
     infoWrapper.style.display = "flex";
     infoWrapper.style.flexDirection = "column";
 
-    // 既存のテキスト要素（h2やpタグ）をinfoWrapperの中に引っ越しさせる
     infoWrapper.appendChild(productH2);
     
-    // 店舗名と日数のpタグを取得して引っ越し
     const pTags = cardElement.querySelectorAll('p');
     pTags.forEach(p => infoWrapper.appendChild(p));
     
-    // 引っ越したラッパーをカードの一番左側に挿入
     cardElement.appendChild(infoWrapper);
 
     // --- 2. 経過日時バッジの設定 ---
@@ -83,11 +79,11 @@ document.addEventListener('DOMContentLoaded', async function() {
         productH2.appendChild(badge);
     }
 
-    // --- 3. 画像を右側の枠いっぱいに表示する処理 ---
+    // --- 3. 画像表示 ＆ ポップアップ（モーダル）機能 ---
     if (data.image_url) {
         const imgWrapper = document.createElement('div');
-        imgWrapper.style.flex = "1 1 250px"; // 画像エリアの幅を確保
-        imgWrapper.style.maxWidth = "350px";  // 白枠からはみ出さないよう上限を設定
+        imgWrapper.style.flex = "1 1 250px";
+        imgWrapper.style.maxWidth = "350px";
         imgWrapper.style.display = "flex";
         imgWrapper.style.alignItems = "center";
         imgWrapper.style.justifyContent = "center";
@@ -96,23 +92,60 @@ document.addEventListener('DOMContentLoaded', async function() {
 
         const img = document.createElement('img');
         img.src = data.image_url;
-        img.style.width = "100%";       // 割り当てられた枠の横幅いっぱいに広げる
-        img.style.height = "auto";      // 比率を保つ
-        img.style.maxHeight = "250px";   // 縦に伸びすぎないよう制限
+        img.style.width = "100%";
+        img.style.height = "auto";
+        img.style.maxHeight = "250px";
         img.style.objectFit = "cover";
         img.style.borderRadius = "12px";
+        img.style.cursor = "pointer"; // クリックできることを示すカーソル
+        img.title = "クリックで拡大表示";
         
+        // 【追加】クリックしたときのポップアップ（モーダル）処理
+        img.onclick = () => {
+            // 背景の黒いクッション
+            const modal = document.createElement('div');
+            modal.style.position = "fixed";
+            modal.style.top = "0";
+            modal.style.left = "0";
+            modal.style.width = "100vw";
+            modal.style.height = "100vh";
+            modal.style.backgroundColor = "rgba(0, 0, 0, 0.75)";
+            modal.style.display = "flex";
+            modal.style.justifyContent = "center";
+            modal.style.alignItems = "center";
+            modal.style.zIndex = "9999";
+            modal.style.cursor = "zoom-out";
+            modal.style.transition = "opacity 0.2s ease";
+
+            // ポップアップする中央の大画像
+            const bigImg = document.createElement('img');
+            bigImg.src = data.image_url;
+            bigImg.style.maxWidth = "90%";
+            bigImg.style.maxHeight = "90%";
+            bigImg.style.borderRadius = "15px";
+            bigImg.style.boxShadow = "0 10px 30px rgba(0,0,0,0.5)";
+            bigImg.style.cursor = "zoom-out";
+
+            modal.appendChild(bigImg);
+            document.body.appendChild(modal);
+
+            // どこをクリックしてもポップアップが閉じる
+            modal.onclick = () => {
+                modal.style.opacity = "0";
+                setTimeout(() => modal.remove(), 200);
+            };
+        };
+
         imgWrapper.appendChild(img);
-        cardElement.appendChild(imgWrapper); // カードの右側に結合
+        cardElement.appendChild(imgWrapper);
     }
 
-    // 基本データの値を割り当て
     document.getElementById('det-store').innerText = data.store_name;
     document.getElementById('det-date').innerText = new Date(data.date_time).toLocaleString('ja-JP');
 
-    // --- 4. ボタンエリア（テキスト側の下部に配置されるように調整） ---
+    // --- 4. ボタンエリア ---
     const btnArea = document.createElement('div');
-    btnArea.style.marginTop = "auto"; // テキストの一番下に張り付くようにする
+    btnArea.style.marginTop = "auto";
     btnArea.style.paddingTop = "20px";
     btnArea.style.display = "flex";
     btnArea.style.gap = "10px";
