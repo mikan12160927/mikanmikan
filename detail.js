@@ -51,24 +51,25 @@ document.addEventListener('DOMContentLoaded', async function() {
 
     productH2.innerText = data.product_name;
 
+    // --- レイアウト全体を包むコンテナ ---
     const headerWrapper = document.createElement('div');
     headerWrapper.style.display = "flex";
-    headerWrapper.style.justifyContent = "space-between";
-    headerWrapper.style.alignItems = "center";
+    headerWrapper.style.flexDirection = "column"; // 縦に並べる
+    headerWrapper.style.gap = "15px";
     headerWrapper.style.marginBottom = "20px";
     
     cardElement.insertBefore(headerWrapper, productH2);
     headerWrapper.appendChild(productH2);
 
+    // 画像が大きく見やすくなるようにサイズを「200px」に変更
     if (data.image_url) {
         const img = document.createElement('img');
         img.src = data.image_url;
-        img.style.width = "80px";
-        img.style.height = "80px";
+        img.style.width = "100%";       // 横幅いっぱいに広げる
+        img.style.maxWidth = "200px";    // 最大の大きさを200pxに制限
+        img.style.height = "200px";     // 縦幅も200pxにする
         img.style.objectFit = "cover";
         img.style.borderRadius = "10px";
-        img.style.marginLeft = "15px";
-        img.style.flexShrink = "0";
         headerWrapper.appendChild(img);
     }
 
@@ -90,7 +91,7 @@ document.addEventListener('DOMContentLoaded', async function() {
     cardElement.appendChild(btnArea);
 
     const thanksBtn = document.createElement('button');
-    thanksBtn.innerHTML = `🙌 役に立った (<span id=\"t-count\">${data.thanks_count || 0}</span>)`;
+    thanksBtn.innerHTML = `🙌 役に立った (<span id="t-count">${data.thanks_count || 0}</span>)`;
     thanksBtn.className = "control-button";
     thanksBtn.style.backgroundColor = "#40916C";
     thanksBtn.onclick = async () => {
@@ -102,7 +103,7 @@ document.addEventListener('DOMContentLoaded', async function() {
     btnArea.appendChild(thanksBtn);
 
     const soldBtn = document.createElement('button');
-    soldBtn.innerHTML = `売り切れていた (<span id=\"s-count\">${data.sold_out_count || 0}</span>)`;
+    soldBtn.innerHTML = `売り切れていた (<span id="s-count">${data.sold_out_count || 0}</span>)`;
     soldBtn.className = "control-button";
     soldBtn.style.backgroundColor = "#AE2012";
     soldBtn.onclick = async () => {
