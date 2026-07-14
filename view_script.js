@@ -9,7 +9,8 @@ function getTimestampBadge(dateTimeString) {
     if (!dateTimeString) return null;
 
     const now = new Date();
-    const postDate = new Date(dateTimeString);
+    // 時差の自動変換を防ぐため、文字列のまま日付を取り出す
+    const postDate = new Date(dateTimeString.replace(/-/g, '/'));
 
     const nowDateOnly = new Date(now.getFullYear(), now.getMonth(), now.getDate());
     const postDateOnly = new Date(postDate.getFullYear(), postDate.getMonth(), postDate.getDate());
@@ -39,6 +40,14 @@ function getTimestampBadge(dateTimeString) {
     }
     // 6. 1か月以上前（完全に古い情報のグレー）
     return { text: '1か月以上前', style: 'color: #757575; background: #F5F5F5; border: 1px solid #E0E0E0; font-style: italic;' };
+}
+
+// 9時間のズレを戻して綺麗にフォーマットする関数
+function formatLocalTime(dateTimeString) {
+    if (!dateTimeString) return '';
+    // TやZなどのタイムゾーン識別子を排除して文字列としてパース
+    const date = new Date(dateTimeString.replace('T', ' ').replace('Z', '').replace(/-/g, '/'));
+    return `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()} ${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}`;
 }
 
 async function fetchAndDisplayItems(clickedButtonId) {
@@ -78,6 +87,9 @@ async function fetchAndDisplayItems(clickedButtonId) {
             badgeHtml = `<span style="font-size: 0.75em; padding: 2px 8px; border-radius: 6px; ${badgeData.style}">${badgeData.text}</span>`;
         }
 
+        // 時差補正した時間テキストを取得
+        const displayTime = formatLocalTime(item.date_time);
+
         card.innerHTML = `
             <div style="display: flex; justify-content: space-between; align-items: flex-start;">
                 <h3>${item.product_name}</h3>
@@ -85,7 +97,7 @@ async function fetchAndDisplayItems(clickedButtonId) {
             </div>
             <p style="margin-top: 5px;"><strong>店舗名:</strong> ${item.store_name}</p>
             <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px;">
-                <span style="font-size: 0.8em; color: #666;">📅 ${new Date(item.date_time).toLocaleString('ja-JP')}</span>
+                <span style="font-size: 0.8em; color: #666;">📅 ${displayTime}</span>
                 <span style="font-size: 0.9em; background: #D8F3DC; padding: 2px 8px; border-radius: 10px;">🙌 ${item.thanks_count || 0}</span>
             </div>
             ${warningHtml}
