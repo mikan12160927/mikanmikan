@@ -9,10 +9,12 @@ function getTimestampBadge(dateTimeString) {
     if (!dateTimeString) return null;
 
     const now = new Date();
-    const postDate = new Date(dateTimeString.replace(/-/g, '/'));
+    
+    const cleanString = dateTimeString.split('T')[0];
+    const [year, month, day] = cleanString.split('-').map(Number);
+    const postDateOnly = new Date(year, month - 1, day);
 
     const nowDateOnly = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-    const postDateOnly = new Date(postDate.getFullYear(), postDate.getMonth(), postDate.getDate());
     
     const diffTime = nowDateOnly.getTime() - postDateOnly.getTime();
     const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
@@ -35,11 +37,13 @@ function getTimestampBadge(dateTimeString) {
     return { text: '1か月以上前', style: 'color: #757575; background: #F5F5F5; border: 1px solid #E0E0E0; font-style: italic;' };
 }
 
-// 9時間のズレを戻して綺麗にフォーマットする関数
+// 9時間の自動変換（時差）を無視して、データベースの数値をそのままきれいに表示する関数
 function formatLocalTime(dateTimeString) {
     if (!dateTimeString) return '';
-    const date = new Date(dateTimeString.replace('T', ' ').replace('Z', '').replace(/-/g, '/'));
-    return `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()} ${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}`;
+    const parts = dateTimeString.split('T');
+    const datePart = parts[0].replace(/-/g, '/');
+    const timePart = parts[1] ? parts[1].substring(0, 5) : '';
+    return `${datePart} ${timePart}`;
 }
 
 document.addEventListener('DOMContentLoaded', async function() {
@@ -141,7 +145,6 @@ document.addEventListener('DOMContentLoaded', async function() {
     }
 
     document.getElementById('det-store').innerText = data.store_name;
-    // 時差補正した時間テキストを表示
     document.getElementById('det-date').innerText = formatLocalTime(data.date_time);
 
     const btnArea = document.createElement('div');
