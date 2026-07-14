@@ -9,7 +9,7 @@ function getTimestampBadge(dateTimeString) {
     if (!dateTimeString) return null;
 
     const now = new Date();
-    const postDate = new Date(dateTimeString);
+    const postDate = new Date(dateTimeString.replace(/-/g, '/'));
 
     const nowDateOnly = new Date(now.getFullYear(), now.getMonth(), now.getDate());
     const postDateOnly = new Date(postDate.getFullYear(), postDate.getMonth(), postDate.getDate());
@@ -35,6 +35,13 @@ function getTimestampBadge(dateTimeString) {
     return { text: '1か月以上前', style: 'color: #757575; background: #F5F5F5; border: 1px solid #E0E0E0; font-style: italic;' };
 }
 
+// 9時間のズレを戻して綺麗にフォーマットする関数
+function formatLocalTime(dateTimeString) {
+    if (!dateTimeString) return '';
+    const date = new Date(dateTimeString.replace('T', ' ').replace('Z', '').replace(/-/g, '/'));
+    return `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()} ${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}`;
+}
+
 document.addEventListener('DOMContentLoaded', async function() {
     const params = new URLSearchParams(window.location.search);
     const id = params.get('id');
@@ -51,7 +58,6 @@ document.addEventListener('DOMContentLoaded', async function() {
 
     productH2.innerText = data.product_name;
 
-    // --- 1. 白いカードの中身を左右2カラムのレイアウトにする ---
     cardElement.style.display = "flex";
     cardElement.style.flexWrap = "wrap";
     cardElement.style.justifyContent = "space-between";
@@ -70,7 +76,6 @@ document.addEventListener('DOMContentLoaded', async function() {
     
     cardElement.appendChild(infoWrapper);
 
-    // --- 2. 経過日時バッジの設定 ---
     const badgeData = getTimestampBadge(data.date_time);
     if (badgeData) {
         const badge = document.createElement('span');
@@ -79,7 +84,6 @@ document.addEventListener('DOMContentLoaded', async function() {
         productH2.appendChild(badge);
     }
 
-    // --- 3. 画像表示 ＆ ポップアップ（モーダル）機能 ---
     if (data.image_url) {
         const imgWrapper = document.createElement('div');
         imgWrapper.style.flex = "1 1 250px";
@@ -97,12 +101,10 @@ document.addEventListener('DOMContentLoaded', async function() {
         img.style.maxHeight = "250px";
         img.style.objectFit = "cover";
         img.style.borderRadius = "12px";
-        img.style.cursor = "pointer"; // クリックできることを示すカーソル
+        img.style.cursor = "pointer";
         img.title = "クリックで拡大表示";
         
-        // 【追加】クリックしたときのポップアップ（モーダル）処理
         img.onclick = () => {
-            // 背景の黒いクッション
             const modal = document.createElement('div');
             modal.style.position = "fixed";
             modal.style.top = "0";
@@ -117,7 +119,6 @@ document.addEventListener('DOMContentLoaded', async function() {
             modal.style.cursor = "zoom-out";
             modal.style.transition = "opacity 0.2s ease";
 
-            // ポップアップする中央の大画像
             const bigImg = document.createElement('img');
             bigImg.src = data.image_url;
             bigImg.style.maxWidth = "90%";
@@ -129,7 +130,6 @@ document.addEventListener('DOMContentLoaded', async function() {
             modal.appendChild(bigImg);
             document.body.appendChild(modal);
 
-            // どこをクリックしてもポップアップが閉じる
             modal.onclick = () => {
                 modal.style.opacity = "0";
                 setTimeout(() => modal.remove(), 200);
@@ -141,9 +141,9 @@ document.addEventListener('DOMContentLoaded', async function() {
     }
 
     document.getElementById('det-store').innerText = data.store_name;
-    document.getElementById('det-date').innerText = new Date(data.date_time).toLocaleString('ja-JP');
+    // 時差補正した時間テキストを表示
+    document.getElementById('det-date').innerText = formatLocalTime(data.date_time);
 
-    // --- 4. ボタンエリア ---
     const btnArea = document.createElement('div');
     btnArea.style.marginTop = "auto";
     btnArea.style.paddingTop = "20px";
@@ -175,7 +175,6 @@ document.addEventListener('DOMContentLoaded', async function() {
     };
     btnArea.appendChild(soldBtn);
 
-    // --- 5. Googleマップの読み込み ---
     const query = encodeURIComponent(data.store_name);
     const mapUrl = `https://maps.google.co.jp/maps?q=${query}&output=embed&t=m&z=16`;
     document.getElementById('map-frame').src = mapUrl;
