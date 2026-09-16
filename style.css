@@ -1,68 +1,99 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap');
 
+:root {
+    --primary-color: #4F46E5; /* 上品なインディゴブルー */
+    --primary-hover: #4338CA;
+    --bg-color: #F8FAFC;       /* ほんのり青みがかった綺麗なオフホワイト */
+    --card-bg: #FFFFFF;
+    --text-main: #1E293B;
+    --text-sub: #64748B;
+    --border-color: #E2E8F0;
+}
+
 /* 全体のベース設定 */
 body {
     font-family: 'Noto Sans JP', sans-serif;
-    background-color: #f8f9fa;
-    color: #2b2d42;
+    background-color: var(--bg-color);
+    color: var(--text-main);
     margin: 0;
-    padding: 20px;
+    padding: 24px 16px;
     line-height: 1.6;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
-/* ヘッダーエリア */
+/* ヘッダーエリア：グラデーションで華やかに */
 header {
     text-align: center;
-    margin-bottom: 30px;
+    margin-bottom: 32px;
+    padding: 20px 0;
 }
 
 h1 {
-    font-size: 1.8rem;
+    font-size: 2rem;
     font-weight: 700;
-    color: #1a1d20;
     letter-spacing: -0.5px;
+    background: linear-gradient(135deg, #4F46E5 0%, #7C3AED 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin: 0;
 }
 
-/* 白枠カード共通デザイン */
+/* 白枠カード：角丸と柔らかいシャドウでリッチに */
 .item-card {
-    background: #ffffff;
-    border-radius: 16px;
+    background: var(--card-bg);
+    border-radius: 20px;
     padding: 24px;
     margin-bottom: 20px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-    border: 1px solid #e9ecef;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.05), 0 8px 10px -6px rgba(15, 23, 42, 0.03);
+    border: 1px solid var(--border-color);
+    transition: all 0.25deg ease;
 }
 
 /* 一覧画面のカード hover 時のアニメーション */
 #itemListContainer .item-card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+    transform: translateY(-4px);
+    box-shadow: 0 20px 30px -10px rgba(79, 70, 229, 0.15);
+    border-color: #C7D2FE;
     cursor: pointer;
 }
 
 /* 見出し・テキスト */
 h2, h3 {
-    margin: 0 0 10px 0;
-    color: #1a1d20;
+    margin: 0 0 8px 0;
+    color: var(--text-main);
     font-weight: 700;
 }
 
 p {
     margin: 6px 0;
-    color: #4a5568;
+    color: var(--text-sub);
     font-size: 0.95rem;
 }
 
-/* ボタンの共通デザイン */
+/* 検索・絞り込みエリアのカード感 */
+.search-box, .filter-area {
+    background: #FFFFFF;
+    border-radius: 16px;
+    padding: 16px 20px;
+    margin-bottom: 20px;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.03);
+}
+
+/* ボタンの共通デザイン：鮮やかなモダンボタン */
 button, .control-button {
     font-family: 'Noto Sans JP', sans-serif;
-    font-weight: 500;
+    font-weight: 700;
     border: none;
-    border-radius: 10px;
-    padding: 10px 18px;
+    border-radius: 12px;
+    padding: 10px 20px;
     font-size: 0.9rem;
     cursor: pointer;
+    background-color: var(--primary-color);
+    color: #FFFFFF;
+    box-shadow: 0 4px 12px rgba(79, 70, 229, 0.25);
     transition: all 0.2s ease;
     display: inline-flex;
     align-items: center;
@@ -71,8 +102,9 @@ button, .control-button {
 }
 
 button:hover, .control-button:hover {
-    opacity: 0.9;
-    transform: translateY(-1px);
+    background-color: var(--primary-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(79, 70, 229, 0.35);
 }
 
 button:active, .control-button:active {
@@ -80,7 +112,9 @@ button:active, .control-button:active {
 }
 
 button:disabled, .control-button:disabled {
-    opacity: 0.5;
+    background-color: #94A3B8 !important;
+    box-shadow: none;
+    opacity: 0.6;
     cursor: not-allowed;
     transform: none;
 }
@@ -88,23 +122,32 @@ button:disabled, .control-button:disabled {
 /* 入力フォーム・選択枠 */
 input[type="text"], select {
     font-family: 'Noto Sans JP', sans-serif;
-    padding: 10px 14px;
-    border: 1px solid #dee2e6;
-    border-radius: 10px;
+    padding: 10px 16px;
+    border: 1.5px solid var(--border-color);
+    border-radius: 12px;
     outline: none;
     font-size: 0.95rem;
-    background-color: #ffffff;
-    transition: border-color 0.2s ease;
+    background-color: #FFFFFF;
+    color: var(--text-main);
+    transition: all 0.2s ease;
 }
 
 input[type="text"]:focus, select:focus {
-    border-color: #4a90e2;
-    box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.15);
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.15);
+}
+
+/* 地図（map-frame）の枠線・角丸 */
+#map-frame {
+    border-radius: 16px;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
 /* 読み込み中テキスト */
 .loading-message {
     text-align: center;
-    color: #8c98a4;
+    color: var(--text-sub);
     font-size: 0.95rem;
+    padding: 40px 0;
 }
